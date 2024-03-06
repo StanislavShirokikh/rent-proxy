@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RentProxyApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RentProxyApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RentProxyApplication.class, args);
+    }
 
 }
