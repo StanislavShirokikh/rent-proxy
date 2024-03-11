@@ -23,23 +23,6 @@
             ]]>
         </sql>
     </changeSet>
-    <changeSet id="init-post" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="post"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE post
-            (
-                id       BIGSERIAL PRIMARY KEY,
-                users_id INTEGER REFERENCES users(id),
-                name     VARCHAR NOT NULL,
-                title    VARCHAR NOT NULL,
-                price    DOUBLE PRECISION
-            );
-        </sql>
-    </changeSet>
     <changeSet id="init-rent-condition-info" author="Stanislav">
         <preConditions>
             <not>
@@ -50,7 +33,6 @@
             CREATE TABLE rent_condition_info
             (
                 id         SERIAL PRIMARY KEY,
-                post_id    INTEGER REFERENCES post(id),
                 deposit    VARCHAR,
                 commission VARCHAR
             );
@@ -84,25 +66,6 @@
             );
         </sql>
     </changeSet>
-    <changeSet id="init-apartment-info" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="apartment_info"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE apartment_info
-            (
-                id           SERIAL PRIMARY KEY,
-                post_id      INTEGER REFERENCES post(id),
-                rooms_count  SMALLINT NOT NULL,
-                total_area   DOUBLE PRECISION NOT NULL,
-                kitchen_area DOUBLE PRECISION,
-                flour        SMALLINT,
-                additionally VARCHAR
-            );
-        </sql>
-    </changeSet>
     <changeSet id="init-bathroom-type" author="Stanislav">
         <preConditions>
             <not>
@@ -112,9 +75,8 @@
         <sql>
             CREATE TABLE bathroom_type
             (
-                id                SMALLSERIAL PRIMARY KEY,
-                apartment_info_id INTEGER REFERENCES apartment_info(id),
-                name              VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
             );
         </sql>
     </changeSet>
@@ -127,9 +89,8 @@
         <sql>
             CREATE TABLE repair_type
             (
-                id                SMALLSERIAL PRIMARY KEY,
-                apartment_info_id INTEGER REFERENCES apartment_info(id),
-                name              VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
             );
         </sql>
     </changeSet>
@@ -142,9 +103,8 @@
         <sql>
             CREATE TABLE balcony_type
             (
-                id                SMALLSERIAL PRIMARY KEY,
-                apartment_info_id INTEGER REFERENCES apartment_info(id),
-                name              VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
             );
         </sql>
     </changeSet>
@@ -157,9 +117,30 @@
         <sql>
             CREATE TABLE rooms_type
             (
-                id                 SMALLSERIAL PRIMARY KEY,
-                apartment_info_id  INTEGER REFERENCES apartment_info(id),
-                name               VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-apartment-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="apartment_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE apartment_info
+            (
+                id               SERIAL PRIMARY KEY,
+                bathroom_type_id INTEGER REFERENCES bathroom_type(id),
+                repair_type_id   INTEGER REFERENCES repair_type(id),
+                balcony_type_id  INTEGER REFERENCES balcony_type(id),
+                rooms_type_id    INTEGER REFERENCES rooms_type(id),
+                rooms_count      SMALLINT NOT NULL,
+                total_area       DOUBLE PRECISION NOT NULL,
+                kitchen_area     DOUBLE PRECISION,
+                flour            SMALLINT,
+                additionally     VARCHAR
             );
         </sql>
     </changeSet>
@@ -172,7 +153,7 @@
         <sql>
             CREATE TABLE furniture
             (
-                id   SMALLSERIAL PRIMARY KEY,
+                id   SERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -200,7 +181,7 @@
         <sql>
             CREATE TABLE appliance
             (
-                id   SMALLSERIAL PRIMARY KEY,
+                id   SERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -219,22 +200,6 @@
             );
         </sql>
     </changeSet>
-    <changeSet id="init-house-info" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="house_info"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE house_info
-            (
-                id           SERIAL PRIMARY KEY,
-                post_id      INTEGER REFERENCES post(id),
-                adress       VARCHAR NOT NULL,
-                flours_count SMALLINT
-            );
-        </sql>
-    </changeSet>
     <changeSet id="init-house-type" author="Stanislav">
         <preConditions>
             <not>
@@ -244,9 +209,24 @@
         <sql>
             CREATE TABLE house_type
             (
-                id            SMALLSERIAL PRIMARY KEY,
-                house_info_id INTEGER REFERENCES house_info(id),
-                name          VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-house-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="house_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE house_info
+            (
+                id            SERIAL PRIMARY KEY,
+                house_type_id INTEGER REFERENCES house_type(id),
+                adress        VARCHAR NOT NULL,
+                flours_count  SMALLINT NOT NULL
             );
         </sql>
     </changeSet>
@@ -259,9 +239,29 @@
         <sql>
             CREATE TABLE rent_type
             (
-                id            SMALLSERIAL PRIMARY KEY,
-                post_id       INTEGER REFERENCES post(id),
-                name          VARCHAR NOT NULL
+                id   SERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-post" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="post"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE post
+            (
+                id                     BIGSERIAL PRIMARY KEY,
+                users_id               BIGINT REFERENCES users(id),
+                rent_condition_info_id INTEGER REFERENCES rent_condition_info(id),
+                apartment_info_id      INTEGER REFERENCES apartment_info(id),
+                house_info_id          INTEGER REFERENCES house_info(id),
+                rent_type_id           INTEGER REFERENCES rent_type(id),
+                name                   VARCHAR NOT NULL,
+                title                  VARCHAR NOT NULL,
+                price                  DOUBLE PRECISION
             );
         </sql>
     </changeSet>
