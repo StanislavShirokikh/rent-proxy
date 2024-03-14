@@ -22,6 +22,7 @@ public class ApartmentInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
+    @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "bathroom_type_id")

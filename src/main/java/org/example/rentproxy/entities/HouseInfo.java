@@ -18,6 +18,7 @@ public class HouseInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
+    @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_type_id")

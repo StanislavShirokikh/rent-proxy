@@ -21,6 +21,12 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
+    @OneToOne(mappedBy = "post")
+    private RentConditionInfo rentConditionInfo;
+    @OneToOne(mappedBy = "post")
+    private ApartmentInfo apartmentInfo;
+    @OneToOne(mappedBy = "post")
+    private HouseInfo houseInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rent_type_id")
     private RentType rentType;

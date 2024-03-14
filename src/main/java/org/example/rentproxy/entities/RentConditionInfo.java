@@ -21,6 +21,7 @@ public class RentConditionInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
+    @JoinColumn(name = "post_id")
     private Post post;
     private Double deposit;
     private Integer commissionPercent;
