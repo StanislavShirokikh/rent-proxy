@@ -2,8 +2,6 @@ package org.example.rentproxy.request;
 
 import lombok.Data;
 
-import java.util.Set;
-
 @Data
 public class PostRequest {
     private String name;
