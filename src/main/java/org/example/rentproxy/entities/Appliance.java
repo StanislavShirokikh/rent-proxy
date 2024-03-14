@@ -14,8 +14,6 @@ import java.util.Set;
 public class Appliance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
-    @ManyToMany(mappedBy = "appliance")
-    private Set<ApartmentInfo> apartmentInfo;
 }

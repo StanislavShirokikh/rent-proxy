@@ -14,8 +14,6 @@ import java.util.List;
 public class HouseType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToMany(mappedBy = "houseType")
-    private List<HouseInfo> houseInfo;
+    private Long id;
     private  String name;
 }

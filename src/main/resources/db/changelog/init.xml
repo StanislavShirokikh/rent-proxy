@@ -23,6 +23,39 @@
             ]]>
         </sql>
     </changeSet>
+    <changeSet id="init-rent-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="rent_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE rent_type
+            (
+                id      BIGSERIAL PRIMARY KEY,
+                name    VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="init-post" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="post"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE post
+            (
+                id                     BIGSERIAL PRIMARY KEY,
+                users_id               BIGINT REFERENCES users(id),
+                rent_type_id           BIGINT REFERENCES rent_type(id),
+                name                   VARCHAR NOT NULL,
+                title                  VARCHAR NOT NULL,
+                date                   DATE
+            );
+        </sql>
+    </changeSet>
     <changeSet id="init-rent-condition-info" author="Stanislav">
         <preConditions>
             <not>
@@ -32,9 +65,12 @@
         <sql>
             CREATE TABLE rent_condition_info
             (
-                id         SERIAL PRIMARY KEY,
-                deposit    VARCHAR,
-                commission VARCHAR
+                id                 BIGSERIAL PRIMARY KEY,
+                post_id            BIGINT UNIQUE REFERENCES post(id),
+                price              DOUBLE PRECISION,
+                deposit            DOUBLE PRECISION,
+                commission_percent INTEGER,
+                currency           VARCHAR
             );
         </sql>
     </changeSet>
@@ -47,7 +83,7 @@
         <sql>
             CREATE TABLE type_of_payment
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -61,8 +97,8 @@
         <sql>
             CREATE TABLE type_of_payment_to_rent_condition
             (
-                type_of_payment_id        INTEGER REFERENCES type_of_payment(id),
-                rent_condition_info_id    INTEGER REFERENCES rent_condition_info(id)
+                type_of_payment_id        BIGINT REFERENCES type_of_payment(id),
+                rent_condition_info_id    BIGINT REFERENCES rent_condition_info(id)
             );
         </sql>
     </changeSet>
@@ -75,7 +111,7 @@
         <sql>
             CREATE TABLE bathroom_type
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -89,7 +125,7 @@
         <sql>
             CREATE TABLE repair_type
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -103,7 +139,7 @@
         <sql>
             CREATE TABLE balcony_type
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -117,7 +153,7 @@
         <sql>
             CREATE TABLE rooms_type
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -131,16 +167,18 @@
         <sql>
             CREATE TABLE apartment_info
             (
-                id               SERIAL PRIMARY KEY,
-                bathroom_type_id INTEGER REFERENCES bathroom_type(id),
-                repair_type_id   INTEGER REFERENCES repair_type(id),
-                balcony_type_id  INTEGER REFERENCES balcony_type(id),
-                rooms_type_id    INTEGER REFERENCES rooms_type(id),
+                id               BIGSERIAL PRIMARY KEY,
+                post_id          BIGINT UNIQUE REFERENCES post(id),
+                bathroom_type_id BIGINT REFERENCES bathroom_type(id),
+                repair_type_id   BIGINT REFERENCES repair_type(id),
+                balcony_type_id  BIGINT REFERENCES balcony_type(id),
+                rooms_type_id    BIGINT REFERENCES rooms_type(id),
                 rooms_count      SMALLINT NOT NULL,
                 total_area       DOUBLE PRECISION NOT NULL,
                 kitchen_area     DOUBLE PRECISION,
                 flour            SMALLINT,
-                additionally     VARCHAR
+                additionally     VARCHAR,
+                living_space     DOUBLE PRECISION
             );
         </sql>
     </changeSet>
@@ -153,7 +191,7 @@
         <sql>
             CREATE TABLE furniture
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -167,8 +205,8 @@
         <sql>
             CREATE TABLE furniture_to_apartment_info
             (
-                apartment_info_id INTEGER REFERENCES apartment_info(id),
-                furniture_id      INTEGER REFERENCES furniture(id)
+                apartment_info_id BIGINT REFERENCES apartment_info(id),
+                furniture_id      BIGINT REFERENCES furniture(id)
             );
         </sql>
     </changeSet>
@@ -181,7 +219,7 @@
         <sql>
             CREATE TABLE appliance
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -195,8 +233,8 @@
         <sql>
             CREATE TABLE appliance_to_apartment_info
             (
-                appliance_id      INTEGER REFERENCES appliance(id),
-                apartment_info_id INTEGER REFERENCES apartment_info(id)
+                appliance_id      BIGINT REFERENCES appliance(id),
+                apartment_info_id BIGINT REFERENCES apartment_info(id)
             );
         </sql>
     </changeSet>
@@ -209,7 +247,7 @@
         <sql>
             CREATE TABLE house_type
             (
-                id   SERIAL PRIMARY KEY,
+                id   BIGSERIAL PRIMARY KEY,
                 name VARCHAR NOT NULL
             );
         </sql>
@@ -223,45 +261,11 @@
         <sql>
             CREATE TABLE house_info
             (
-                id            SERIAL PRIMARY KEY,
-                house_type_id INTEGER REFERENCES house_type(id),
-                adress        VARCHAR NOT NULL,
+                id            BIGSERIAL PRIMARY KEY,
+                post_id       BIGINT UNIQUE REFERENCES post(id),
+                house_type_id BIGINT REFERENCES house_type(id),
+                address       VARCHAR NOT NULL,
                 flours_count  SMALLINT NOT NULL
-            );
-        </sql>
-    </changeSet>
-    <changeSet id="init-rent-type" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="rent_type"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE rent_type
-            (
-                id   SERIAL PRIMARY KEY,
-                name VARCHAR NOT NULL
-            );
-        </sql>
-    </changeSet>
-    <changeSet id="init-post" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="post"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE post
-            (
-                id                     BIGSERIAL PRIMARY KEY,
-                users_id               BIGINT REFERENCES users(id),
-                rent_condition_info_id INTEGER REFERENCES rent_condition_info(id),
-                apartment_info_id      INTEGER REFERENCES apartment_info(id),
-                house_info_id          INTEGER REFERENCES house_info(id),
-                rent_type_id           INTEGER REFERENCES rent_type(id),
-                name                   VARCHAR NOT NULL,
-                title                  VARCHAR NOT NULL,
-                price                  DOUBLE PRECISION
             );
         </sql>
     </changeSet>

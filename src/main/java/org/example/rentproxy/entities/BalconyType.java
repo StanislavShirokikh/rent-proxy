@@ -14,8 +14,6 @@ import java.util.List;
 public class BalconyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToMany(mappedBy = "balconyType")
-    private List<ApartmentInfo> apartmentInfo;
+    private Long id;
     private String name;
 }

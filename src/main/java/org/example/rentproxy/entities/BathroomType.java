@@ -15,8 +15,6 @@ import java.util.List;
 public class BathroomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToMany(mappedBy = "bathroomType")
-    private List<ApartmentInfo> apartmentInfo = new ArrayList<>();
+    private Long id;
     private String name;
 }

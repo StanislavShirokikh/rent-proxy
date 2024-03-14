@@ -16,13 +16,13 @@ import lombok.Data;
 public class HouseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    @OneToOne
+    private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_type_id")
     private HouseType houseType;
-    private String adress;
-    @Column(name = "flours_count")
-    private Short floursCount;
-    @OneToOne(mappedBy = "houseInfo")
-    private Post post;
+    private String address;
+    @Column(name = "flours_count", columnDefinition = "int2")
+    private Integer floursCount;
 }

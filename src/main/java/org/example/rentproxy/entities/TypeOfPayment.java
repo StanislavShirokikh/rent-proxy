@@ -14,8 +14,6 @@ import java.util.Set;
 public class TypeOfPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
-    @ManyToMany(mappedBy = "typeOfPayment")
-    private Set<RentConditionInfo> rentConditionInfos; // удалить обратную связь
 }

@@ -15,8 +15,6 @@ import java.util.List;
 public class RepairType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToMany(mappedBy = "repairType")
-    private List<ApartmentInfo> apartmentInfo = new ArrayList<>();
+    private Long id;
     private String name;
 }

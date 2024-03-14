@@ -18,10 +18,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(mappedBy = "user") // убедиться что fetch type lazy или убрать
-    private List<Post> posts;
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
     @Column(name = "second_name")
     private String secondName;
     @Column(name = "last_name")
