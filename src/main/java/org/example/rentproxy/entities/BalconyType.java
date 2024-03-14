@@ -16,6 +16,6 @@ public class BalconyType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToMany(mappedBy = "balconyType")
-    private List<ApartmentInfo> apartmentInfo = new ArrayList<>();
+    private List<ApartmentInfo> apartmentInfo;
     private String name;
 }

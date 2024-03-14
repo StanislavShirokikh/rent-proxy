@@ -34,12 +34,12 @@ public class ApartmentInfo {
     @JoinColumn(name = "rooms_type_id")
     private RoomsType roomsType;
     @Column(name = "rooms_count")
-    private Short roomsCount;
+    private Short roomsCount; // инт
     @Column(name = "total_area")
     private Double totalArea;
     @Column(name = "kitchen_area")
     private Double kitchenArea;
-    private Short flour;
+    private Short flour; //инт
     private String additionally;
     @ManyToMany
     @JoinTable(

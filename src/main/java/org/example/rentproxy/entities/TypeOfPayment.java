@@ -17,5 +17,5 @@ public class TypeOfPayment {
     private Integer id;
     private String name;
     @ManyToMany(mappedBy = "typeOfPayment")
-    private Set<RentConditionInfo> rentConditionInfos;
+    private Set<RentConditionInfo> rentConditionInfos; // удалить обратную связь
 }
