@@ -1,0 +1,272 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="init-user" author="Stanislav">
+        <preConditions>
+        <not>
+            <tableExists tableName="users"/>
+        </not>
+    </preConditions>
+        <sql>
+            <![CDATA[
+            CREATE TABLE users
+            (
+                id          BIGSERIAL PRIMARY KEY,
+                first_name  VARCHAR NOT NULL,
+                second_name VARCHAR NOT NULL,
+                last_name   VARCHAR NOT NULL,
+                login       VARCHAR NOT NULL,
+                password    VARCHAR NOT NULL
+            );
+            ]]>
+        </sql>
+    </changeSet>
+    <changeSet id="init-rent-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="rent_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE rent_type
+            (
+                id      BIGSERIAL PRIMARY KEY,
+                name    VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="init-post" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="post"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE post
+            (
+                id                     BIGSERIAL PRIMARY KEY,
+                users_id               BIGINT REFERENCES users(id),
+                rent_type_id           BIGINT REFERENCES rent_type(id),
+                name                   VARCHAR NOT NULL,
+                title                  VARCHAR NOT NULL,
+                date                   DATE
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-rent-condition-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="rent_condition_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE rent_condition_info
+            (
+                id                 BIGSERIAL PRIMARY KEY,
+                post_id            BIGINT UNIQUE REFERENCES post(id),
+                price              DOUBLE PRECISION,
+                deposit            DOUBLE PRECISION,
+                commission_percent INTEGER,
+                currency           VARCHAR
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-type-of-payment" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="type_of_payment"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE type_of_payment
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-type-of-payment-to-rent-condition" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="type_of_payment_to_rent_condition"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE type_of_payment_to_rent_condition
+            (
+                type_of_payment_id        BIGINT REFERENCES type_of_payment(id),
+                rent_condition_info_id    BIGINT REFERENCES rent_condition_info(id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-bathroom-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="bathroom_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE bathroom_type
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-repair-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="repair_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE repair_type
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-balcony-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="balcony_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE balcony_type
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-rooms-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="rooms_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE rooms_type
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-apartment-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="apartment_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE apartment_info
+            (
+                id               BIGSERIAL PRIMARY KEY,
+                post_id          BIGINT UNIQUE REFERENCES post(id),
+                bathroom_type_id BIGINT REFERENCES bathroom_type(id),
+                repair_type_id   BIGINT REFERENCES repair_type(id),
+                balcony_type_id  BIGINT REFERENCES balcony_type(id),
+                rooms_type_id    BIGINT REFERENCES rooms_type(id),
+                rooms_count      SMALLINT NOT NULL,
+                total_area       DOUBLE PRECISION NOT NULL,
+                kitchen_area     DOUBLE PRECISION,
+                flour            SMALLINT,
+                additionally     VARCHAR,
+                living_space     DOUBLE PRECISION
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-furniture" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="furniture"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE furniture
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-furniture-to-apartment-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="furniture_to_apartment_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE furniture_to_apartment_info
+            (
+                apartment_info_id BIGINT REFERENCES apartment_info(id),
+                furniture_id      BIGINT REFERENCES furniture(id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-appliance" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="appliance"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE appliance
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-appliance-to-apartment-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="appliance_to_apartment_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE appliance_to_apartment_info
+            (
+                appliance_id      BIGINT REFERENCES appliance(id),
+                apartment_info_id BIGINT REFERENCES apartment_info(id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-house-type" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="house_type"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE house_type
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-house-info" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="house_info"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE house_info
+            (
+                id            BIGSERIAL PRIMARY KEY,
+                post_id       BIGINT UNIQUE REFERENCES post(id),
+                house_type_id BIGINT REFERENCES house_type(id),
+                address       VARCHAR NOT NULL,
+                flours_count  SMALLINT NOT NULL
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
