@@ -4,4 +4,22 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="data-for-type-of-payment" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="type_of_payment"/>
+        </preConditions>
+        <sql>
+            INSERT INTO type_of_payment(name)
+            VALUES ('Счетчики')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-type-of-payment" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="type_of_payment"/>
+        </preConditions>
+        <sql>
+            INSERT INTO type_of_payment(name)
+            VALUES ('')
+        </sql>
+    </changeSet>
 </databaseChangeLog>
