@@ -20,7 +20,10 @@ import java.util.Set;
 public class ApartmentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    @OneToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "bathroom_type_id")
     private BathroomType bathroomType;
@@ -33,13 +36,16 @@ public class ApartmentInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rooms_type_id")
     private RoomsType roomsType;
-    @Column(name = "rooms_count")
-    private Short roomsCount;
+    @Column(name = "rooms_count", columnDefinition = "int2")
+    private Integer roomsCount;
     @Column(name = "total_area")
     private Double totalArea;
     @Column(name = "kitchen_area")
     private Double kitchenArea;
-    private Short flour;
+    @Column(name = "living_space")
+    private Double livingSpace;
+    @Column(name = "flour", columnDefinition = "int2")
+    private int flour;
     private String additionally;
     @ManyToMany
     @JoinTable(
@@ -52,6 +58,4 @@ public class ApartmentInfo {
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "appliance_id"))
     private Set<Appliance> appliance;
-    @OneToOne(mappedBy = "apartmentInfo")
-    private Post post;
 }

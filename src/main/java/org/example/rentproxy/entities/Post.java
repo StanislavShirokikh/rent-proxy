@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 public class Post {
@@ -19,19 +21,16 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "users_id")
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rent_condition_info_id")
+    @OneToOne(mappedBy = "post")
     private RentConditionInfo rentConditionInfo;
-    @OneToOne
-    @JoinColumn(name = "apartment_info_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "post")
     private ApartmentInfo apartmentInfo;
-    @OneToOne
-    @JoinColumn(name = "house_info_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "post")
     private HouseInfo houseInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rent_type_id")
     private RentType rentType;
     private String name;
     private String title;
-    private Double price;
+    private LocalDate date;
 }
