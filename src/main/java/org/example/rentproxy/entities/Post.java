@@ -1,5 +1,6 @@
 package org.example.rentproxy.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +19,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id")
     private User user;
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
     private RentConditionInfo rentConditionInfo;
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
     private ApartmentInfo apartmentInfo;
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
     private HouseInfo houseInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rent_type_id")
