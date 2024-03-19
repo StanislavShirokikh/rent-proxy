@@ -1,5 +1,6 @@
 package org.example.rentproxy.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class RentConditionInfo {
     private Integer commissionPercent;
     private Double price;
     private String currency;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "type_of_payment_to_rent_condition",
             joinColumns = @JoinColumn(name = "rent_condition_info_id"),
             inverseJoinColumns = @JoinColumn(name = "type_of_payment_id"))

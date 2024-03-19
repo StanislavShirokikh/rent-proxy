@@ -2,11 +2,16 @@ package org.example.rentproxy.repository;
 
 import org.example.rentproxy.entities.ApartmentInfo;
 import org.example.rentproxy.entities.Appliance;
+import org.example.rentproxy.entities.BalconyType;
+import org.example.rentproxy.entities.BathroomType;
 import org.example.rentproxy.entities.Furniture;
 import org.example.rentproxy.entities.HouseInfo;
+import org.example.rentproxy.entities.HouseType;
 import org.example.rentproxy.entities.Post;
 import org.example.rentproxy.entities.RentConditionInfo;
 import org.example.rentproxy.entities.RentType;
+import org.example.rentproxy.entities.RepairType;
+import org.example.rentproxy.entities.RoomsType;
 import org.example.rentproxy.entities.TypeOfPayment;
 import org.example.rentproxy.entities.User;
 import org.junit.jupiter.api.Test;
@@ -22,31 +27,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class SaveEntityTest {
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
     @Autowired
-    ApplianceRepository applianceRepository;
+    private ApplianceRepository applianceRepository;
     @Autowired
-    BalconyTypeRepository balconyTypeRepository;
+    private BalconyTypeRepository balconyTypeRepository;
     @Autowired
-    BathroomTypeRepository bathroomTypeRepository;
+    private BathroomTypeRepository bathroomTypeRepository;
     @Autowired
-    FurnitureRepository furnitureRepository;
+    private FurnitureRepository furnitureRepository;
     @Autowired
-    HouseTypeRepository houseTypeRepository;
+    private HouseTypeRepository houseTypeRepository;
     @Autowired
-    RentTypeRepository rentTypeRepository;
+    private RentTypeRepository rentTypeRepository;
     @Autowired
-    RepairTypeRepository repairTypeRepository;
+    private RepairTypeRepository repairTypeRepository;
     @Autowired
-    RoomsTypeRepository roomsTypeRepository;
+    private RoomsTypeRepository roomsTypeRepository;
     @Autowired
-    TypeOfPaymentRepository typeOfPaymentRepository;
+    private TypeOfPaymentRepository typeOfPaymentRepository;
 
     @Test
     public void savePost() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
-        TypeOfPayment typeOfPayment = typeOfPaymentRepository.findByName("Долгосрочная");
-        typeOfPaymentSet.add(typeOfPayment);
+        typeOfPaymentSet.add(typeOfPaymentRepository.findByName("Долгосрочная"));
 
         RentConditionInfo rentConditionInfo = new RentConditionInfo();
         rentConditionInfo.setDeposit(30000.0);
@@ -108,12 +112,118 @@ class SaveEntityTest {
         apartmentInfo.setPost(post);
         houseInfo.setPost(post);
 
-        Post savedPost = postRepository.save(post);
+        Post savedPost = null;// = postJpaRepository.save(post);
         assertEquals(user, savedPost.getUser());
         assertEquals(rentConditionInfo, savedPost.getRentConditionInfo());
         assertEquals(apartmentInfo, savedPost.getApartmentInfo());
         assertEquals(houseInfo, savedPost.getHouseInfo());
         assertEquals(rentType, savedPost.getRentType());
+        assertEquals(post.getName(), savedPost.getName());
+        assertEquals(post.getTitle(), savedPost.getTitle());
+        assertEquals(post.getDate(), savedPost.getDate());
+    }
+
+    @Test
+    public void savedPost2() {
+        Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
+        TypeOfPayment typeOfPayment = new TypeOfPayment();
+        typeOfPayment.setName("Включены в платёж");
+        typeOfPaymentSet.add(typeOfPayment);
+
+        RentConditionInfo rentConditionInfo = new RentConditionInfo();
+        rentConditionInfo.setDeposit(30000.0);
+        rentConditionInfo.setCommissionPercent(50);
+        rentConditionInfo.setPrice(60000.0);
+        rentConditionInfo.setCurrency("RUB");
+        rentConditionInfo.setTypeOfPayment(typeOfPaymentSet);
+
+        ApartmentInfo apartmentInfo = new ApartmentInfo();
+
+        BathroomType bathroomType = new BathroomType();
+        bathroomType.setName("Раздельный");
+        apartmentInfo.setBathroomType(bathroomType);
+
+        RepairType repairType = new RepairType();
+        repairType.setName("Евро");
+        apartmentInfo.setRepairType(repairType);
+
+        BalconyType balconyType = new BalconyType();
+        balconyType.setName("Балкон");
+        apartmentInfo.setBalconyType(balconyType);
+        RoomsType roomsType = new RoomsType();
+        roomsType.setName("Изолированные");
+        apartmentInfo.setRoomsType(roomsType);
+        apartmentInfo.setRoomsCount(3);
+        apartmentInfo.setTotalArea(74.1);
+        apartmentInfo.setKitchenArea(9.7);
+        apartmentInfo.setLivingSpace(51.3);
+        apartmentInfo.setFlour(9);
+        apartmentInfo.setAdditionally("Гардеробная");
+
+        Set<Furniture> furnitures = new HashSet<>();
+        Furniture furniture1 = new Furniture();
+        furniture1.setName("Спальные места");
+        Furniture furniture2 = new Furniture();
+        furniture1.setName("Кухня");
+        Furniture furniture3 = new Furniture();
+        furniture1.setName("Хранение одежды");
+        furnitures.add(furniture1);
+        furnitures.add(furniture2);
+        furnitures.add(furniture3);
+        apartmentInfo.setFurniture(furnitures);
+
+        Set<Appliance> appliances = new HashSet<>();
+        Appliance appliance1 = new Appliance();
+        appliance1.setName("Холодильник");
+        Appliance appliance2 = new Appliance();
+        appliance1.setName("Плита");
+        Appliance appliance3 = new Appliance();
+        appliance1.setName("Стиральная машина");
+        Appliance appliance4 = new Appliance();
+        appliance1.setName("Посудомойка");
+        appliances.add(appliance1);
+        appliances.add(appliance2);
+        appliances.add(appliance3);
+        appliances.add(appliance4);
+        apartmentInfo.setAppliance(appliances);
+
+        HouseInfo houseInfo = new HouseInfo();
+        HouseType houseType = new HouseType();
+        houseType.setName("Кирпичный");
+        houseInfo.setHouseType(houseType);
+        houseInfo.setAddress("Большевистская 143");
+        houseInfo.setFloursCount(26);
+
+        User user = new User();
+        user.setFirstName("Петр");
+        user.setSecondName("Иванович");
+        user.setLastName("Иванов");
+        user.setLogin("IvanLogin");
+        user.setPassword("1234");
+
+
+        Post post = new Post();
+        post.setUser(user);
+        post.setRentConditionInfo(rentConditionInfo);
+        post.setApartmentInfo(apartmentInfo);
+        post.setHouseInfo(houseInfo);
+//        RentType rentType = new RentType();
+//        rentType.setName("Долгосрочная");
+//        post.setRentType(rentType);
+        post.setName("Сдам 3-х комнатную квартиру");
+        post.setTitle("Уютная квартира в тихом месте, метро 10 мин, все необходимое в квартире имеется");
+        post.setDate(LocalDate.now());
+
+        rentConditionInfo.setPost(post);
+        apartmentInfo.setPost(post);
+        houseInfo.setPost(post);
+
+        Post savedPost = postRepository.save(post);
+        assertEquals(user, savedPost.getUser());
+        assertEquals(rentConditionInfo, savedPost.getRentConditionInfo());
+        assertEquals(apartmentInfo, savedPost.getApartmentInfo());
+        assertEquals(houseInfo, savedPost.getHouseInfo());
+//        assertEquals(rentType, savedPost.getRentType());
         assertEquals(post.getName(), savedPost.getName());
         assertEquals(post.getTitle(), savedPost.getTitle());
         assertEquals(post.getDate(), savedPost.getDate());

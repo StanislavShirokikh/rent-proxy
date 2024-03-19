@@ -1,5 +1,6 @@
 package org.example.rentproxy.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,16 +25,16 @@ public class ApartmentInfo {
     @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name= "bathroom_type_id")
     private BathroomType bathroomType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "repair_type_id")
     private RepairType repairType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "balcony_type_id")
     private BalconyType balconyType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "rooms_type_id")
     private RoomsType roomsType;
     @Column(name = "rooms_count", columnDefinition = "int2")
@@ -47,13 +48,13 @@ public class ApartmentInfo {
     @Column(name = "flour", columnDefinition = "int2")
     private int flour;
     private String additionally;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "furniture_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "furniture_id"))
     private Set<Furniture> furniture;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "appliance_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "appliance_id"))
