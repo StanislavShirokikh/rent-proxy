@@ -46,7 +46,7 @@ public class ApartmentInfo {
     @Column(name = "living_space")
     private Double livingSpace;
     @Column(name = "flour", columnDefinition = "int2")
-    private int flour;
+    private Integer flour;
     private String additionally;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
