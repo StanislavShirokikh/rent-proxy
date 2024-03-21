@@ -25,16 +25,16 @@ public class ApartmentInfo {
     @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "bathroom_type_id")
     private BathroomType bathroomType;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repair_type_id")
     private RepairType repairType;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "balcony_type_id")
     private BalconyType balconyType;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rooms_type_id")
     private RoomsType roomsType;
     @Column(name = "rooms_count", columnDefinition = "int2")
@@ -48,13 +48,13 @@ public class ApartmentInfo {
     @Column(name = "flour", columnDefinition = "int2")
     private Integer flour;
     private String additionally;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "furniture_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "furniture_id"))
     private Set<Furniture> furniture;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "appliance_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "appliance_id"))

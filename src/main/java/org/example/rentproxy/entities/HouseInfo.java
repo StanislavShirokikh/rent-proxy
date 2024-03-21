@@ -21,7 +21,7 @@ public class HouseInfo {
     @OneToOne
     @JoinColumn(name = "post_id")
     private Post post;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_type_id")
     private HouseType houseType;
     private String address;

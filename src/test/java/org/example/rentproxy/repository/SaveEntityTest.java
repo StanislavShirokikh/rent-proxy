@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class SaveEntityTest {
     @Autowired
-    private PostRepository postRepository;
+    private PostRepository postJpaRepository;
     @Autowired
     private ApplianceRepository applianceRepository;
     @Autowired
@@ -112,7 +112,7 @@ class SaveEntityTest {
         apartmentInfo.setPost(post);
         houseInfo.setPost(post);
 
-        Post savedPost = null;// = postJpaRepository.save(post);
+        Post savedPost = postJpaRepository.save(post);
         assertEquals(user, savedPost.getUser());
         assertEquals(rentConditionInfo, savedPost.getRentConditionInfo());
         assertEquals(apartmentInfo, savedPost.getApartmentInfo());
@@ -207,9 +207,9 @@ class SaveEntityTest {
         post.setRentConditionInfo(rentConditionInfo);
         post.setApartmentInfo(apartmentInfo);
         post.setHouseInfo(houseInfo);
-//        RentType rentType = new RentType();
-//        rentType.setName("Долгосрочная");
-//        post.setRentType(rentType);
+        RentType rentType = new RentType();
+        rentType.setName("Долгосрочная");
+        post.setRentType(rentType);
         post.setName("Сдам 3-х комнатную квартиру");
         post.setTitle("Уютная квартира в тихом месте, метро 10 мин, все необходимое в квартире имеется");
         post.setDate(LocalDate.now());
@@ -218,12 +218,12 @@ class SaveEntityTest {
         apartmentInfo.setPost(post);
         houseInfo.setPost(post);
 
-        Post savedPost = postRepository.save(post);
+        Post savedPost = postJpaRepository.save(post);
         assertEquals(user, savedPost.getUser());
         assertEquals(rentConditionInfo, savedPost.getRentConditionInfo());
         assertEquals(apartmentInfo, savedPost.getApartmentInfo());
         assertEquals(houseInfo, savedPost.getHouseInfo());
-//        assertEquals(rentType, savedPost.getRentType());
+        assertEquals(rentType, savedPost.getRentType());
         assertEquals(post.getName(), savedPost.getName());
         assertEquals(post.getTitle(), savedPost.getTitle());
         assertEquals(post.getDate(), savedPost.getDate());

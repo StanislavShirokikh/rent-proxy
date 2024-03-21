@@ -19,14 +19,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id")
     private User user;
-    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private RentConditionInfo rentConditionInfo;
-    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ApartmentInfo apartmentInfo;
-    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private HouseInfo houseInfo;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rent_type_id")
