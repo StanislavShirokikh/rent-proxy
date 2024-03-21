@@ -27,11 +27,14 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post save(Post post) {
+        post.getRentConditionInfo().setPost(post);
         Set<TypeOfPayment> fetchedTypes = typeOfPaymentRepository.findByNameIn(
                 post.getRentConditionInfo().getTypeOfPayment().stream()
                         .map(TypeOfPayment::getName)
                         .collect(Collectors.toSet()));
         post.getRentConditionInfo().setTypeOfPayment(fetchedTypes);
+
+        post.getApartmentInfo().setPost(post);
         post.getApartmentInfo()
                 .setBathroomType(bathroomTypeRepository
                         .findByName(post.getApartmentInfo()
@@ -66,12 +69,13 @@ public class PostRepositoryImpl implements PostRepository{
                         .map(Appliance::getName)
                         .collect(Collectors.toSet()));
         post.getApartmentInfo().setAppliance(fetchedAppliance);
-
+        post.getHouseInfo().setPost(post);
         post.getHouseInfo()
                 .setHouseType(houseTypeRepository
                         .findByName(post.getHouseInfo()
                                 .getHouseType()
                                 .getName()));
+
         post.setRentType(rentTypeRepository.findByName(post.getRentType().getName()));
 
         return postJpaRepository.save(post);

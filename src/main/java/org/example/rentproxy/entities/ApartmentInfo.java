@@ -1,5 +1,6 @@
 package org.example.rentproxy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +25,7 @@ public class ApartmentInfo {
     private Long id;
     @OneToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "bathroom_type_id")

@@ -1,5 +1,6 @@
 package org.example.rentproxy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +23,7 @@ public class RentConditionInfo {
     private Long id;
     @OneToOne
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private Post post;
     private Double deposit;
     private Integer commissionPercent;
