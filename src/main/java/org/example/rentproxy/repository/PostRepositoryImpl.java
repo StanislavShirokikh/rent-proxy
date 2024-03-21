@@ -7,6 +7,7 @@ import org.example.rentproxy.entities.Post;
 import org.example.rentproxy.entities.TypeOfPayment;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -79,5 +80,16 @@ public class PostRepositoryImpl implements PostRepository{
         post.setRentType(rentTypeRepository.findByName(post.getRentType().getName()));
 
         return postJpaRepository.save(post);
+    }
+
+    @Override
+    public void deletePostById(long id) {
+        postJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public Post findPostById(long id) {
+        Optional<Post> post = postJpaRepository.findById(id);
+        return post.orElse(null);
     }
 }
