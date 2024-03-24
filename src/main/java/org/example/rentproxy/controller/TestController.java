@@ -3,6 +3,7 @@ package org.example.rentproxy.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.entities.Post;
 import org.example.rentproxy.repository.PostRepository;
+import org.hibernate.Hibernate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,6 @@ import java.util.Optional;
 public class TestController {
 
     private final PostRepository postRepository;
-
-//    @GetMapping("rent-proxy/{id}")
-//    public Post getById(@PathVariable long id) {
-////        Optional<Post> post = postRepository.findById(id);
-//        return post.orElse(null);
-//    }
 
     @PostMapping("rent-proxy/create")
     public Post savePost(@RequestBody Post post) {

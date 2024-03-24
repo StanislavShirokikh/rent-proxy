@@ -27,16 +27,16 @@ public class ApartmentInfo {
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "bathroom_type_id")
     private BathroomType bathroomType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "repair_type_id")
     private RepairType repairType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "balcony_type_id")
     private BalconyType balconyType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rooms_type_id")
     private RoomsType roomsType;
     @Column(name = "rooms_count", columnDefinition = "int2")
@@ -50,13 +50,13 @@ public class ApartmentInfo {
     @Column(name = "flour", columnDefinition = "int2")
     private Integer flour;
     private String additionally;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "furniture_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "furniture_id"))
     private Set<Furniture> furniture;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "appliance_to_apartment_info",
             joinColumns = @JoinColumn(name = "apartment_info_id"),
             inverseJoinColumns = @JoinColumn(name = "appliance_id"))

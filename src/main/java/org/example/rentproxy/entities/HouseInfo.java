@@ -23,7 +23,7 @@ public class HouseInfo {
     @JoinColumn(name = "post_id")
     @JsonIgnore
     private Post post;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "house_type_id")
     private HouseType houseType;
     private String address;

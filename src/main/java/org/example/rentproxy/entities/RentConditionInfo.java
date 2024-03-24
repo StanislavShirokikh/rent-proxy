@@ -29,7 +29,7 @@ public class RentConditionInfo {
     private Integer commissionPercent;
     private Double price;
     private String currency;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "type_of_payment_to_rent_condition",
             joinColumns = @JoinColumn(name = "rent_condition_info_id"),
             inverseJoinColumns = @JoinColumn(name = "type_of_payment_id"))

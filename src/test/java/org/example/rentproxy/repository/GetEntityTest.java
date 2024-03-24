@@ -14,7 +14,6 @@ import org.example.rentproxy.entities.RepairType;
 import org.example.rentproxy.entities.RoomsType;
 import org.example.rentproxy.entities.TypeOfPayment;
 import org.example.rentproxy.entities.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,15 +22,16 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-public class DeleteEntityTest {
+public class GetEntityTest {
     @Autowired
-    private PostRepository postRepository;
+    PostRepository postRepository;
 
     @Test
-    public void deletePost() {
+    public void findPostById() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
         TypeOfPayment typeOfPayment = new TypeOfPayment();
         typeOfPayment.setName("Включены в платёж");
@@ -67,17 +67,17 @@ public class DeleteEntityTest {
         apartmentInfo.setFlour(9);
         apartmentInfo.setAdditionally("Гардеробная");
 
-        Set<Furniture> furnitures = new HashSet<>();
+        Set<Furniture> furniture = new HashSet<>();
         Furniture furniture1 = new Furniture();
         furniture1.setName("Спальные места");
         Furniture furniture2 = new Furniture();
         furniture1.setName("Кухня");
         Furniture furniture3 = new Furniture();
         furniture1.setName("Хранение одежды");
-        furnitures.add(furniture1);
-        furnitures.add(furniture2);
-        furnitures.add(furniture3);
-        apartmentInfo.setFurniture(furnitures);
+        furniture.add(furniture1);
+        furniture.add(furniture2);
+        furniture.add(furniture3);
+        apartmentInfo.setFurniture(furniture);
 
         Set<Appliance> appliances = new HashSet<>();
         Appliance appliance1 = new Appliance();
@@ -125,8 +125,55 @@ public class DeleteEntityTest {
         houseInfo.setPost(post);
 
         Post savedPost = postRepository.save(post);
-        postRepository.deletePostById(savedPost.getId());
-        assertNull(postRepository.findPostById(savedPost.getId()));
 
+        Post actualPost = postRepository.findPostById(savedPost.getId());
+
+        assertNotNull(actualPost.getId());
+        assertNotNull(actualPost.getUser().getId());
+        assertEquals(savedPost.getUser().getFirstName(), actualPost.getUser().getFirstName());
+        assertEquals(savedPost.getUser().getSecondName(), actualPost.getUser().getSecondName());
+        assertEquals(savedPost.getUser().getLastName(), actualPost.getUser().getLastName());
+        assertEquals(savedPost.getUser().getLogin(), actualPost.getUser().getLogin());
+        assertEquals(savedPost.getUser().getPassword(), actualPost.getUser().getPassword());
+
+        assertNotNull(actualPost.getRentConditionInfo().getId());
+        assertNotNull(actualPost.getRentConditionInfo().getPost().getId());
+        assertEquals(savedPost.getRentConditionInfo().getDeposit(), actualPost.getRentConditionInfo().getDeposit());
+        assertEquals(savedPost.getRentConditionInfo().getCommissionPercent(), actualPost.getRentConditionInfo().getCommissionPercent());
+        assertEquals(savedPost.getRentConditionInfo().getCurrency(), actualPost.getRentConditionInfo().getCurrency());
+        assertEquals(savedPost.getRentConditionInfo().getTypeOfPayment(), actualPost.getRentConditionInfo().getTypeOfPayment());
+
+        assertNotNull(actualPost.getApartmentInfo().getId());
+        assertNotNull(actualPost.getApartmentInfo().getPost().getId());
+        assertNotNull(actualPost.getApartmentInfo().getBathroomType().getId());
+        assertEquals(savedPost.getApartmentInfo().getBathroomType().getName(), actualPost.getApartmentInfo().getBathroomType().getName());
+        assertNotNull(actualPost.getApartmentInfo().getRepairType().getId());
+        assertEquals(savedPost.getApartmentInfo().getRepairType().getName(), actualPost.getApartmentInfo().getRepairType().getName());
+        assertNotNull(actualPost.getApartmentInfo().getBalconyType().getId());
+        assertEquals(savedPost.getApartmentInfo().getBalconyType().getName(), actualPost.getApartmentInfo().getBalconyType().getName());
+        assertNotNull(actualPost.getApartmentInfo().getRoomsType().getId());
+        assertEquals(savedPost.getApartmentInfo().getRoomsType().getName(), actualPost.getApartmentInfo().getRoomsType().getName());
+        assertEquals(savedPost.getApartmentInfo().getRoomsCount(), actualPost.getApartmentInfo().getRoomsCount());
+        assertEquals(savedPost.getApartmentInfo().getTotalArea(), actualPost.getApartmentInfo().getTotalArea());
+        assertEquals(savedPost.getApartmentInfo().getKitchenArea(), actualPost.getApartmentInfo().getKitchenArea());
+        assertEquals(savedPost.getApartmentInfo().getLivingSpace(), actualPost.getApartmentInfo().getLivingSpace());
+        assertEquals(savedPost.getApartmentInfo().getFlour(), actualPost.getApartmentInfo().getFlour());
+        assertEquals(savedPost.getApartmentInfo().getAdditionally(), actualPost.getApartmentInfo().getAdditionally());
+        assertEquals(savedPost.getApartmentInfo().getFurniture(), actualPost.getApartmentInfo().getFurniture());
+        assertEquals(savedPost.getApartmentInfo().getAppliance(), actualPost.getApartmentInfo().getAppliance());
+
+        assertNotNull(actualPost.getHouseInfo().getId());
+        assertNotNull(actualPost.getHouseInfo().getPost().getId());
+        assertNotNull(actualPost.getHouseInfo().getHouseType().getId());
+        assertEquals(savedPost.getHouseInfo().getHouseType().getName(), actualPost.getHouseInfo().getHouseType().getName());
+        assertEquals(savedPost.getHouseInfo().getAddress(), actualPost.getHouseInfo().getAddress());
+        assertEquals(savedPost.getHouseInfo().getFloursCount(), actualPost.getHouseInfo().getFloursCount());
+
+        assertNotNull(actualPost.getRentType().getId());
+        assertEquals(savedPost.getRentType().getName(), actualPost.getRentType().getName());
+
+        assertEquals(savedPost.getName(), actualPost.getName());
+        assertEquals(savedPost.getTitle(), actualPost.getTitle());
+        assertEquals(savedPost.getDate(), actualPost.getDate());
     }
 }
