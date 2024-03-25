@@ -32,11 +32,11 @@ public class PostRepositoryImpl implements PostRepository{
         Set<TypeOfPayment> fetchedTypes = typeOfPaymentRepository.findByNameIn(
                 post.getRentConditionInfo().getTypeOfPayment().stream()
                         .map(TypeOfPayment::getName)
-                        .collect(Collectors.toSet()));
+                        .collect(Collectors.toSet())
+        );
         post.getRentConditionInfo().setTypeOfPayment(fetchedTypes);
 
         post.getApartmentInfo().setPost(post);
-
         updateApartmentInfoFromPost(post, post);
 
         post.getHouseInfo()
@@ -58,8 +58,7 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post findPostById(long id) {
-        Optional<Post> post = postJpaRepository.findById(id);
-        return post.orElse(null);
+        return postJpaRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -53,7 +53,7 @@ class SaveEntityTest {
     @Test
     public void savePost() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
-        typeOfPaymentSet.add(typeOfPaymentRepository.findByName("Долгосрочная"));
+        typeOfPaymentSet.add(typeOfPaymentRepository.findByName("Включены в платёж"));
 
         RentConditionInfo rentConditionInfo = new RentConditionInfo();
         rentConditionInfo.setDeposit(30000.0);

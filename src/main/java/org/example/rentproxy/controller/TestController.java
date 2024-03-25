@@ -35,9 +35,8 @@ public class TestController {
         return postRepository.findPostById(id);
     }
 
-    @PostMapping("rent-proxy/update/{id}")
-    public Post updateById(@PathVariable long id, @RequestBody Post post) {
-        post.setId(id);
-        return postRepository.updatePost(post);
+    @PostMapping("rent-proxy/update/")
+    public Post updateById(@RequestBody Post post) {
+        return postRepository.save(post);
     }
 }
