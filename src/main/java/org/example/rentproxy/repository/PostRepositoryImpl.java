@@ -36,46 +36,15 @@ public class PostRepositoryImpl implements PostRepository{
         post.getRentConditionInfo().setTypeOfPayment(fetchedTypes);
 
         post.getApartmentInfo().setPost(post);
-        post.getApartmentInfo()
-                .setBathroomType(bathroomTypeRepository
-                        .findByName(post.getApartmentInfo()
-                                .getBathroomType()
-                                .getName()));
 
-        post.getApartmentInfo()
-                .setRepairType(repairTypeRepository
-                        .findByName(post.getApartmentInfo()
-                                .getRepairType()
-                                .getName()));
-        post.getApartmentInfo()
-                .setBalconyType(balconyTypeRepository
-                        .findByName(post.getApartmentInfo()
-                                .getBalconyType()
-                                .getName()));
+        updateApartmentInfoFromPost(post, post);
 
-        post.getApartmentInfo()
-                .setRoomsType(roomsTypeRepository
-                        .findByName(post.getApartmentInfo()
-                                .getRoomsType()
-                                .getName()));
-
-        Set<Furniture> fetchedFurniture = furnitureRepository.findByNameIn(
-                post.getApartmentInfo().getFurniture().stream()
-                        .map(Furniture::getName)
-                        .collect(Collectors.toSet()));
-        post.getApartmentInfo().setFurniture(fetchedFurniture);
-
-        Set<Appliance> fetchedAppliance = applianceRepository.findByNameIn(
-                post.getApartmentInfo().getAppliance().stream()
-                        .map(Appliance::getName)
-                        .collect(Collectors.toSet()));
-        post.getApartmentInfo().setAppliance(fetchedAppliance);
-        post.getHouseInfo().setPost(post);
         post.getHouseInfo()
                 .setHouseType(houseTypeRepository
                         .findByName(post.getHouseInfo()
                                 .getHouseType()
                                 .getName()));
+        post.getHouseInfo().setPost(post);
 
         post.setRentType(rentTypeRepository.findByName(post.getRentType().getName()));
 
@@ -91,5 +60,84 @@ public class PostRepositoryImpl implements PostRepository{
     public Post findPostById(long id) {
         Optional<Post> post = postJpaRepository.findById(id);
         return post.orElse(null);
+    }
+
+    @Override
+    public Post updatePost(Post post) {
+        Post foundPost = findPostById(post.getId());
+        foundPost.setName(post.getName());
+        foundPost.setTitle(post.getTitle());
+        foundPost.setDate(post.getDate());
+
+        Set<TypeOfPayment> fetchedTypes = typeOfPaymentRepository.findByNameIn(
+                post.getRentConditionInfo().getTypeOfPayment().stream()
+                        .map(TypeOfPayment::getName)
+                        .collect(Collectors.toSet()));
+        foundPost.getRentConditionInfo().setTypeOfPayment(fetchedTypes);
+        foundPost.getRentConditionInfo().setDeposit(post.getRentConditionInfo().getDeposit());
+        foundPost.getRentConditionInfo().setCommissionPercent(post.getRentConditionInfo().getCommissionPercent());
+        foundPost.getRentConditionInfo().setCurrency(post.getRentConditionInfo().getCurrency());
+
+        updateApartmentInfoFromPost(post, foundPost);
+
+        foundPost.getApartmentInfo().setRoomsCount(post.getApartmentInfo().getRoomsCount());
+        foundPost.getApartmentInfo().setTotalArea(post.getApartmentInfo().getTotalArea());
+        foundPost.getApartmentInfo().setKitchenArea(post.getApartmentInfo().getKitchenArea());
+        foundPost.getApartmentInfo().setLivingSpace(post.getApartmentInfo().getLivingSpace());
+        foundPost.getApartmentInfo().setFlour(post.getApartmentInfo().getFlour());
+        foundPost.getApartmentInfo().setAdditionally(post.getApartmentInfo().getAdditionally());
+
+
+        foundPost.getHouseInfo()
+                .setHouseType(houseTypeRepository
+                        .findByName(post.getHouseInfo()
+                                .getHouseType()
+                                .getName()));
+        foundPost.getHouseInfo().setAddress(post.getHouseInfo().getAddress());
+        foundPost.getHouseInfo().setFloursCount(post.getHouseInfo().getFloursCount());
+
+        foundPost.setRentType(rentTypeRepository.findByName(foundPost.getRentType().getName()));
+        foundPost.setName(foundPost.getName());
+        foundPost.setTitle(foundPost.getTitle());
+        foundPost.setDate(foundPost.getDate());
+
+        return postJpaRepository.save(foundPost);
+    }
+
+    private void updateApartmentInfoFromPost(Post post1, Post post2) {
+        post1.getApartmentInfo()
+                .setBathroomType(bathroomTypeRepository
+                        .findByName(post2.getApartmentInfo()
+                                .getBathroomType()
+                                .getName()));
+
+        post1.getApartmentInfo()
+                .setRepairType(repairTypeRepository
+                        .findByName(post2.getApartmentInfo()
+                                .getRepairType()
+                                .getName()));
+        post1.getApartmentInfo()
+                .setBalconyType(balconyTypeRepository
+                        .findByName(post2.getApartmentInfo()
+                                .getBalconyType()
+                                .getName()));
+
+        post1.getApartmentInfo()
+                .setRoomsType(roomsTypeRepository
+                        .findByName(post2.getApartmentInfo()
+                                .getRoomsType()
+                                .getName()));
+
+        Set<Furniture> fetchedFurniture = furnitureRepository.findByNameIn(
+                post1.getApartmentInfo().getFurniture().stream()
+                        .map(Furniture::getName)
+                        .collect(Collectors.toSet()));
+        post2.getApartmentInfo().setFurniture(fetchedFurniture);
+
+        Set<Appliance> fetchedAppliance = applianceRepository.findByNameIn(
+                post1.getApartmentInfo().getAppliance().stream()
+                        .map(Appliance::getName)
+                        .collect(Collectors.toSet()));
+        post2.getApartmentInfo().setAppliance(fetchedAppliance);
     }
 }
