@@ -4,4 +4,103 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="data-for-type-of-payment" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="type_of_payment"/>
+        </preConditions>
+        <sql>
+            INSERT INTO type_of_payment(name)
+            VALUES ('Включены в платёж'),
+                   ('Оплачиваются отдельно')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-balcony-type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="balcony_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO balcony_type(name)
+            VALUES ('Балкон'),
+                   ('Лоджия')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-bathroom-type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="bathroom_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO bathroom_type(name)
+            VALUES ('Совмещенный'),
+                   ('Раздельный')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-repair-type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="repair_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO repair_type(name)
+            VALUES ('Требуется'),
+                   ('Косметический'),
+                   ('Евро'),
+                   ('Дизайнерский')
+            </sql>
+    </changeSet>
+    <changeSet id="data-for-rooms-type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="rooms_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO rooms_type(name)
+            VALUES ('Смежные'),
+                   ('Изолированные')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-furniture" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="furniture"/>
+        </preConditions>
+        <sql>
+            INSERT INTO furniture(name)
+            VALUES ('Кухня'),
+                   ('Хранение одежды'),
+                   ('Спальные места')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-appliance" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="appliance"/>
+        </preConditions>
+        <sql>
+            INSERT INTO appliance(name)
+            VALUES ('Холодильник'),
+                   ('Плита'),
+                   ('Микроволновка'),
+                   ('Стиральная машина'),
+                   ('Посудомойка')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-house_type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="house_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO house_type(name)
+            VALUES ('Панельный'),
+                   ('Блочный'),
+                   ('Кирпичный'),
+                   ('Монолитно-кирпичный'),
+                   ('Деревянный')
+        </sql>
+    </changeSet>
+    <changeSet id="data-for-rent-type" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="rent_type"/>
+        </preConditions>
+        <sql>
+            INSERT INTO rent_type(name)
+            VALUES ('Долгосрочная'),
+                   ('Посуточная')
+        </sql>
+    </changeSet>
 </databaseChangeLog>
