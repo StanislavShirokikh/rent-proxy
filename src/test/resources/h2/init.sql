@@ -47,7 +47,7 @@ CREATE TABLE post
 CREATE TABLE rent_condition_info
 (
     id                 BIGSERIAL PRIMARY KEY,
-    post_id            BIGINT UNIQUE REFERENCES post(id),
+    post_id            BIGINT UNIQUE REFERENCES post(id) ON DELETE CASCADE,
     price              DOUBLE PRECISION,
     deposit            DOUBLE PRECISION,
     commission_percent INTEGER,
@@ -93,7 +93,7 @@ CREATE TABLE rooms_type
 CREATE TABLE apartment_info
 (
     id               BIGSERIAL PRIMARY KEY,
-    post_id          BIGINT UNIQUE REFERENCES post(id),
+    post_id          BIGINT UNIQUE REFERENCES post(id) ON DELETE CASCADE,
     bathroom_type_id BIGINT REFERENCES bathroom_type(id),
     repair_type_id   BIGINT REFERENCES repair_type(id),
     balcony_type_id  BIGINT REFERENCES balcony_type(id),
@@ -139,7 +139,7 @@ CREATE TABLE house_type
 CREATE TABLE house_info
 (
     id            BIGSERIAL PRIMARY KEY,
-    post_id       BIGINT UNIQUE REFERENCES post(id),
+    post_id       BIGINT UNIQUE REFERENCES post(id) ON DELETE CASCADE,
     house_type_id BIGINT REFERENCES house_type(id),
     address       VARCHAR NOT NULL,
     flours_count  INTEGER NOT NULL
