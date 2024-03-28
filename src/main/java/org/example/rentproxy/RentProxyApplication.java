@@ -9,5 +9,4 @@ public class RentProxyApplication {
     public static void main(String[] args) {
         SpringApplication.run(RentProxyApplication.class, args);
     }
-
 }
