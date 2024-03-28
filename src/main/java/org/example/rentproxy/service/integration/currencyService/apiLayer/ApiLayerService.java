@@ -24,10 +24,12 @@ public class ApiLayerService implements CurrencyService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        String apiUrlConvert = apiLayerServiceProperties.getUrl() + apiLayerServiceProperties.getPath() +
-                apiLayerServiceProperties.getParams();
-
-        return restTemplate.exchange(apiUrlConvert, HttpMethod.GET, entity, ApiLayerResponse.class,
+        String finalUrl = getFinalUrl(apiLayerServiceProperties.getUrl());
+        return restTemplate.exchange(finalUrl, HttpMethod.GET, entity, ApiLayerResponse.class,
                 toCurrency, fromCurrency, amount).getBody();
+    }
+
+    private String getFinalUrl(String url) {
+        return url + "/exchangerates_data/convert?to={to}&from={from}&amount={amount}";
     }
 }

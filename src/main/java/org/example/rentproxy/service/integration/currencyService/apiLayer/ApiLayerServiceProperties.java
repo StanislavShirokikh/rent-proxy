@@ -1,18 +1,15 @@
 package org.example.rentproxy.service.integration.currencyService.apiLayer;
 
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@Getter
+@Component
+@ConfigurationProperties(prefix = "exchange.api")
+@Data
 public class ApiLayerServiceProperties {
-    @Value("${exchange.api.url}")
     private String url;
-    @Value("${exchange.api.path}")
     private String path;
-    @Value("${exchange.api.params}")
     private String params;
-    @Value("${exchange.api.key}")
     private String key;
 }
