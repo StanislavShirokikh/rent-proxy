@@ -1,7 +1,5 @@
 package org.example.rentproxy.service.integration.currencyService.apiLayer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
