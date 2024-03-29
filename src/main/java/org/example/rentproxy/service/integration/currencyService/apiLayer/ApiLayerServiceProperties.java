@@ -9,7 +9,5 @@ import org.springframework.stereotype.Component;
 @Data
 public class ApiLayerServiceProperties {
     private String url;
-    private String path;
-    private String params;
     private String key;
 }
