@@ -16,7 +16,6 @@ import org.example.rentproxy.entities.TypeOfPayment;
 import org.example.rentproxy.entities.User;
 import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.filter.PostOrder;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -257,7 +256,7 @@ public class FilterTest {
     }
 
     @Test
-    void findPostsByMinAndMaxPriceType() {
+    void findPostsByMinAndMaxPrice() {
         Filter filter = new Filter();
         filter.setMinPrice(99999.99);
         filter.setMaxPrice(111111.11);

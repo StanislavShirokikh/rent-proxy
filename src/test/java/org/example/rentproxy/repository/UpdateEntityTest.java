@@ -68,14 +68,10 @@ public class UpdateEntityTest {
 
         Set<Furniture> furnitures = new HashSet<>();
         Furniture furniture1 = new Furniture();
-        furniture1.setName("Спальные места");
-        Furniture furniture2 = new Furniture();
         furniture1.setName("Кухня");
-        Furniture furniture3 = new Furniture();
-        furniture1.setName("Хранение одежды");
-        furnitures.add(furniture1);
+        Furniture furniture2 = new Furniture();
+        furniture2.setName("Хранение одежды");
         furnitures.add(furniture2);
-        furnitures.add(furniture3);
         apartmentInfo.setFurniture(furnitures);
 
         Set<Appliance> appliances = new HashSet<>();
