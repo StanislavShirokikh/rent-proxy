@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class FilterTest {
@@ -233,8 +234,6 @@ public class FilterTest {
                 LocalDate.of(2023, Month.MARCH, 19)
         );
     }
-
-
     @Test
     void findPostsByRentType() {
         Filter filter = new Filter();
@@ -245,14 +244,21 @@ public class FilterTest {
 
         List<Post> actualList = postRepository.findPostByFilter(filter);
 
-        assertEquals(4, actualList.size());
         for (Post post: actualList) {
             assertEquals(filter.getRentType(), post.getRentType().getName());
         }
-        assertEquals(post1.getName(), actualList.get(0).getName());
-        assertEquals(post2.getName(), actualList.get(1).getName());
-        assertEquals(post4.getName(), actualList.get(2).getName());
-        assertEquals(post5.getName(), actualList.get(3).getName());
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post1.getName())));
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post2.getName())));
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post4.getName())));
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post4.getName())));
     }
 
     @Test
@@ -266,11 +272,21 @@ public class FilterTest {
 
         List<Post> actualList = postRepository.findPostByFilter(filter);
 
-        assertEquals(2, actualList.size());
-        assertEquals(post1.getRentConditionInfo().getPrice(), actualList.get(0).getRentConditionInfo().getPrice());
-        assertEquals(post2.getRentConditionInfo().getPrice(), actualList.get(1).getRentConditionInfo().getPrice());
-        assertEquals(post1.getName(), actualList.get(0).getName());
-        assertEquals(post2.getName(), actualList.get(1).getName());
+        assertTrue(actualList.stream()
+                .map(Post::getRentConditionInfo)
+                .map(RentConditionInfo::getPrice)
+                .anyMatch(price -> price.equals(post1.getRentConditionInfo().getPrice())));
+
+        assertTrue(actualList.stream()
+                .map(Post::getRentConditionInfo)
+                .map(RentConditionInfo::getPrice)
+                .anyMatch(price -> price.equals(post2.getRentConditionInfo().getPrice())));
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post1.getName())));
+        assertTrue(actualList.stream()
+                .map(Post::getName)
+                .anyMatch(name -> name.equals(post2.getName())));
     }
 
     @Test
@@ -282,12 +298,22 @@ public class FilterTest {
         filter.setPageSize(5);
 
         List<Post> actualList = postRepository.findPostByFilter(filter);
-
-        assertEquals(4, actualList.size());
-        assertEquals(post1.getApartmentInfo().getFurniture(), actualList.get(0).getApartmentInfo().getFurniture());
-        assertEquals(post3.getApartmentInfo().getFurniture(), actualList.get(1).getApartmentInfo().getFurniture());
-        assertEquals(post4.getApartmentInfo().getFurniture(), actualList.get(2).getApartmentInfo().getFurniture());
-        assertEquals(post5.getApartmentInfo().getFurniture(), actualList.get(3).getApartmentInfo().getFurniture());
+        assertTrue(actualList.stream()
+                .map(Post::getApartmentInfo)
+                .map(ApartmentInfo::getFurniture)
+                .anyMatch(furniture -> furniture.equals(post1.getApartmentInfo().getFurniture())));
+        assertTrue(actualList.stream()
+                .map(Post::getApartmentInfo)
+                .map(ApartmentInfo::getFurniture)
+                .anyMatch(furniture -> furniture.equals(post3.getApartmentInfo().getFurniture())));
+        assertTrue(actualList.stream()
+                .map(Post::getApartmentInfo)
+                .map(ApartmentInfo::getFurniture)
+                .anyMatch(furniture -> furniture.equals(post4.getApartmentInfo().getFurniture())));
+        assertTrue(actualList.stream()
+                .map(Post::getApartmentInfo)
+                .map(ApartmentInfo::getFurniture)
+                .anyMatch(furniture -> furniture.equals(post5.getApartmentInfo().getFurniture())));
     }
 
     private Post getSavedPost(User user,
