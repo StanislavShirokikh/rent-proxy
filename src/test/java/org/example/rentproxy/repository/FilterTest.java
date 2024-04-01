@@ -283,8 +283,10 @@ public class FilterTest {
         List<Post> actualList = postRepository.findPostByFilter(filter);
 
         assertEquals(4, actualList.size());
-        assertEquals(post2.getApartmentInfo().getFurniture(), actualList.get(0).getApartmentInfo().getFurniture());
-        assertEquals(post2.getName(), actualList.get(1).getName());
+        assertEquals(post1.getApartmentInfo().getFurniture(), actualList.get(0).getApartmentInfo().getFurniture());
+        assertEquals(post3.getApartmentInfo().getFurniture(), actualList.get(1).getApartmentInfo().getFurniture());
+        assertEquals(post4.getApartmentInfo().getFurniture(), actualList.get(2).getApartmentInfo().getFurniture());
+        assertEquals(post5.getApartmentInfo().getFurniture(), actualList.get(3).getApartmentInfo().getFurniture());
     }
     @AfterEach
     void deletePosts() {
