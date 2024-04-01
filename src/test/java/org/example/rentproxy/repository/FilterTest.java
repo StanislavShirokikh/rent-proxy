@@ -234,6 +234,15 @@ public class FilterTest {
                 LocalDate.of(2023, Month.MARCH, 19)
         );
     }
+
+    @AfterEach
+    void deletePosts() {
+        postRepository.deletePostById(post1.getId());
+        postRepository.deletePostById(post2.getId());
+        postRepository.deletePostById(post3.getId());
+        postRepository.deletePostById(post4.getId());
+        postRepository.deletePostById(post5.getId());
+    }
     @Test
     void findPostsByRentType() {
         Filter filter = new Filter();
@@ -288,15 +297,6 @@ public class FilterTest {
         assertEquals(post4.getApartmentInfo().getFurniture(), actualList.get(2).getApartmentInfo().getFurniture());
         assertEquals(post5.getApartmentInfo().getFurniture(), actualList.get(3).getApartmentInfo().getFurniture());
     }
-    @AfterEach
-    void deletePosts() {
-        postRepository.deletePostById(post1.getId());
-        postRepository.deletePostById(post2.getId());
-        postRepository.deletePostById(post3.getId());
-        postRepository.deletePostById(post4.getId());
-        postRepository.deletePostById(post5.getId());
-    }
-
 
     private Post getSavedPost(User user,
                               RentConditionInfo rentConditionInfo,
