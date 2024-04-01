@@ -1,7 +1,6 @@
 package org.example.rentproxy.filter;
 
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 @Data
@@ -20,6 +19,7 @@ public class Filter {
     private Set<String> appliance;
     private Integer minHouseFlour;
     private Integer maxHouseFlour;
+    private PostOrder postOrder;
     private Integer pageNumber;
     private Integer pageSize;
 }

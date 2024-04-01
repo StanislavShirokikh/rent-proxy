@@ -5,10 +5,18 @@ import org.example.rentproxy.entities.Appliance;
 import org.example.rentproxy.entities.Furniture;
 import org.example.rentproxy.entities.Post;
 import org.example.rentproxy.entities.TypeOfPayment;
+import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.filter.PostOrder;
+import org.example.rentproxy.repository.specification.PostSpecification;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -23,8 +31,6 @@ public class PostRepositoryImpl implements PostRepository{
     private final RepairTypeRepository repairTypeRepository;
     private final RoomsTypeRepository roomsTypeRepository;
     private final TypeOfPaymentRepository typeOfPaymentRepository;
-
-
 
     @Override
     public Post save(Post post) {
@@ -59,6 +65,18 @@ public class PostRepositoryImpl implements PostRepository{
     @Override
     public Post findPostById(long id) {
         return postJpaRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Post> findPostByFilter(Filter filter) {
+        return postJpaRepository.findAll(
+                new PostSpecification(filter),
+                getSortWithPagination(
+                        filter.getPostOrder(),
+                        filter.getPageNumber(),
+                        filter.getPageSize())
+                )
+                .getContent();
     }
 
     @Override
@@ -138,5 +156,23 @@ public class PostRepositoryImpl implements PostRepository{
                         .map(Appliance::getName)
                         .collect(Collectors.toSet()));
         post2.getApartmentInfo().setAppliance(fetchedAppliance);
+    }
+    private Pageable getSortWithPagination(PostOrder postOrder, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = null;
+
+        if (postOrder == PostOrder.ASCENDING_PRICE) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, postOrder.getFieldName()));
+        }
+        if (postOrder == PostOrder.DESCENDING_PRICE) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, postOrder.getFieldName()));
+        }
+        if (postOrder == PostOrder.ASCENDING_DATE) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.ASC, postOrder.getFieldName()));
+        }
+        if (postOrder == PostOrder.DESCENDING_DATE) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, postOrder.getFieldName()));
+        }
+
+        return pageable;
     }
 }

@@ -1,6 +1,9 @@
 package org.example.rentproxy.repository;
 
 import org.example.rentproxy.entities.Post;
+import org.example.rentproxy.filter.Filter;
+
+import java.util.List;
 
 
 public interface PostRepository {
@@ -8,4 +11,5 @@ public interface PostRepository {
     void deletePostById(long id);
     Post findPostById(long id);
     Post updatePost(Post post);
+    List<Post> findPostByFilter(Filter filter);
 }

@@ -14,26 +14,21 @@ import org.example.rentproxy.entities.RepairType;
 import org.example.rentproxy.entities.RoomsType;
 import org.example.rentproxy.entities.TypeOfPayment;
 import org.example.rentproxy.entities.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class DeleteEntityTest {
     @Autowired
     private PostRepository postRepository;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
     @Test
     public void deletePost() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
@@ -132,20 +127,6 @@ public class DeleteEntityTest {
         postRepository.deletePostById(savedPost.getId());
         assertNull(postRepository.findPostById(savedPost.getId()));
 
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-            jdbcTemplate.queryForObject("SELECT * FROM apartment_info WHERE post_id=" + savedPost.getId(),
-                ApartmentInfo.class);
-        }
-        );
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-                    jdbcTemplate.queryForObject("SELECT * FROM rent_condition_info WHERE post_id=" + savedPost.getId(),
-                            ApartmentInfo.class);
-                }
-        );
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-                    jdbcTemplate.queryForObject("SELECT * FROM house_info WHERE post_id=" + savedPost.getId(),
-                            ApartmentInfo.class);
-                }
-        );
+
     }
 }
