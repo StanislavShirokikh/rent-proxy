@@ -28,7 +28,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class DeleteEntityTest {
     @Autowired
     private PostRepository postRepository;
-
+    @Autowired
+    private RentConditionInfoRepository rentConditionInfoRepository;
+    @Autowired
+    private ApartmentInfoRepository apartmentInfoRepository;
+    @Autowired
+    private HouseInfoRepository houseInfoRepository;
     @Test
     public void deletePost() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
@@ -126,7 +131,8 @@ public class DeleteEntityTest {
         Post savedPost = postRepository.save(post);
         postRepository.deletePostById(savedPost.getId());
         assertNull(postRepository.findPostById(savedPost.getId()));
-
-
+        assertNull(rentConditionInfoRepository.findRentConditionInfoByPostId(savedPost.getId()));
+        assertNull(apartmentInfoRepository.findApartmentInfoByPostId(savedPost.getId()));
+        assertNull(houseInfoRepository.findHouseInfoByPostId(savedPost.getId()));
     }
 }
