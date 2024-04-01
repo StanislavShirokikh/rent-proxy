@@ -113,7 +113,7 @@ public class PostRepositoryImpl implements PostRepository{
         foundPost.getHouseInfo().setAddress(post.getHouseInfo().getAddress());
         foundPost.getHouseInfo().setFloursCount(post.getHouseInfo().getFloursCount());
 
-        foundPost.setRentType(rentTypeRepository.findByName(foundPost.getRentType().getName()));
+        foundPost.setRentType(rentTypeRepository.findByName(post.getRentType().getName()));
         foundPost.setName(foundPost.getName());
         foundPost.setTitle(foundPost.getTitle());
         foundPost.setDate(foundPost.getDate());

@@ -52,7 +52,7 @@ public class FilterTest {
                 getRenConditionInfo(
                         30000.0,
                         50,
-                        60000.0,
+                        99999.99,
                         "RUB",
                         "Включены в платёж"
                 ),
@@ -91,7 +91,7 @@ public class FilterTest {
                 getRenConditionInfo(
                         40000.0,
                         50,
-                        70000.0,
+                        111111.11,
                         "RUB",
                         "Оплачиваются отдельно"
                 ),
@@ -235,14 +235,7 @@ public class FilterTest {
         );
     }
 
-    @AfterEach
-    void deletePosts() {
-        postRepository.deletePostById(post1.getId());
-        postRepository.deletePostById(post2.getId());
-        postRepository.deletePostById(post3.getId());
-        postRepository.deletePostById(post4.getId());
-        postRepository.deletePostById(post5.getId());
-    }
+
     @Test
     void findPostsByRentType() {
         Filter filter = new Filter();
@@ -266,8 +259,8 @@ public class FilterTest {
     @Test
     void findPostsByMinAndMaxPriceType() {
         Filter filter = new Filter();
-        filter.setMinPrice(60000.0);
-        filter.setMaxPrice(70000.0);
+        filter.setMinPrice(99999.99);
+        filter.setMaxPrice(111111.11);
         filter.setPostOrder(PostOrder.ASCENDING_DATE);
         filter.setPageNumber(0);
         filter.setPageSize(5);

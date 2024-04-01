@@ -69,14 +69,11 @@ public class GetEntityTest {
 
         Set<Furniture> furniture = new HashSet<>();
         Furniture furniture1 = new Furniture();
-        furniture1.setName("Спальные места");
-        Furniture furniture2 = new Furniture();
         furniture1.setName("Кухня");
-        Furniture furniture3 = new Furniture();
-        furniture1.setName("Хранение одежды");
+        Furniture furniture2 = new Furniture();
+        furniture2.setName("Хранение одежды");
         furniture.add(furniture1);
         furniture.add(furniture2);
-        furniture.add(furniture3);
         apartmentInfo.setFurniture(furniture);
 
         Set<Appliance> appliances = new HashSet<>();
@@ -114,7 +111,7 @@ public class GetEntityTest {
         post.setApartmentInfo(apartmentInfo);
         post.setHouseInfo(houseInfo);
         RentType rentType = new RentType();
-        rentType.setName("Долгосрочная");
+        rentType.setName("Посуточная");
         post.setRentType(rentType);
         post.setName("Сдам 3-х комнатную квартиру");
         post.setTitle("Уютная квартира в тихом месте, метро 10 мин, все необходимое в квартире имеется");

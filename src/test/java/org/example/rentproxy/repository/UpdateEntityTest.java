@@ -161,7 +161,7 @@ public class UpdateEntityTest {
 
         Set<Furniture> updatedFurniture = new HashSet<>();
         Furniture updatedFurniture1 = new Furniture();
-        updatedFurniture1.setName("Спальные места");
+        updatedFurniture1.setName("Хранение одежды");
 
         updatedFurniture.add(updatedFurniture1);
         updatedApartmentInfo.setFurniture(updatedFurniture);
@@ -187,7 +187,7 @@ public class UpdateEntityTest {
         updatedPost.setApartmentInfo(apartmentInfo);
         updatedPost.setHouseInfo(houseInfo);
         RentType updatedRentType = new RentType();
-        updatedRentType.setName("Долгосрочная");
+        updatedRentType.setName("Посуточная");
         updatedPost.setRentType(updatedRentType);
         updatedPost.setName("Сдам 2-х комнатную квартиру");
         updatedPost.setTitle("метро 15 мин, все необходимое в квартире имеется");
