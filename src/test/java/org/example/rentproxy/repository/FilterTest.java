@@ -352,6 +352,7 @@ public class FilterTest {
         user.setPassword(password);
         return user;
     }
+
     private RentConditionInfo getRenConditionInfo(Double deposit,
                                                   Integer commissionPercent,
                                                   Double price,
@@ -371,6 +372,7 @@ public class FilterTest {
 
         return rentConditionInfo;
     }
+
     private ApartmentInfo getApartmentInfo(String bathRoomTypeName,
                                            String repairTypeName,
                                            String balconyTypeName,
@@ -435,8 +437,4 @@ public class FilterTest {
 
         return houseInfo;
     }
-
-
-
-
 }
