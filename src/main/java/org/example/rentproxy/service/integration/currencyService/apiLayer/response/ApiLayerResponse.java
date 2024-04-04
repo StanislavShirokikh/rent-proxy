@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class ApiLayerResponse {
     private String date;
-    private Query query;
+    private ApiLayerRequest apiLayerRequest;
     private Double result;
     private Boolean success;
 }

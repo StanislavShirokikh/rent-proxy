@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Query {
+public class ApiLayerRequest {
     private Integer amount;
     private String from;
     private String to;

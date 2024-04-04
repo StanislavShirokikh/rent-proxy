@@ -2,7 +2,7 @@ package org.example.rentproxy.service.integration.currencyService.apiLayer;
 
 import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.response.Query;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,33 +25,30 @@ public class ApiLayerServiceTest {
     private CurrencyService currencyService;
     @MockBean
     private RestTemplate restTemplate;
-    @MockBean
-    private ApiLayerServiceProperties apiLayerServiceProperties;
 
     @Test
     public void convertTest() {
-        createMockApiLayerServiceProperties();
         createMockApiLayerResponse();
 
         ApiLayerResponse apiLayerResponse = currencyService.convertCurrency("rub", "usd", "1000");
 
         assertEquals("2024-03-28", apiLayerResponse.getDate());
-        assertEquals("rub", apiLayerResponse.getQuery().getFrom());
-        assertEquals("usd", apiLayerResponse.getQuery().getTo());
-        assertEquals(1000, apiLayerResponse.getQuery().getAmount());
+        assertEquals("rub", apiLayerResponse.getApiLayerRequest().getFrom());
+        assertEquals("usd", apiLayerResponse.getApiLayerRequest().getTo());
+        assertEquals(1000, apiLayerResponse.getApiLayerRequest().getAmount());
         assertEquals(100000.0, apiLayerResponse.getResult());
         assertEquals(true, apiLayerResponse.getSuccess());
     }
 
     private void createMockApiLayerResponse() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("apikey", "exampleKey");
+        headers.add("apikey", "bKUYerh75z8yYwIRqUp6BpMRjc2eM5TH");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ApiLayerResponse apiLayerResponse = ApiLayerResponse.builder()
                 .date("2024-03-28")
-                .query(
-                        Query.builder()
+                .apiLayerRequest(
+                        ApiLayerRequest.builder()
                                 .from("rub")
                                 .to("usd")
                                 .amount(1000)
@@ -70,10 +67,5 @@ public class ApiLayerServiceTest {
                 eq("usd"),
                 eq("1000")))
                 .thenReturn(new ResponseEntity<>(apiLayerResponse, HttpStatus.OK));
-    }
-
-    private void createMockApiLayerServiceProperties() {
-        when(apiLayerServiceProperties.getKey()).thenReturn("exampleKey");
-        when(apiLayerServiceProperties.getUrl()).thenReturn("www.example.com");
     }
 }
