@@ -1,6 +1,6 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.entities.RepairType;
+import org.example.rentproxy.repository.entities.RepairType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

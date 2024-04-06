@@ -1,6 +1,6 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.entities.HouseInfo;
+import org.example.rentproxy.repository.entities.HouseInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

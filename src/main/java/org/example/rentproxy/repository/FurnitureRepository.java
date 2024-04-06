@@ -1,6 +1,6 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.entities.Furniture;
+import org.example.rentproxy.repository.entities.Furniture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

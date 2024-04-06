@@ -1,6 +1,6 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.entities.Post;
+import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.filter.Filter;
 
 import java.util.List;

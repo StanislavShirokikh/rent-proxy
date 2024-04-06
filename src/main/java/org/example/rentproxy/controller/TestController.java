@@ -1,9 +1,7 @@
 package org.example.rentproxy.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.converter.Converter;
-import org.example.rentproxy.entities.Post;
-import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.filter.PostOrder;
 import org.example.rentproxy.repository.PostRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,26 +58,8 @@ public class TestController {
                                         @RequestParam PostOrder postOrder,
                                         @RequestParam Integer pageNumber,
                                         @RequestParam Integer pageSize) {
-        Filter filter = Converter.convertToFilter(
-                rentType,
-                roomsCount,
-                minPrice,
-                maxPrice,
-                minTotalArea,
-                maxTotalArea,
-                minFlour,
-                maxFlour,
-                houseType,
-                repairType,
-                furniture,
-                appliance,
-                minHouseFlour,
-                maxHouseFlour,
-                postOrder,
-                pageNumber,
-                pageSize
-        );
 
-        return postRepository.findPostByFilter(filter);
+
+        return null;
     }
 }

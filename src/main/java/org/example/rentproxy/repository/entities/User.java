@@ -1,4 +1,4 @@
-package org.example.rentproxy.entities;
+package org.example.rentproxy.repository.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,10 +1,10 @@
 package org.example.rentproxy.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.entities.Appliance;
-import org.example.rentproxy.entities.Furniture;
-import org.example.rentproxy.entities.Post;
-import org.example.rentproxy.entities.TypeOfPayment;
+import org.example.rentproxy.repository.entities.Appliance;
+import org.example.rentproxy.repository.entities.Furniture;
+import org.example.rentproxy.repository.entities.Post;
+import org.example.rentproxy.repository.entities.TypeOfPayment;
 import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.filter.PostOrder;
 import org.example.rentproxy.repository.specification.PostSpecification;
