@@ -34,6 +34,7 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post save(Post post) {
+
         post.getRentConditionInfo().setPost(post);
         Set<TypeOfPayment> fetchedTypes = typeOfPaymentRepository.findByNameIn(
                 post.getRentConditionInfo().getTypeOfPayment().stream()

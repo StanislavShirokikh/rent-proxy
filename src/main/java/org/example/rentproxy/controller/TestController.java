@@ -1,9 +1,12 @@
 package org.example.rentproxy.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.dto.PostDto;
+import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.filter.PostOrder;
 import org.example.rentproxy.repository.PostRepository;
+import org.example.rentproxy.service.PostService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,48 +21,29 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 public class TestController {
+    private final PostService postService;
 
-    private final PostRepository postRepository;
-
-    @PostMapping("rent-proxy/create")
-    public Post savePost(@RequestBody Post post) {
-        return postRepository.save(post);
+    @PostMapping("/create")
+    public PostDto savePost(@RequestBody PostDto postDto) {
+        return postService.save(postDto);
     }
 
-    @DeleteMapping("rent-proxy/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable long id) {
-        postRepository.deletePostById(id);
+        postService.deletePostById(id);
     }
 
-    @GetMapping("rent-proxy/get/{id}")
-    public Post findById(@PathVariable long id) {
-        return postRepository.findPostById(id);
+    @GetMapping("/get/{id}")
+    public PostDto findById(@PathVariable long id) {
+        return postService.findPostById(id);
     }
 
-    @PostMapping("rent-proxy/update/")
-    public Post updateById(@RequestBody Post post) {
-        return postRepository.save(post);
+    @PostMapping("/update")
+    public PostDto updateById(@RequestBody PostDto postDto) {
+        return postService.updatePost(postDto);
     }
-    @GetMapping("rent-proxy/posts/")
-    public List<Post> findPostsByFilter(@RequestParam String rentType,
-                                        @RequestParam Double roomsCount,
-                                        @RequestParam Double minPrice,
-                                        @RequestParam Double maxPrice,
-                                        @RequestParam Double minTotalArea,
-                                        @RequestParam Double maxTotalArea,
-                                        @RequestParam Integer minFlour,
-                                        @RequestParam Integer maxFlour,
-                                        @RequestParam String houseType,
-                                        @RequestParam String repairType,
-                                        @RequestParam Set<String> furniture,
-                                        @RequestParam Set<String> appliance,
-                                        @RequestParam Integer minHouseFlour,
-                                        @RequestParam Integer maxHouseFlour,
-                                        @RequestParam PostOrder postOrder,
-                                        @RequestParam Integer pageNumber,
-                                        @RequestParam Integer pageSize) {
-
-
-        return null;
+    @PostMapping("/posts")
+    public List<PostDto> findPostsByFilter(@RequestBody Filter filter) {
+        return postService.findPostByFilter(filter);
     }
 }
