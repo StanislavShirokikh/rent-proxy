@@ -3,6 +3,7 @@ package org.example.rentproxy.service.mapper;
 import org.example.rentproxy.dto.ApartmentInfoDto;
 import org.example.rentproxy.dto.ApplianceDto;
 import org.example.rentproxy.dto.BalconyTypeDto;
+import org.example.rentproxy.dto.BathroomTypeDto;
 import org.example.rentproxy.dto.FurnitureDto;
 import org.example.rentproxy.dto.HouseInfoDto;
 import org.example.rentproxy.dto.HouseTypeDto;
@@ -33,11 +34,13 @@ public class DtoMapper extends ModelMapper {
         rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentDtoSet);
 
         ApartmentInfoDto apartmentInfoDto = map(post.getApartmentInfo(), ApartmentInfoDto.class);
+        BathroomTypeDto bathroomTypeDto = map(post.getApartmentInfo().getBathroomType(), BathroomTypeDto.class);
         BalconyTypeDto balconyTypeDto = map(post.getApartmentInfo().getBalconyType(), BalconyTypeDto.class);
         RepairTypeDto repairTypeDto = map(post.getApartmentInfo().getRepairType(), RepairTypeDto.class);
         RoomsTypeDto roomsTypeDto = map(post.getApartmentInfo().getRoomsType(), RoomsTypeDto.class);
         Set<FurnitureDto> furnitureDtoSet = mapFurnitureSet(post.getApartmentInfo().getFurniture());
         Set<ApplianceDto> applianceDtoSet = mapApplianceSet(post.getApartmentInfo().getAppliance());
+        apartmentInfoDto.setBathroomTypeDto(bathroomTypeDto);
         apartmentInfoDto.setRoomsTypeDto(roomsTypeDto);
         apartmentInfoDto.setRepairTypeDto(repairTypeDto);
         apartmentInfoDto.setBalconyTypeDto(balconyTypeDto);

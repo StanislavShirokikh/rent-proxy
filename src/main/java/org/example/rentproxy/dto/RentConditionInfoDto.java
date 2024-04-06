@@ -10,5 +10,6 @@ public class RentConditionInfoDto {
     private Double deposit;
     private Integer commissionPercent;
     private Double price;
+    private String currency;
     private Set<TypeOfPaymentDto> typeOfPaymentDto;
 }
