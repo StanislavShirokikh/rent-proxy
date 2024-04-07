@@ -31,10 +31,9 @@ import org.example.rentproxy.repository.entities.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class DtoMapper extends ModelMapper {
@@ -42,22 +41,19 @@ public class DtoMapper extends ModelMapper {
         UserDto userDto = map(post.getUser(), UserDto.class);
 
         RentConditionInfoDto rentConditionInfoDto = map(post.getRentConditionInfo(), RentConditionInfoDto.class);
-        Set<TypeOfPaymentDto> typeOfPaymentDtoSet = mapTypeOfPaymentSet(post.getRentConditionInfo().getTypeOfPayment());
-        rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentDtoSet);
+        rentConditionInfoDto.setTypeOfPaymentDto(mapSet(post.getRentConditionInfo().getTypeOfPayment(), TypeOfPaymentDto.class));
 
         ApartmentInfoDto apartmentInfoDto = map(post.getApartmentInfo(), ApartmentInfoDto.class);
         BathroomTypeDto bathroomTypeDto = map(post.getApartmentInfo().getBathroomType(), BathroomTypeDto.class);
         BalconyTypeDto balconyTypeDto = map(post.getApartmentInfo().getBalconyType(), BalconyTypeDto.class);
         RepairTypeDto repairTypeDto = map(post.getApartmentInfo().getRepairType(), RepairTypeDto.class);
         RoomsTypeDto roomsTypeDto = map(post.getApartmentInfo().getRoomsType(), RoomsTypeDto.class);
-        Set<FurnitureDto> furnitureDtoSet = mapFurnitureSet(post.getApartmentInfo().getFurniture());
-        Set<ApplianceDto> applianceDtoSet = mapApplianceSet(post.getApartmentInfo().getAppliance());
         apartmentInfoDto.setBathroomTypeDto(bathroomTypeDto);
         apartmentInfoDto.setRoomsTypeDto(roomsTypeDto);
         apartmentInfoDto.setRepairTypeDto(repairTypeDto);
         apartmentInfoDto.setBalconyTypeDto(balconyTypeDto);
-        apartmentInfoDto.setFurnitureDto(furnitureDtoSet);
-        apartmentInfoDto.setApplianceDto(applianceDtoSet);
+        apartmentInfoDto.setFurnitureDto(mapSet(post.getApartmentInfo().getFurniture(), FurnitureDto.class));
+        apartmentInfoDto.setApplianceDto(mapSet(post.getApartmentInfo().getAppliance(), ApplianceDto.class));
 
         HouseInfoDto  houseInfoDto = map(post.getHouseInfo(), HouseInfoDto.class);
         HouseTypeDto houseTypeDto = map(post.getHouseInfo().getHouseType(), HouseTypeDto.class);
@@ -82,22 +78,19 @@ public class DtoMapper extends ModelMapper {
         }
 
         RentConditionInfo rentConditionInfo = map(postDto.getRentConditionInfoDto(), RentConditionInfo.class);
-        Set<TypeOfPayment> typeOfPaymentSet = mapTypeOfPaymentDtoSet(postDto.getRentConditionInfoDto().getTypeOfPaymentDto());
-        rentConditionInfo.setTypeOfPayment(typeOfPaymentSet);
+        rentConditionInfo.setTypeOfPayment(mapSet(postDto.getRentConditionInfoDto().getTypeOfPaymentDto(), TypeOfPayment.class));
 
         ApartmentInfo apartmentInfo = map(postDto.getApartmentInfoDto(), ApartmentInfo.class);
         BathroomType bathroomType = map(postDto.getApartmentInfoDto().getBathroomTypeDto(), BathroomType.class);
         BalconyType balconyType = map(postDto.getApartmentInfoDto().getBalconyTypeDto(), BalconyType.class);
         RepairType repairType = map(postDto.getApartmentInfoDto().getRepairTypeDto(), RepairType.class);
         RoomsType roomsType = map(postDto.getApartmentInfoDto().getRoomsTypeDto(), RoomsType.class);
-        Set<Furniture> furnitureSet = mapFurnitureDtoSet(postDto.getApartmentInfoDto().getFurnitureDto());
-        Set<Appliance> applianceSet = mapApplianceDtoSet(postDto.getApartmentInfoDto().getApplianceDto());
         apartmentInfo.setBathroomType(bathroomType);
         apartmentInfo.setRoomsType(roomsType);
         apartmentInfo.setRepairType(repairType);
         apartmentInfo.setBalconyType(balconyType);
-        apartmentInfo.setFurniture(furnitureSet);
-        apartmentInfo.setAppliance(applianceSet);
+        apartmentInfo.setFurniture(mapSet(postDto.getApartmentInfoDto().getFurnitureDto(), Furniture.class));
+        apartmentInfo.setAppliance(mapSet(postDto.getApartmentInfoDto().getApplianceDto(), Appliance.class));
 
         HouseInfo houseInfo = map(postDto.getHouseInfoDto(), HouseInfo.class);
         HouseType houseType = map(postDto.getHouseInfoDto().getHouseTypeDto(), HouseType.class);
@@ -116,56 +109,14 @@ public class DtoMapper extends ModelMapper {
     }
 
     public List<PostDto> convertToListPostDto(List<Post> posts) {
-        List<PostDto> postDtoList = new ArrayList<>();
-        posts.forEach(post -> postDtoList.add(convertToPostDto(post)));
-        return postDtoList;
+        return posts.stream()
+                .map(this::convertToPostDto)
+                .collect(Collectors.toList());
     }
 
-    private Set<TypeOfPaymentDto> mapTypeOfPaymentSet(Set<TypeOfPayment> typeOfPaymentSet) {
-        Set<TypeOfPaymentDto> typeOfPaymentDtoSet = new HashSet<>();
-        for (TypeOfPayment typeOfPayment : typeOfPaymentSet) {
-            typeOfPaymentDtoSet.add(map(typeOfPayment, TypeOfPaymentDto.class));
-        }
-        return typeOfPaymentDtoSet;
-    }
-
-    private Set<FurnitureDto> mapFurnitureSet(Set<Furniture> furnitureSet) {
-        Set<FurnitureDto> furnitureDtoSet = new HashSet<>();
-        for (Furniture furniture : furnitureSet) {
-            furnitureDtoSet.add(map(furniture, FurnitureDto.class));
-        }
-        return furnitureDtoSet;
-    }
-
-    private Set<ApplianceDto> mapApplianceSet(Set<Appliance> applianceSet) {
-        Set<ApplianceDto> applianceDtoSet = new HashSet<>();
-        for (Appliance appliance : applianceSet) {
-            applianceDtoSet.add(map(appliance, ApplianceDto.class));
-        }
-        return applianceDtoSet;
-    }
-
-    private Set<TypeOfPayment> mapTypeOfPaymentDtoSet(Set<TypeOfPaymentDto> typeOfPaymentDtoSet) {
-        Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
-        for (TypeOfPaymentDto typeOfPaymentDto : typeOfPaymentDtoSet) {
-            typeOfPaymentSet.add(map(typeOfPaymentDto, TypeOfPayment.class));
-        }
-        return typeOfPaymentSet;
-    }
-
-    private Set<Furniture> mapFurnitureDtoSet(Set<FurnitureDto> furnitureDtoSet) {
-        Set<Furniture> furnitureSet = new HashSet<>();
-        for (FurnitureDto furnitureDto : furnitureDtoSet) {
-            furnitureSet.add(map(furnitureDto, Furniture.class));
-        }
-        return furnitureSet;
-    }
-
-    private Set<Appliance> mapApplianceDtoSet(Set<ApplianceDto> applianceDtoSet) {
-        Set<Appliance> applianceSet = new HashSet<>();
-        for (ApplianceDto applianceDto : applianceDtoSet) {
-            applianceSet.add(map(applianceDto, Appliance.class));
-        }
-        return applianceSet;
+    private <S, T> Set<T> mapSet(Set<S> sourceSet, Class<T> targetClass) {
+        return sourceSet.stream()
+                .map(source -> map(source, targetClass))
+                .collect(Collectors.toSet());
     }
 }
