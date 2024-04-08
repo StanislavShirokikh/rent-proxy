@@ -1,6 +1,6 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.entities.BathroomType;
+import org.example.rentproxy.repository.entities.BathroomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

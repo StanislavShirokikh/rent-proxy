@@ -1,4 +1,4 @@
-package org.example.rentproxy.entities;
+package org.example.rentproxy.repository.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package org.example.rentproxy.entities;
+package org.example.rentproxy.repository.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Entity
 @Data
-public class HouseType {
+public class BathroomType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String name;
+    private String name;
 }
