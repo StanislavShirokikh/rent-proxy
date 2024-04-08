@@ -116,7 +116,7 @@ public class DtoMapper extends ModelMapper {
 
     private <S, T> Set<T> mapSet(Set<S> sourceSet, Class<T> targetClass) {
         return sourceSet.stream()
-                .map(source -> map(source, targetClass))
+                .map(source -> this.map(source, targetClass))
                 .collect(Collectors.toSet());
     }
 }
