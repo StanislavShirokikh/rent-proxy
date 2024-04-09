@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -34,6 +35,8 @@ public class DeleteEntityTest {
     private ApartmentInfoRepository apartmentInfoRepository;
     @Autowired
     private HouseInfoRepository houseInfoRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Test
     public void deletePost() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
@@ -106,8 +109,10 @@ public class DeleteEntityTest {
         user.setFirstName("Петр");
         user.setSecondName("Иванович");
         user.setLastName("Иванов");
-        user.setLogin("IvanLogin");
+        user.setLogin("IvanLogin" + UUID.randomUUID());
         user.setPassword("1234");
+
+        userRepository.save(user);
 
         Post post = new Post();
         post.setUser(user);

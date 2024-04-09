@@ -29,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UpdateEntityTest {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Test
     public void updatePostById() {
         Set<TypeOfPayment> typeOfPaymentSet = new HashSet<>();
@@ -104,7 +106,7 @@ public class UpdateEntityTest {
         user.setPassword("1234");
 
         Post post = new Post();
-        post.setUser(user);
+        post.setUser(userRepository.save(user));
         post.setRentConditionInfo(rentConditionInfo);
         post.setApartmentInfo(apartmentInfo);
         post.setHouseInfo(houseInfo);

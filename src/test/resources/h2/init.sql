@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS type_of_payment;
 DROP TABLE IF EXISTS rent_condition_info;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS rent_type;
+DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
@@ -145,6 +147,18 @@ CREATE TABLE house_info
     flours_count  INTEGER NOT NULL
 );
 
+CREATE TABLE role
+(
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL
+);
+
+CREATE TABLE user_role
+(
+    users_id BIGINT REFERENCES users(id),
+    role_id BIGINT REFERENCES role (id)
+);
+
 INSERT INTO type_of_payment(name)
 VALUES ('Включены в платёж'),
        ('Оплачиваются отдельно');
@@ -189,3 +203,7 @@ VALUES ('Панельный'),
 INSERT INTO rent_type(name)
 VALUES ('Долгосрочная'),
        ('Посуточная');
+
+INSERT INTO role(name)
+VALUES ('ROLE_USER'),
+       ('ROLE_ADMIN');

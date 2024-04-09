@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepository{
     private final PostJpaRepository postJpaRepository;
+    private final UserRepository userRepository;
     private final ApplianceRepository applianceRepository;
     private final BalconyTypeRepository balconyTypeRepository;
     private final BathroomTypeRepository bathroomTypeRepository;
@@ -34,6 +35,7 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post save(Post post) {
+        post.setUser(userRepository.findByLogin(post.getUser().getLogin()));
 
         post.getRentConditionInfo().setPost(post);
         Set<TypeOfPayment> fetchedTypes = typeOfPaymentRepository.findByNameIn(

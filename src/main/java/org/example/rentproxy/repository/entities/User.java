@@ -32,8 +32,6 @@ public class User {
     private String lastName;
     private String login;
     private String password;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
