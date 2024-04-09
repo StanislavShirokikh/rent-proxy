@@ -103,4 +103,14 @@
                    ('Посуточная')
         </sql>
     </changeSet>
+    <changeSet id="data-for-role" author="Stanislav">
+        <preConditions>
+            <tableExists tableName="role"/>
+        </preConditions>
+        <sql>
+            INSERT INTO role(name)
+            VALUES ('ROLE_USER'),
+                   ('ROLE_ADMIN')
+        </sql>
+    </changeSet>
 </databaseChangeLog>
