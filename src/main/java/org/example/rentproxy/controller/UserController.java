@@ -1,7 +1,6 @@
 package org.example.rentproxy.controller;
 
 import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.repository.entities.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
