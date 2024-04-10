@@ -3,6 +3,7 @@ package org.example.rentproxy.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.service.PostService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,27 +19,24 @@ import java.util.List;
 public class PostControllerImpl implements PostController{
     private final PostService postService;
 
-    @PostMapping("/create")
-    public PostDto savePost(@RequestBody PostDto postDto) {
+
+    public PostDto savePost(PostDto postDto) {
         return postService.save(postDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable Long id) {
-        postService.deletePostById(id);
+    public void deleteById(WithIdRequest withIdRequest) {
+        postService.deletePostById(withIdRequest.getId());
     }
 
-    @GetMapping("/get/{id}")
-    public PostDto findById(@PathVariable Long id) {
-        return postService.findPostById(id);
+    public PostDto findById(WithIdRequest withIdRequest) {
+        return postService.findPostById(withIdRequest.getId());
     }
 
-    @PostMapping("/update")
-    public PostDto updateById(@RequestBody PostDto postDto) {
+    public PostDto updateById(PostDto postDto) {
         return postService.updatePost(postDto);
     }
-    @PostMapping("/posts")
-    public List<PostDto> findPostsByFilter(@RequestBody Filter filter) {
+
+    public List<PostDto> findPostsByFilter(Filter filter) {
         return postService.findPostByFilter(filter);
     }
 }
