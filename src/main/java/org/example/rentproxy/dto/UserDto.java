@@ -1,5 +1,6 @@
 package org.example.rentproxy.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data

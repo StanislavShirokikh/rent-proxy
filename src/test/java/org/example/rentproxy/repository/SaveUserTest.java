@@ -14,7 +14,7 @@ public class SaveUserTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void saveUser() {

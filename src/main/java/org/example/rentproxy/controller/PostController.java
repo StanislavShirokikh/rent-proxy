@@ -14,10 +14,10 @@ public interface PostController {
     @PostMapping("/create")
     PostDto savePost(@RequestBody PostDto postDto);
 
-    @DeleteMapping("/delete/")
+    @DeleteMapping("/delete")
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
-    @GetMapping("/get/")
+    @GetMapping("/get")
     PostDto findById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/update")
