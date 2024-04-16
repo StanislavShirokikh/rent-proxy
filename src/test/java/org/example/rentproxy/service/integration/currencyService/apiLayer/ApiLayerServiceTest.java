@@ -66,7 +66,6 @@ public class ApiLayerServiceTest {
         currencyService.convertCurrency("rub", "usd", "1000");
         verify(restTemplate, times(3)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class),
                 eq(ApiLayerResponse.class), anyString(), anyString(), anyString());
-
     }
 
 
