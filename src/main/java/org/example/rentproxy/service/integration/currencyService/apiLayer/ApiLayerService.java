@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,9 +19,9 @@ public class ApiLayerService implements CurrencyService {
     private final ApiLayerServiceProperties apiLayerServiceProperties;
 
     @Retryable(
-            retryFor = {Exception.class},
-            maxAttempts = 5,
-            backoff = @Backoff(delay = 100))
+            retryFor = {RuntimeException.class},
+            maxAttempts = 10,
+            backoff = @Backoff(delay = 500))
     @Override
     public ApiLayerResponse convertCurrency(String fromCurrency, String toCurrency, String amount) {
         HttpHeaders headers = new HttpHeaders();
@@ -31,6 +32,11 @@ public class ApiLayerService implements CurrencyService {
         String finalUrl = getFinalUrl(apiLayerServiceProperties.getUrl());
         return restTemplate.exchange(finalUrl, HttpMethod.GET, entity, ApiLayerResponse.class,
                 fromCurrency, toCurrency, amount).getBody();
+    }
+
+    @Recover
+    public String recover() {
+        return "Не удаётся подключиться к серверу, попробуйте позже";
     }
 
     private String getFinalUrl(String url) {
