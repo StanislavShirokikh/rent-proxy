@@ -113,4 +113,16 @@
                    ('ADMIN')
         </sql>
     </changeSet>
+    <changeSet id="data-for-user" author="Stanislav">
+        <preConditions>
+            <and>
+                <tableExists tableName="users"/>
+                <tableExists tableName="role"/>
+            </and>
+        </preConditions>
+        <sql>
+            INSERT INTO users(first_name, second_name, last_name, login, password)
+            VALUES ('Admin', 'Admin', 'Admin', 'admin', '$2a$10$Y6JzrXtjQVzSMaNTIrBhgeTmoffkEHQEa551Y80PAPlh2EBvr3W6a')
+        </sql>
+    </changeSet>
 </databaseChangeLog>

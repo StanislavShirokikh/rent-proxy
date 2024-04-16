@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/user")
 public interface UserController {
-    @PostMapping("/registration")
+    @PostMapping("/register")
     UserDto register(@RequestBody UserDto userDto);
 }
