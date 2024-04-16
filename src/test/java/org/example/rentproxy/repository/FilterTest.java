@@ -26,6 +26,7 @@ import java.time.Month;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,6 +35,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FilterTest {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
     private Post post1;
     private Post post2;
     private Post post3;
@@ -276,7 +279,6 @@ public class FilterTest {
                 .map(Post::getRentConditionInfo)
                 .map(RentConditionInfo::getPrice)
                 .anyMatch(price -> price.equals(post1.getRentConditionInfo().getPrice())));
-
         assertTrue(actualList.stream()
                 .map(Post::getRentConditionInfo)
                 .map(RentConditionInfo::getPrice)
@@ -348,9 +350,9 @@ public class FilterTest {
         user.setFirstName(firstName);
         user.setSecondName(secondName);
         user.setLastName(lastName);
-        user.setLogin(login);
+        user.setLogin(login + UUID.randomUUID());
         user.setPassword(password);
-        return user;
+        return userRepository.save(user);
     }
 
     private RentConditionInfo getRenConditionInfo(Double deposit,
