@@ -269,4 +269,32 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="init-role" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE role
+            (
+                id   BIGSERIAL PRIMARY KEY,
+                name VARCHAR NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-user-role" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE user_role
+            (
+                users_id BIGINT REFERENCES users(id),
+                role_id BIGINT REFERENCES role (id)
+            );
+        </sql>
+    </changeSet>
 </databaseChangeLog>

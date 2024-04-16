@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,7 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 public class GetEntityTest {
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void findPostById() {
@@ -102,11 +105,11 @@ public class GetEntityTest {
         user.setFirstName("Петр");
         user.setSecondName("Иванович");
         user.setLastName("Иванов");
-        user.setLogin("IvanLogin");
+        user.setLogin("IvanLogin" + UUID.randomUUID());
         user.setPassword("1234");
 
         Post post = new Post();
-        post.setUser(user);
+        post.setUser(userRepository.save(user));
         post.setRentConditionInfo(rentConditionInfo);
         post.setApartmentInfo(apartmentInfo);
         post.setHouseInfo(houseInfo);

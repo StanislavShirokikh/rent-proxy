@@ -2,15 +2,16 @@ package org.example.rentproxy.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.UserDto;
-import org.springframework.stereotype.Service;
+import org.example.rentproxy.service.UserService;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserControllerImpl implements UserController{
+public class UserControllerImpl implements UserController {
+    private final UserService userService;
 
     @Override
-    public void register(UserDto userDto) {
-
+    public UserDto register(UserDto userDto) {
+        return userService.createUser(userDto);
     }
 }
