@@ -47,6 +47,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -165,14 +166,22 @@ public class Mapper extends ModelMapper {
     }
 
     public List<PostDto> convertToListPostDto(List<Post> posts) {
-        return posts.stream()
-                .map(this::convertToPostDto)
-                .collect(Collectors.toList());
+        return convertToList(posts, this::convertToPostDto);
+    }
+
+    public List<PostResponse> convertToListResponse(List<PostDto> posts) {
+        return convertToList(posts, this::convertToPostResponse);
     }
 
     private <S, T> Set<T> mapSet(Set<S> sourceSet, Class<T> targetClass) {
         return sourceSet.stream()
                 .map(source -> this.map(source, targetClass))
                 .collect(Collectors.toSet());
+    }
+
+    private  <S, T> List<T> convertToList(List<S> sourceList, Function<S, T> mapper) {
+        return sourceList.stream()
+                .map(mapper)
+                .collect(Collectors.toList());
     }
 }
