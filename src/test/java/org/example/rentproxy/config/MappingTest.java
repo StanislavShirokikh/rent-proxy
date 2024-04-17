@@ -28,7 +28,9 @@ import org.example.rentproxy.repository.entities.RepairType;
 import org.example.rentproxy.repository.entities.RoomsType;
 import org.example.rentproxy.repository.entities.TypeOfPayment;
 import org.example.rentproxy.repository.entities.User;
-import org.example.rentproxy.service.mapper.DtoMapper;
+import org.example.rentproxy.response.PostResponse;
+import org.example.rentproxy.response.UserResponse;
+import org.example.rentproxy.service.mapper.Mapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class MappingTest {
     @Autowired
-    private DtoMapper dtoMapper;
+    private Mapper mapper;
+
     @Test
     public void mapToUserDto() {
         User user = new User();
@@ -52,7 +55,7 @@ class MappingTest {
         user.setLogin("mr_ivanov");
         user.setPassword("1234");
 
-        UserDto userDto = dtoMapper.map(user, UserDto.class);
+        UserDto userDto = mapper.map(user, UserDto.class);
 
         assertEquals(user.getId(), userDto.getId());
         assertEquals(user.getFirstName(), userDto.getFirstName());
@@ -151,7 +154,7 @@ class MappingTest {
         post.setTitle("Необходимое для комфортного проживания имеется");
         post.setDate(LocalDate.now());
 
-        PostDto postDto = dtoMapper.convertToPostDto(post);
+        PostDto postDto = mapper.convertToPostDto(post);
 
         assertEquals(post.getId(), postDto.getId());
         assertEquals(post.getRentConditionInfo().getId(), postDto.getRentConditionInfoDto().getId());
@@ -180,7 +183,8 @@ class MappingTest {
         assertEquals(post.getDate(), postDto.getDate());
     }
 
-    @Test public void mapToPost() {
+    @Test
+    public void mapToPost() {
         UserDto userDto = new UserDto();
         userDto.setId(2L);
         userDto.setFirstName("Анна");
@@ -277,7 +281,7 @@ class MappingTest {
         postDto.setTitle("Необходимое для комфортного проживания имеется");
         postDto.setDate(LocalDate.now());
 
-        Post post = dtoMapper.convertToPost(postDto);
+        Post post = mapper.convertToPost(postDto);
 
         assertEquals(postDto.getRentConditionInfoDto().getDeposit(), post.getRentConditionInfo().getDeposit());
         assertEquals(postDto.getRentConditionInfoDto().getCommissionPercent(), post.getRentConditionInfo().getCommissionPercent());
@@ -296,5 +300,156 @@ class MappingTest {
         assertEquals(postDto.getName(), post.getName());
         assertEquals(postDto.getTitle(), post.getTitle());
         assertEquals(postDto.getDate(), post.getDate());
+    }
+
+    @Test
+    public void mapToPostResponse() {
+        UserDto userDto = new UserDto();
+        userDto.setId(3L);
+        userDto.setFirstName("Инна");
+        userDto.setSecondName("Ивановна");
+        userDto.setLastName("Парфенова");
+        userDto.setLogin("ms_parfenova");
+
+        RentConditionInfoDto rentConditionInfoDto = new RentConditionInfoDto();
+        rentConditionInfoDto.setId(3L);
+        rentConditionInfoDto.setDeposit(11111.0);
+        rentConditionInfoDto.setCommissionPercent(44);
+        rentConditionInfoDto.setPrice(22222.0);
+        rentConditionInfoDto.setCurrency("RUB");
+
+        TypeOfPaymentDto typeOfPaymentDto1 = new TypeOfPaymentDto();
+        typeOfPaymentDto1.setId(3L);
+        typeOfPaymentDto1.setName("Оплата3");
+        TypeOfPaymentDto typeOfPaymentDto2 = new TypeOfPaymentDto();
+        typeOfPaymentDto2.setId(4L);
+        typeOfPaymentDto2.setName("Оплата4");
+        Set<TypeOfPaymentDto> typeOfPaymentDtoSet = Set.of(typeOfPaymentDto1, typeOfPaymentDto2);
+        rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentDtoSet);
+
+        ApartmentInfoDto apartmentInfoDto = new ApartmentInfoDto();
+        apartmentInfoDto.setId(3L);
+        apartmentInfoDto.setRoomsCount(11);
+        apartmentInfoDto.setTotalArea(111.0);
+        apartmentInfoDto.setKitchenArea(11.0);
+        apartmentInfoDto.setLivingSpace(66.0);
+        apartmentInfoDto.setFlour(23);
+        apartmentInfoDto.setAdditionally("Дополнительно");
+
+        BathroomTypeDto bathroomTypeDto = new BathroomTypeDto();
+        bathroomTypeDto.setId(1L);
+        bathroomTypeDto.setName("Раздельный");
+
+        RepairTypeDto repairTypeDto = new RepairTypeDto();
+        repairTypeDto.setId(3L);
+        repairTypeDto.setName("Евро");
+
+        BalconyTypeDto balconyTypeDto = new BalconyTypeDto();
+        balconyTypeDto.setId(1L);
+        balconyTypeDto.setName("Балкон");
+
+        RoomsTypeDto roomsTypeDto = new RoomsTypeDto();
+        roomsTypeDto.setId(1L);
+        roomsTypeDto.setName("Изолированные");
+
+        apartmentInfoDto.setBathroomTypeDto(bathroomTypeDto);
+        apartmentInfoDto.setRepairTypeDto(repairTypeDto);
+        apartmentInfoDto.setBalconyTypeDto(balconyTypeDto);
+        apartmentInfoDto.setRoomsTypeDto(roomsTypeDto);
+
+        FurnitureDto furnitureDto1 = new FurnitureDto();
+        furnitureDto1.setId(1L);
+        furnitureDto1.setName("Хранение одежды");
+        FurnitureDto furnitureDto2 = new FurnitureDto();
+        furnitureDto2.setId(2L);
+        furnitureDto2.setName("Спальные места");
+        Set<FurnitureDto> furnitureDtoSet = Set.of(furnitureDto1, furnitureDto2);
+        apartmentInfoDto.setFurnitureDto(furnitureDtoSet);
+
+        ApplianceDto applianceDto1 = new ApplianceDto();
+        applianceDto1.setId(1L);
+        applianceDto1.setName("Плита");
+        ApplianceDto applianceDto2 = new ApplianceDto();
+        applianceDto2.setId(2L);
+        applianceDto2.setName("Холодильник");
+        Set<ApplianceDto> applianceDtoSet = Set.of(applianceDto1, applianceDto2);
+        apartmentInfoDto.setApplianceDto(applianceDtoSet);
+
+        HouseInfoDto houseInfoDto = new HouseInfoDto();
+        houseInfoDto.setId(1L);
+        houseInfoDto.setAddress("ул.Чаплыгина");
+        houseInfoDto.setFloursCount(35);
+
+        HouseTypeDto houseTypeDto = new HouseTypeDto();
+        houseTypeDto.setId(1L);
+        houseTypeDto.setName("Кирпичный");
+        houseInfoDto.setHouseTypeDto(houseTypeDto);
+
+        RentTypeDto rentTypeDto = new RentTypeDto();
+        rentTypeDto.setId(1L);
+        rentTypeDto.setName("Долгосрочная");
+
+        PostDto postDto = new PostDto();
+        postDto.setId(1L);
+        postDto.setUserDto(userDto);
+        postDto.setRentConditionInfoDto(rentConditionInfoDto);
+        postDto.setApartmentInfoDto(apartmentInfoDto);
+        postDto.setHouseInfoDto(houseInfoDto);
+        postDto.setRentTypeDto(rentTypeDto);
+        postDto.setName("Сдается квартира 111 кв/м");
+        postDto.setTitle("Супер класс");
+        postDto.setDate(LocalDate.now());
+
+        PostResponse postResponse = mapper.convertToPostResponse(postDto);
+
+        assertEquals(
+                postDto.getRentConditionInfoDto().getDeposit(),
+                postResponse.getRentConditionInfoResponse().getDeposit()
+        );
+        assertEquals(
+                postDto.getRentConditionInfoDto().getCommissionPercent(),
+                postResponse.getRentConditionInfoResponse().getCommissionPercent()
+        );
+        assertEquals(
+                postDto.getRentConditionInfoDto().getPrice(),
+                postResponse.getRentConditionInfoResponse().getPrice()
+        );
+        assertEquals(
+                postDto.getRentConditionInfoDto().getCurrency(),
+                postResponse.getRentConditionInfoResponse().getCurrency()
+        );
+        assertEquals(
+                postDto.getRentConditionInfoDto().getTypeOfPaymentDto().size(),
+                postResponse.getRentConditionInfoResponse().getTypeOfPaymentResponse().size()
+        );
+        assertEquals(postDto.getApartmentInfoDto().getBathroomTypeDto().getName(),
+                postResponse.getApartmentInfoResponse().getBathroomTypeResponse().getName()
+        );
+        assertEquals(
+                postDto.getApartmentInfoDto().getRepairTypeDto().getName(),
+                postResponse.getApartmentInfoResponse().getRepairTypeResponse().getName()
+        );
+        assertEquals(
+                postDto.getApartmentInfoDto().getBalconyTypeDto().getName(),
+                postResponse.getApartmentInfoResponse().getBalconyTypeResponse().getName()
+        );
+        assertEquals(
+                postDto.getApartmentInfoDto().getRoomsTypeDto().getName(),
+                postResponse.getApartmentInfoResponse().getRoomsTypeResponse().getName()
+        );
+        assertEquals(
+                postDto.getApartmentInfoDto().getFurnitureDto().size(),
+                postResponse.getApartmentInfoResponse().getFurnitureResponse().size()
+        );
+        assertEquals(
+                postDto.getHouseInfoDto().getHouseTypeDto().getName(),
+                postResponse.getHouseInfoResponse().getHouseTypeResponse().getName()
+        );
+        assertEquals(postDto.getHouseInfoDto().getAddress(), postResponse.getHouseInfoResponse().getAddress());
+        assertEquals(postDto.getHouseInfoDto().getFloursCount(), postResponse.getHouseInfoResponse().getFloursCount());
+        assertEquals(postDto.getRentTypeDto().getName(), postResponse.getRentTypeResponse().getName());
+        assertEquals(postDto.getName(), postResponse.getName());
+        assertEquals(postDto.getTitle(), postResponse.getTitle());
+        assertEquals(postDto.getDate(), postResponse.getDate());
     }
 }
