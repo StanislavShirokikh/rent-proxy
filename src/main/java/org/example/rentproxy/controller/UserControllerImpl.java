@@ -16,8 +16,6 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public UserResponse register(UserDto userDto) {
-        Configuration configuration = mapper.getConfiguration();
-        configuration.setSkipNullEnabled(true);
         return mapper.map(userService.createUser(userDto), UserResponse.class);
     }
 }

@@ -43,6 +43,7 @@ import org.example.rentproxy.response.RoomsTypeResponse;
 import org.example.rentproxy.response.TypeOfPaymentResponse;
 import org.example.rentproxy.response.UserResponse;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,6 +53,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class Mapper extends ModelMapper {
+    Configuration configuration;
+    private Mapper() {
+        this.configuration = getConfiguration().setSkipNullEnabled(true);
+    }
     public PostDto convertToPostDto(Post post) {
         UserDto userDto = map(post.getUser(), UserDto.class);
 
