@@ -5,7 +5,6 @@ import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.response.UserResponse;
 import org.example.rentproxy.service.UserService;
 import org.example.rentproxy.service.mapper.Mapper;
-import org.modelmapper.config.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
