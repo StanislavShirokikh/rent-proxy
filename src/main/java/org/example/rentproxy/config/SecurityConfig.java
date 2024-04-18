@@ -19,8 +19,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/user/register", "/post/get", "/post/find").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/user/register").anonymous()
+                                .requestMatchers("/post/get", "/post/find").permitAll()
+                                .anyRequest().hasAnyRole("USER", "ADMIN")
                 )
                 .httpBasic(Customizer.withDefaults())
                 .build();
