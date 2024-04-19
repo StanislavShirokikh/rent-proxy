@@ -24,7 +24,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public void deletePostById(long id) {
         postRepository.deletePostById(id);
     }
@@ -36,7 +35,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @PostAuthorize("returnObject.userDto.login == principal.username")
     public PostDto updatePost(PostDto postDto) {
         Post post = postRepository.updatePost(dtoMapper.convertToPost(postDto));
         return dtoMapper.convertToPostDto(post);
