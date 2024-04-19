@@ -6,6 +6,8 @@ import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.repository.PostRepository;
 import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.service.mapper.DtoMapper;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public void deletePostById(long id) {
         postRepository.deletePostById(id);
     }
@@ -33,6 +36,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @PostAuthorize("returnObject.userDto.login == principal.username")
     public PostDto updatePost(PostDto postDto) {
         Post post = postRepository.updatePost(dtoMapper.convertToPost(postDto));
         return dtoMapper.convertToPostDto(post);
