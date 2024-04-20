@@ -7,6 +7,8 @@ import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.service.PostService;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,9 @@ public class PostControllerImpl implements PostController{
         return postService.save(postDto);
     }
 
-    public void deleteById(WithIdRequest withIdRequest) {
+    @PreAuthorize("hasRole('ADMIN') or " +
+            "authentication.name == @postRepositoryImpl.findUserLoginByPostId(#withIdRequest.id)")
+    public void deleteById(@P("withIdRequest") WithIdRequest withIdRequest) {
         postService.deletePostById(withIdRequest.getId());
     }
 

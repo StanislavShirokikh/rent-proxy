@@ -12,4 +12,5 @@ public interface PostRepository {
     Post findPostById(long id);
     Post updatePost(Post post);
     List<Post> findPostByFilter(Filter filter);
+    String findUserLoginByPostId(Long id);
 }

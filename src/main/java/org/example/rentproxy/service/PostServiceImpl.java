@@ -6,8 +6,6 @@ import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.repository.PostRepository;
 import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.service.mapper.DtoMapper;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

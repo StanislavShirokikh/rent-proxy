@@ -66,6 +66,11 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
+    public String findUserLoginByPostId(Long id) {
+        return postJpaRepository.findUserLoginByPostId(id);
+    }
+
+    @Override
     public Post findPostById(long id) {
         return postJpaRepository.findById(id).orElse(null);
     }
@@ -124,6 +129,8 @@ public class PostRepositoryImpl implements PostRepository{
 
         return postJpaRepository.save(foundPost);
     }
+
+
 
     private void updateApartmentInfoFromPost(Post post1, Post post2) {
         post1.getApartmentInfo()
