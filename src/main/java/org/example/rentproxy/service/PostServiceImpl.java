@@ -5,7 +5,7 @@ import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.repository.PostRepository;
 import org.example.rentproxy.repository.entities.Post;
-import org.example.rentproxy.service.mapper.Mapper;
+import org.example.rentproxy.mapper.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

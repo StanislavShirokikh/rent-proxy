@@ -6,7 +6,7 @@ import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
 import org.example.rentproxy.service.PostService;
-import org.example.rentproxy.service.mapper.Mapper;
+import org.example.rentproxy.mapper.Mapper;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

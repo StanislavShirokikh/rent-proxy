@@ -1,4 +1,4 @@
-package org.example.rentproxy.service.mapper;
+package org.example.rentproxy.mapper;
 
 import org.example.rentproxy.dto.ApartmentInfoDto;
 import org.example.rentproxy.dto.ApplianceDto;

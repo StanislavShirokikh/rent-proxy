@@ -6,7 +6,7 @@ import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.RoleRepository;
 import org.example.rentproxy.repository.UserRepository;
 import org.example.rentproxy.repository.entities.User;
-import org.example.rentproxy.service.mapper.Mapper;
+import org.example.rentproxy.mapper.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
