@@ -3,24 +3,18 @@ package org.example.rentproxy.service.integration.currencyService.apiLayer;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.RestTemplateRetryable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class ApiLayerService implements CurrencyService {
-    private final RestTemplate restTemplate;
+    private final RestTemplateRetryable restTemplateRetryable;
     private final ApiLayerServiceProperties apiLayerServiceProperties;
 
-    @Retryable(
-            retryFor = {RuntimeException.class},
-            maxAttempts = 3,
-            backoff = @Backoff(delay = 500))
     @Override
     public ApiLayerResponse convertCurrency(String fromCurrency, String toCurrency, String amount) {
         HttpHeaders headers = new HttpHeaders();
@@ -29,7 +23,7 @@ public class ApiLayerService implements CurrencyService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         String finalUrl = getFinalUrl(apiLayerServiceProperties.getExchangeApiUrl());
-        return restTemplate.exchange(finalUrl, HttpMethod.GET, entity, ApiLayerResponse.class,
+        return restTemplateRetryable.exchange(finalUrl, HttpMethod.GET, entity, ApiLayerResponse.class,
                 fromCurrency, toCurrency, amount).getBody();
     }
 
