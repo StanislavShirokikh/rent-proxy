@@ -66,6 +66,11 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
+    public String findUserLoginByPostId(Long id) {
+        return postJpaRepository.findUserLoginByPostId(id);
+    }
+
+    @Override
     public Post findPostById(long id) {
         return postJpaRepository.findById(id).orElse(null);
     }
@@ -96,9 +101,10 @@ public class PostRepositoryImpl implements PostRepository{
         foundPost.getRentConditionInfo().setTypeOfPayment(fetchedTypes);
         foundPost.getRentConditionInfo().setDeposit(post.getRentConditionInfo().getDeposit());
         foundPost.getRentConditionInfo().setCommissionPercent(post.getRentConditionInfo().getCommissionPercent());
+        foundPost.getRentConditionInfo().setPrice(post.getRentConditionInfo().getPrice());
         foundPost.getRentConditionInfo().setCurrency(post.getRentConditionInfo().getCurrency());
 
-        updateApartmentInfoFromPost(post, foundPost);
+        updateApartmentInfoFromPost(foundPost, post);
 
         foundPost.getApartmentInfo().setRoomsCount(post.getApartmentInfo().getRoomsCount());
         foundPost.getApartmentInfo().setTotalArea(post.getApartmentInfo().getTotalArea());
@@ -123,6 +129,8 @@ public class PostRepositoryImpl implements PostRepository{
 
         return postJpaRepository.save(foundPost);
     }
+
+
 
     private void updateApartmentInfoFromPost(Post post1, Post post2) {
         post1.getApartmentInfo()
@@ -149,16 +157,16 @@ public class PostRepositoryImpl implements PostRepository{
                                 .getName()));
 
         Set<Furniture> fetchedFurniture = furnitureRepository.findByNameIn(
-                post1.getApartmentInfo().getFurniture().stream()
+                post2.getApartmentInfo().getFurniture().stream()
                         .map(Furniture::getName)
                         .collect(Collectors.toSet()));
-        post2.getApartmentInfo().setFurniture(fetchedFurniture);
+        post1.getApartmentInfo().setFurniture(fetchedFurniture);
 
         Set<Appliance> fetchedAppliance = applianceRepository.findByNameIn(
-                post1.getApartmentInfo().getAppliance().stream()
+                post2.getApartmentInfo().getAppliance().stream()
                         .map(Appliance::getName)
                         .collect(Collectors.toSet()));
-        post2.getApartmentInfo().setAppliance(fetchedAppliance);
+        post1.getApartmentInfo().setAppliance(fetchedAppliance);
     }
     private Pageable getSortWithPagination(PostOrder postOrder, Integer pageNumber, Integer pageSize) {
         Pageable pageable = null;

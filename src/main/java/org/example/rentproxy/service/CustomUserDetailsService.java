@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.RoleRepository;
 import org.example.rentproxy.repository.UserRepository;
+import org.example.rentproxy.repository.entities.Role;
 import org.example.rentproxy.repository.entities.User;
 import org.example.rentproxy.service.mapper.DtoMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +33,7 @@ public class CustomUserDetailsService implements UserService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getLogin())
                 .password(user.getPassword())
-                .roles("USER")
+                .roles(convertRoles(user.getRoles()))
                 .build();
     }
 
@@ -51,5 +52,11 @@ public class CustomUserDetailsService implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         return dtoMapper.map(userRepository.save(user), UserDto.class);
+    }
+
+    private String[] convertRoles(Set<Role> roles) {
+        return roles.stream()
+                .map(Role::getName)
+                .toArray(String[]::new);
     }
 }
