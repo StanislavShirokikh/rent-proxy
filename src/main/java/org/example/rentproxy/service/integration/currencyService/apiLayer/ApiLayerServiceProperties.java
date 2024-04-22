@@ -5,9 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "exchange.api")
+@ConfigurationProperties(prefix = "apilayer.service")
 @Data
 public class ApiLayerServiceProperties {
-    private String url;
-    private String key;
+    private String exchangeApiUrl;
+    private String exchangeApiKey;
+    private Integer maxAttempts;
+    private Integer backOffPeriod;
 }

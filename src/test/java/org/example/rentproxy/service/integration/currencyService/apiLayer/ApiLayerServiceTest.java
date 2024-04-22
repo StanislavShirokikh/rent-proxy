@@ -1,8 +1,9 @@
 package org.example.rentproxy.service.integration.currencyService.apiLayer;
 
 import org.example.rentproxy.service.integration.currencyService.CurrencyService;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerRequest;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.RestTemplateRetryable;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -24,7 +24,7 @@ public class ApiLayerServiceTest {
     @Autowired
     private CurrencyService currencyService;
     @MockBean
-    private RestTemplate restTemplate;
+    private RestTemplateRetryable restTemplateRetryable;
 
     @Test
     public void convertTest() {
@@ -58,7 +58,7 @@ public class ApiLayerServiceTest {
                 .success(true)
                 .build();
 
-        when(restTemplate.exchange(
+        when(restTemplateRetryable.exchange(
                 anyString(),
                 eq(HttpMethod.GET),
                 eq(entity),
