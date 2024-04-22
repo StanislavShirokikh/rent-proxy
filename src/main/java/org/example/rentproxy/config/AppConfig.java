@@ -21,8 +21,6 @@ public class AppConfig {
         fixedBackOffPolicy.setBackOffPeriod(apiLayerServiceProperties.getBackOffPeriod());
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
 
-
-
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
         retryPolicy.setMaxAttempts(apiLayerServiceProperties.getMaxAttempts());
         retryTemplate.setRetryPolicy(retryPolicy);
