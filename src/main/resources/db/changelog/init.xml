@@ -286,7 +286,7 @@
     <changeSet id="init-user-role" author="Stanislav">
         <preConditions>
             <not>
-                <tableExists tableName="user_role"/>
+                <tableExists tableName="post"/>
             </not>
         </preConditions>
         <sql>
@@ -294,6 +294,37 @@
             (
                 users_id BIGINT REFERENCES users(id),
                 role_id BIGINT REFERENCES role (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-reservation-request" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="reservation_request"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE reservation_request
+            (
+                id       BIGSERIAL PRIMARY KEY,
+                post_id  BIGINT REFERENCES post (id),
+                users_id BIGINT REFERENCES users (id),
+                date     DATE
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-archive" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="archive"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE archive
+            (
+                id                     BIGSERIAL PRIMARY KEY,
+                reservation_request_id BIGINT UNIQUE REFERENCES reservation_request (id),
+                date                   DATE
             );
         </sql>
     </changeSet>
