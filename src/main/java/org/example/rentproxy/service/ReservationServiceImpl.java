@@ -28,7 +28,6 @@ public class ReservationServiceImpl implements ReservationService {
 
             return dtoMapper.mapToReservationRequestDto(reservationRequest);
         }
-
         return null;
     }
 

@@ -14,10 +14,12 @@ DROP TABLE IF EXISTS bathroom_type;
 DROP TABLE IF EXISTS type_of_payment_to_rent_condition;
 DROP TABLE IF EXISTS type_of_payment;
 DROP TABLE IF EXISTS rent_condition_info;
-DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS rent_type;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS reservation_request;
+DROP TABLE IF EXISTS archive;
+DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
@@ -157,6 +159,21 @@ CREATE TABLE user_role
 (
     users_id BIGINT REFERENCES users(id),
     role_id BIGINT REFERENCES role (id)
+);
+
+CREATE TABLE reservation_request
+(
+    id       BIGSERIAL PRIMARY KEY,
+    post_id  BIGINT REFERENCES post (id),
+    users_id BIGINT REFERENCES users (id),
+    date     DATE
+);
+
+CREATE TABLE archive
+(
+    id                     BIGSERIAL PRIMARY KEY,
+    reservation_request_id BIGINT UNIQUE REFERENCES reservation_request (id),
+    date                   DATE
 );
 
 INSERT INTO type_of_payment(name)
