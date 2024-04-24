@@ -74,13 +74,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void deleteFromArchiveById(Long id) {
-
+        if (archiveRepository.existsById(id)) {
+            archiveRepository.deleteById(id);
+        }
     }
 
     @Override
     public ArchiveDto getFromArchiveById(Long id) {
         return null;
     }
-
-
 }
