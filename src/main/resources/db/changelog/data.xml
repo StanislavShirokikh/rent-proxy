@@ -125,4 +125,17 @@
             VALUES ('Admin', 'Admin', 'Admin', 'admin', '$2a$10$Y6JzrXtjQVzSMaNTIrBhgeTmoffkEHQEa551Y80PAPlh2EBvr3W6a')
         </sql>
     </changeSet>
+    <changeSet id="data-for-user-role" author="Stanislav">
+        <preConditions>
+            <and>
+                <tableExists tableName="users"/>
+                <tableExists tableName="role"/>
+                <tableExists tableName="user_role"/>
+            </and>
+        </preConditions>
+        <sql>
+            INSERT INTO user_role(users_id, role_id)
+            VALUES ((SElECT id FROM users WHERE login = 'admin'), (SELECT id FROM role WHERE name = 'ADMIN'))
+        </sql>
+    </changeSet>
 </databaseChangeLog>

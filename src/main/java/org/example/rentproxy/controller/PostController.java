@@ -4,6 +4,8 @@ import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import java.util.List;
 public interface PostController {
     @PostMapping("/create")
     PostResponse savePost(@RequestBody PostDto postDto);
+    PostDto savePost(@RequestBody PostDto postDto, @AuthenticationPrincipal UserDetails userDetails);
 
     @DeleteMapping("/delete")
     void deleteById(@RequestBody WithIdRequest withIdRequest);
