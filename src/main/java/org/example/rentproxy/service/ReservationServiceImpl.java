@@ -55,7 +55,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationRequestDto getReservationRequestById(Long id) {
-        return null;
+        return dtoMapper.convertToReservationRequestDto(reservationRequestRepository.findReservationRequestById(id));
     }
 
     @Override
@@ -81,6 +81,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ArchiveDto getFromArchiveById(Long id) {
-        return null;
+        return dtoMapper.convertToArchiveDto(archiveRepository.findArchiveById(id));
     }
 }

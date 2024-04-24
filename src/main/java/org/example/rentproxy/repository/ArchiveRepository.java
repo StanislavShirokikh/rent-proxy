@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArchiveRepository extends JpaRepository<Archive, Long> {
+    Archive findArchiveById(Long id);
 }
