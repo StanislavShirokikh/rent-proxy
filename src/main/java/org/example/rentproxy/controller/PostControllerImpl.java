@@ -43,7 +43,7 @@ public class PostControllerImpl implements PostController{
     }
 
     @Override
-    @PostAuthorize("returnObject.userDto.login == principal.username || hasRole('ADMIN')")
+    @PostAuthorize("returnObject.userResponse.login == principal.username || hasRole('ADMIN')")
     public PostResponse updateById(PostDto postDto) {
             return responseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
