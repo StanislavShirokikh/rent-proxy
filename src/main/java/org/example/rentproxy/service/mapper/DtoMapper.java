@@ -2,6 +2,7 @@ package org.example.rentproxy.service.mapper;
 
 import org.example.rentproxy.dto.ApartmentInfoDto;
 import org.example.rentproxy.dto.ApplianceDto;
+import org.example.rentproxy.dto.ArchiveDto;
 import org.example.rentproxy.dto.BalconyTypeDto;
 import org.example.rentproxy.dto.BathroomTypeDto;
 import org.example.rentproxy.dto.FurnitureDto;
@@ -17,6 +18,7 @@ import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.entities.ApartmentInfo;
 import org.example.rentproxy.repository.entities.Appliance;
+import org.example.rentproxy.repository.entities.Archive;
 import org.example.rentproxy.repository.entities.BalconyType;
 import org.example.rentproxy.repository.entities.BathroomType;
 import org.example.rentproxy.repository.entities.Furniture;
@@ -122,7 +124,7 @@ public class DtoMapper extends ModelMapper {
                 .collect(Collectors.toSet());
     }
 
-    public ReservationRequest mapToReservationRequest(ReservationRequestDto reservationRequestDto) {
+    public ReservationRequest convertToReservationRequest(ReservationRequestDto reservationRequestDto) {
         User user = map(reservationRequestDto.getUserDto(), User.class);
         Post post = map(reservationRequestDto.getPostDto(), Post.class);
         ReservationRequest reservationRequest = map(reservationRequestDto, ReservationRequest.class);
@@ -132,7 +134,7 @@ public class DtoMapper extends ModelMapper {
         return reservationRequest;
     }
 
-    public ReservationRequestDto mapToReservationRequestDto(ReservationRequest reservationRequest) {
+    public ReservationRequestDto convertToReservationRequestDto(ReservationRequest reservationRequest) {
         UserDto userDto = map(reservationRequest.getUser(), UserDto.class);
         PostDto postDto = map(reservationRequest.getPost(), PostDto.class);
         ReservationRequestDto reservationRequestDto = map(reservationRequest, ReservationRequestDto.class);
@@ -140,5 +142,21 @@ public class DtoMapper extends ModelMapper {
         reservationRequestDto.setPostDto(postDto);
 
         return reservationRequestDto;
+    }
+
+    public Archive convertToArchive(ArchiveDto archiveDto) {
+        Archive archive = map(archiveDto, Archive.class);
+        ReservationRequest reservationRequest = map(archiveDto.getReservationRequestDto(), ReservationRequest.class);
+        archive.setReservationRequest(reservationRequest);
+
+        return archive;
+    }
+
+    public ArchiveDto convertToArchiveDto(Archive archive) {
+        ArchiveDto archiveDto = map(archive, ArchiveDto.class);
+        ReservationRequestDto reservationRequestDto = map(archive.getReservationRequest(), ReservationRequestDto.class);
+        archiveDto.setReservationRequestDto(reservationRequestDto);
+
+        return archiveDto;
     }
 }

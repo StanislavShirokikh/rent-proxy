@@ -13,7 +13,9 @@ import java.util.List;
 public interface ReservationRequestRepository extends JpaRepository<ReservationRequest, Long> {
     Boolean existsByPostId(Long id);
     Boolean existsReservationRequestById(Long id);
+    ReservationRequest findReservationRequestById(Long id);
     @Query("SELECT date FROM ReservationRequest WHERE id = :id")
     LocalDate findReservationRequestDateById(@Param("id")Long id);
     List<ReservationRequest> findReservationRequestByDateBefore(LocalDate localDate);
+    Long getPostIdById(Long id);
 }

@@ -8,7 +8,7 @@ public interface ReservationService {
     void deleteReservationRequestById(Long id);
     void deleteOldReservationRequest();
     ReservationRequestDto getReservationRequestById(Long id);
-    ArchiveDto addToArchive(ReservationRequestDto reservationRequestDto);
+    ArchiveDto addToArchive(ArchiveDto archiveDto);
     void deleteFromArchiveById(Long id);
     ArchiveDto getFromArchiveById(Long id);
 }

@@ -7,6 +7,7 @@ import org.example.rentproxy.repository.ArchiveRepository;
 import org.example.rentproxy.repository.PostJpaRepository;
 import org.example.rentproxy.repository.ReservationRequestRepository;
 import org.example.rentproxy.repository.UserRepository;
+import org.example.rentproxy.repository.entities.Archive;
 import org.example.rentproxy.repository.entities.ReservationRequest;
 import org.example.rentproxy.service.mapper.DtoMapper;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,10 +28,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) {
         if (!reservationRequestRepository.existsByPostId(reservationRequestDto.getPostDto().getId())) {
-            ReservationRequest reservationRequest = dtoMapper.mapToReservationRequest(reservationRequestDto);
+            ReservationRequest reservationRequest = dtoMapper.convertToReservationRequest(reservationRequestDto);
             reservationRequest.setUser(userRepository.findByLogin(reservationRequestDto.getUserDto().getLogin()));
 
-            return dtoMapper.mapToReservationRequestDto(reservationRequestRepository.save(reservationRequest));
+            return dtoMapper.convertToReservationRequestDto(reservationRequestRepository.save(reservationRequest));
         }
         return null;
     }
@@ -58,8 +59,17 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ArchiveDto addToArchive(ReservationRequestDto reservationRequestDto) {
-        return null;
+    public ArchiveDto addToArchive(ArchiveDto archiveDto) {
+        Archive archive = dtoMapper.convertToArchive(archiveDto);
+        archive.setReservationRequest(reservationRequestRepository.findReservationRequestById(
+                archiveDto.getReservationRequestDto().getId()));
+
+        Archive savedArchive = archiveRepository.save(archive);
+
+        postJpaRepository.deleteById(reservationRequestRepository.
+                getPostIdById(savedArchive.getReservationRequest().getId()));
+
+        return dtoMapper.convertToArchiveDto(savedArchive);
     }
 
     @Override
