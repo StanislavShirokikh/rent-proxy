@@ -11,6 +11,7 @@ import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.RentConditionInfoDto;
 import org.example.rentproxy.dto.RentTypeDto;
 import org.example.rentproxy.dto.RepairTypeDto;
+import org.example.rentproxy.dto.ReservationRequestDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
@@ -25,6 +26,7 @@ import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.repository.entities.RentConditionInfo;
 import org.example.rentproxy.repository.entities.RentType;
 import org.example.rentproxy.repository.entities.RepairType;
+import org.example.rentproxy.repository.entities.ReservationRequest;
 import org.example.rentproxy.repository.entities.RoomsType;
 import org.example.rentproxy.repository.entities.TypeOfPayment;
 import org.example.rentproxy.repository.entities.User;
@@ -118,5 +120,25 @@ public class DtoMapper extends ModelMapper {
         return sourceSet.stream()
                 .map(source -> this.map(source, targetClass))
                 .collect(Collectors.toSet());
+    }
+
+    public ReservationRequest mapToReservationRequest(ReservationRequestDto reservationRequestDto) {
+        User user = map(reservationRequestDto.getUserDto(), User.class);
+        Post post = map(reservationRequestDto.getPostDto(), Post.class);
+        ReservationRequest reservationRequest = map(reservationRequestDto, ReservationRequest.class);
+        reservationRequest.setUser(user);
+        reservationRequest.setPost(post);
+
+        return reservationRequest;
+    }
+
+    public ReservationRequestDto mapToReservationRequestDto(ReservationRequest reservationRequest) {
+        UserDto userDto = map(reservationRequest.getUser(), UserDto.class);
+        PostDto postDto = map(reservationRequest.getPost(), PostDto.class);
+        ReservationRequestDto reservationRequestDto = map(reservationRequest, ReservationRequestDto.class);
+        reservationRequestDto.setUserDto(userDto);
+        reservationRequestDto.setPostDto(postDto);
+
+        return reservationRequestDto;
     }
 }
