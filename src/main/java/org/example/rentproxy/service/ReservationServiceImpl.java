@@ -1,4 +1,4 @@
-package org.example.rentproxy.service.mapper;
+package org.example.rentproxy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.ArchiveDto;
@@ -8,7 +8,7 @@ import org.example.rentproxy.repository.PostJpaRepository;
 import org.example.rentproxy.repository.ReservationRequestRepository;
 import org.example.rentproxy.repository.UserRepository;
 import org.example.rentproxy.repository.entities.ReservationRequest;
-import org.example.rentproxy.service.ReservationService;
+import org.example.rentproxy.service.mapper.DtoMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,9 +18,16 @@ public class ReservationServiceImpl implements ReservationService {
     private final ArchiveRepository archiveRepository;
     private final UserRepository userRepository;
     private final PostJpaRepository postJpaRepository;
+    private final DtoMapper dtoMapper;
 
     @Override
     public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) {
+        if (!reservationRequestRepository.existsByPostId(reservationRequestDto.getPostDto().getId())) {
+            ReservationRequest reservationRequest = reservationRequestRepository.
+                    save(dtoMapper.mapToReservationRequest(reservationRequestDto));
+
+            return dtoMapper.mapToReservationRequestDto(reservationRequest);
+        }
 
         return null;
     }

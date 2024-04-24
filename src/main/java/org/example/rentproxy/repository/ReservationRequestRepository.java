@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReservationRequestRepository extends JpaRepository<ReservationRequest, Long> {
+    Boolean existsByPostId(Long id);
 }
