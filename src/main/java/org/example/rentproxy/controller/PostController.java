@@ -17,8 +17,7 @@ import java.util.List;
 @RequestMapping("/post")
 public interface PostController {
     @PostMapping("/create")
-    PostResponse savePost(@RequestBody PostDto postDto);
-    PostDto savePost(@RequestBody PostDto postDto, @AuthenticationPrincipal UserDetails userDetails);
+    PostResponse savePost(@RequestBody PostDto postDto, @AuthenticationPrincipal UserDetails userDetails);
 
     @DeleteMapping("/delete")
     void deleteById(@RequestBody WithIdRequest withIdRequest);
