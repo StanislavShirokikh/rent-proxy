@@ -1,8 +1,11 @@
 package org.example.rentproxy.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.ArchiveDto;
 import org.example.rentproxy.dto.ReservationRequestDto;
+import org.example.rentproxy.exception.ReservationRequestException;
 import org.example.rentproxy.repository.ArchiveRepository;
 import org.example.rentproxy.repository.PostJpaRepository;
 import org.example.rentproxy.repository.ReservationRequestRepository;
@@ -14,10 +17,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRequestRepository reservationRequestRepository;
     private final ArchiveRepository archiveRepository;
@@ -26,31 +29,27 @@ public class ReservationServiceImpl implements ReservationService {
     private final DtoMapper dtoMapper;
 
     @Override
-    public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) {
-        if (!reservationRequestRepository.existsByPostId(reservationRequestDto.getPostDto().getId())) {
-            ReservationRequest reservationRequest = dtoMapper.convertToReservationRequest(reservationRequestDto);
-            reservationRequest.setUser(userRepository.findByLogin(reservationRequestDto.getUserDto().getLogin()));
-
-            return dtoMapper.convertToReservationRequestDto(reservationRequestRepository.save(reservationRequest));
+    public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestException {
+        if (reservationRequestRepository.existsByPostId(reservationRequestDto.getPostDto().getId())) {
+            throw new ReservationRequestException();
         }
-        return null;
+
+        ReservationRequest reservationRequest = dtoMapper.convertToReservationRequest(reservationRequestDto);
+        reservationRequest.setUser(userRepository.findByLogin(reservationRequestDto.getUserDto().getLogin()));
+
+        return dtoMapper.convertToReservationRequestDto(reservationRequestRepository.save(reservationRequest));
     }
 
     @Override
     public void deleteReservationRequestById(Long id) {
-        if (reservationRequestRepository.existsById(id)) {
-            reservationRequestRepository.deleteById(id);
-        }
+        reservationRequestRepository.deleteById(id);
     }
 
     @Scheduled(fixedDelay = 1000 * 60 * 60 * 24)
     @Override
-    public void deleteOldReservationRequest() {
-        List<ReservationRequest> reservationRequests = reservationRequestRepository.
-                findReservationRequestByDateBefore(LocalDate.now().minusDays(1));
-        if (reservationRequests != null) {
-            reservationRequestRepository.deleteAll(reservationRequests);
-        }
+    public void deleteOutdatedReservationRequest(Long outdatedPeriod) {
+
+        reservationRequestRepository.deleteOutdatedReservationRequest(LocalDate.now().minusDays());
     }
 
     @Override

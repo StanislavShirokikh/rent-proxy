@@ -18,4 +18,6 @@ public interface ReservationRequestRepository extends JpaRepository<ReservationR
     LocalDate findReservationRequestDateById(@Param("id")Long id);
     List<ReservationRequest> findReservationRequestByDateBefore(LocalDate localDate);
     Long getPostIdById(Long id);
+    @Query("DELETE from ReservationRequest WHERE date = :date")
+    void deleteOutdatedReservationRequest(@Param("date") LocalDate localDate);
 }
