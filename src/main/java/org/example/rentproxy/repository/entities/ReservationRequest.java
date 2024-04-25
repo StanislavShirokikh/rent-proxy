@@ -22,6 +22,7 @@ public class ReservationRequest {
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
+    @JsonIgnore
     private Post post;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
