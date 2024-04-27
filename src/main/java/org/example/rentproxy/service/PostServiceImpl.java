@@ -3,9 +3,10 @@ package org.example.rentproxy.service;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.mapper.DtoMapper;
+import org.example.rentproxy.mapper.EntityMapper;
 import org.example.rentproxy.repository.PostRepository;
 import org.example.rentproxy.repository.entities.Post;
-import org.example.rentproxy.service.mapper.DtoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +16,10 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final DtoMapper dtoMapper;
+    private final EntityMapper entityMapper;
     @Override
     public PostDto save(PostDto postDto) {
-        Post post = postRepository.save(dtoMapper.convertToPost(postDto));
+        Post post = postRepository.save(entityMapper.convertToPost(postDto));
         return dtoMapper.convertToPostDto(post);
     }
 
@@ -34,7 +36,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(PostDto postDto) {
-        Post post = postRepository.updatePost(dtoMapper.convertToPost(postDto));
+        Post post = postRepository.updatePost(entityMapper.convertToPost(postDto));
         return dtoMapper.convertToPostDto(post);
     }
 
