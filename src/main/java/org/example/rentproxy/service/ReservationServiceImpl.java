@@ -62,13 +62,13 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                confirmReservationRequest(reservationRequestDto.getId(), reservationRequestDto.getConfirmed()));
+                confirmReservationRequest(reservationRequestDto.getId()));
     }
 
     @Override
     public ReservationRequestDto archiveReservationRequest(ReservationRequestDto reservationRequestDto) {
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                archiveReservationRequest(reservationRequestDto.getId(), reservationRequestDto.getConfirmed()));
+                archiveReservationRequest(reservationRequestDto.getId()));
     }
 
     @Override
