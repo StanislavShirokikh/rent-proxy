@@ -27,8 +27,7 @@ public class ReservationRequest {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
     private User user;
-    @OneToOne(mappedBy = "reservationRequest", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Archive archive;
+    private Boolean confirmed;
+    private Boolean archived;
     private LocalDate date;
 }

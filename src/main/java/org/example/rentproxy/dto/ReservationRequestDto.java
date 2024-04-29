@@ -9,5 +9,7 @@ public class ReservationRequestDto {
     private Long id;
     private UserDto userDto;
     private PostDto postDto;
+    private Boolean confirmed;
+    private Boolean archived;
     private LocalDate date;
 }

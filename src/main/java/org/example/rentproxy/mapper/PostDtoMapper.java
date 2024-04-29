@@ -1,6 +1,5 @@
 package org.example.rentproxy.mapper;
 
-import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.ApartmentInfoDto;
 import org.example.rentproxy.dto.ApplianceDto;
 import org.example.rentproxy.dto.BalconyTypeDto;
@@ -19,10 +18,8 @@ import org.example.rentproxy.repository.entities.Post;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-@RequiredArgsConstructor
 @Component
-public class DtoMapper extends Mapper{
+public class PostDtoMapper extends Mapper{
     public PostDto convertToPostDto(Post post) {
         UserDto userDto = map(post.getUser(), UserDto.class);
 

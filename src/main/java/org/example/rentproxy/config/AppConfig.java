@@ -3,13 +3,11 @@ package org.example.rentproxy.config;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerServiceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
-
-import java.util.Map;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling

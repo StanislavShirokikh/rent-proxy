@@ -1,6 +1,5 @@
 package org.example.rentproxy.mapper;
 
-import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.repository.entities.ApartmentInfo;
 import org.example.rentproxy.repository.entities.Appliance;
@@ -17,9 +16,9 @@ import org.example.rentproxy.repository.entities.RoomsType;
 import org.example.rentproxy.repository.entities.TypeOfPayment;
 import org.example.rentproxy.repository.entities.User;
 import org.springframework.stereotype.Component;
-@RequiredArgsConstructor
+
 @Component
-public class EntityMapper extends Mapper{
+public class PostMapper extends Mapper{
     public Post convertToPost(PostDto postDto) {
         User user = null;
         if (postDto.getUserDto() != null) {

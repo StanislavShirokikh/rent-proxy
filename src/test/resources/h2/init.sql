@@ -18,7 +18,6 @@ DROP TABLE IF EXISTS rent_type;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS reservation_request;
-DROP TABLE IF EXISTS archive;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS users;
 
@@ -163,17 +162,12 @@ CREATE TABLE user_role
 
 CREATE TABLE reservation_request
 (
-    id       BIGSERIAL PRIMARY KEY,
-    post_id  BIGINT REFERENCES post (id),
-    users_id BIGINT REFERENCES users (id),
-    date     DATE
-);
-
-CREATE TABLE archive
-(
-    id                     BIGSERIAL PRIMARY KEY,
-    reservation_request_id BIGINT UNIQUE REFERENCES reservation_request (id),
-    date                   DATE
+    id        BIGSERIAL PRIMARY KEY,
+    post_id   BIGINT REFERENCES post (id),
+    users_id  BIGINT REFERENCES users (id),
+    confirmed BOOLEAN,
+    archived  BOOLEAN,
+    date      DATE
 );
 
 INSERT INTO type_of_payment(name)

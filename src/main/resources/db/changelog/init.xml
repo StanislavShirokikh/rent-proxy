@@ -306,25 +306,12 @@
         <sql>
             CREATE TABLE reservation_request
             (
-                id       BIGSERIAL PRIMARY KEY,
-                post_id  BIGINT REFERENCES post (id),
-                users_id BIGINT REFERENCES users (id),
-                date     DATE
-            );
-        </sql>
-    </changeSet>
-    <changeSet id="init-archive" author="Stanislav">
-        <preConditions>
-            <not>
-                <tableExists tableName="archive"/>
-            </not>
-        </preConditions>
-        <sql>
-            CREATE TABLE archive
-            (
-                id                     BIGSERIAL PRIMARY KEY,
-                reservation_request_id BIGINT UNIQUE REFERENCES reservation_request (id),
-                date                   DATE
+                id        BIGSERIAL PRIMARY KEY,
+                post_id   BIGINT REFERENCES post (id),
+                users_id  BIGINT REFERENCES users (id),
+                confirmed BOOLEAN,
+                archived  BOOLEAN,
+                date      DATE
             );
         </sql>
     </changeSet>

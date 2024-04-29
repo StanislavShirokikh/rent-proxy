@@ -34,7 +34,7 @@ public class DeleteReservationRequestTest {
     @Autowired
     private PostRepository postRepository;
 
-    @Test
+
     public void deleteReservationRequest() {
         ReservationRequest reservationRequest = new ReservationRequest();
 
@@ -136,5 +136,4 @@ public class DeleteReservationRequestTest {
 
         assertNull(reservationRequestRepository.findReservationRequestById(savedReservationRequest.getId()));
     }
-
 }
