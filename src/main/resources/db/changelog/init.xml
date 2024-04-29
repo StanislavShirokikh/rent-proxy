@@ -285,9 +285,13 @@
     </changeSet>
     <changeSet id="init-user-role" author="Stanislav">
         <preConditions>
-            <not>
-                <tableExists tableName="post"/>
-            </not>
+            <and>
+                <not>
+                    <tableExists tableName="user_role"/>
+                </not>
+                <tableExists tableName="users"/>
+                <tableExists tableName="role"/>
+            </and>
         </preConditions>
         <sql>
             CREATE TABLE user_role

@@ -38,11 +38,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void deleteReservationRequestById(Long id) {
+    public void deleteReservationRequestById(long id) {
         reservationRequestRepository.deleteById(id);
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24)
+    @Scheduled(fixedDelayString = "${rent-proxy.reservation.request.fix-delay}" )
     @Override
     public void deleteOutdatedReservationRequest() {
         reservationRequestRepository.deleteOutdatedReservationRequest(
@@ -51,24 +51,24 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationRequestDto getReservationRequestById(Long id) {
+    public ReservationRequestDto getReservationRequestById(long id) {
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.findReservationRequestById(id));
     }
 
     @Override
-    public ReservationRequestDto confirmReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestException {
-        if (!reservationRequestRepository.existsReservationRequestById(reservationRequestDto.getId())) {
-            throw new ReservationRequestException();
-        }
+    public ReservationRequestDto confirmReservationRequest(long id) throws ReservationRequestException {
+        validateRequestExisting(id);
 
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                confirmReservationRequest(reservationRequestDto.getId()));
+                confirmReservationRequest(id));
     }
 
     @Override
-    public ReservationRequestDto archiveReservationRequest(ReservationRequestDto reservationRequestDto) {
+    public ReservationRequestDto archiveReservationRequest(long id) throws ReservationRequestException {
+        validateRequestExisting(id);
+
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                archiveReservationRequest(reservationRequestDto.getId()));
+                archiveReservationRequest(id));
     }
 
     @Override
@@ -90,5 +90,11 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRequestDtoMapper.convertToListReservationRequestDto(
                 reservationRequestRepository.getArchivedReservationRequestsByUsername(username)
         );
+    }
+
+    private void validateRequestExisting(long id) throws ReservationRequestException {
+        if (!reservationRequestRepository.existsReservationRequestById(id)) {
+            throw new ReservationRequestException();
+        }
     }
 }

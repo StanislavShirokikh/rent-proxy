@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ReservationService {
     ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestException;
-    void deleteReservationRequestById(Long id);
+    void deleteReservationRequestById(long id);
     void deleteOutdatedReservationRequest();
-    ReservationRequestDto getReservationRequestById(Long id);
-    ReservationRequestDto confirmReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestException;
-    ReservationRequestDto archiveReservationRequest(ReservationRequestDto reservationRequestDto);
+    ReservationRequestDto getReservationRequestById(long id);
+    ReservationRequestDto confirmReservationRequest(long id) throws ReservationRequestException;
+    ReservationRequestDto archiveReservationRequest(long id) throws ReservationRequestException;
     List<ReservationRequestDto> getSentReservationsByUsername(String username);
     List<ReservationRequestDto> getReceivedReservationRequestsByUsername(String username);
     List<ReservationRequestDto> getArchivedReservationRequestsByUsername(String username);
