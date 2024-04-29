@@ -1,11 +1,12 @@
-DROP TABLE IF EXISTS furniture_to_apartment_info;
-DROP TABLE IF EXISTS furniture;
-DROP TABLE IF EXISTS kitchen_to_apartment_info;
-DROP TABLE IF EXISTS kitchen;
-DROP TABLE IF EXISTS appliance_to_apartment_info;
-DROP TABLE IF EXISTS appliance;
+DROP TABLE IF EXISTS reservation_request;
+DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS house_info;
 DROP TABLE IF EXISTS house_type;
+DROP TABLE IF EXISTS appliance_to_apartment_info;
+DROP TABLE IF EXISTS appliance;
+DROP TABLE IF EXISTS furniture_to_apartment_info;
+DROP TABLE IF EXISTS furniture;
 DROP TABLE IF EXISTS apartment_info;
 DROP TABLE IF EXISTS rooms_type;
 DROP TABLE IF EXISTS balcony_type;
@@ -14,11 +15,8 @@ DROP TABLE IF EXISTS bathroom_type;
 DROP TABLE IF EXISTS type_of_payment_to_rent_condition;
 DROP TABLE IF EXISTS type_of_payment;
 DROP TABLE IF EXISTS rent_condition_info;
-DROP TABLE IF EXISTS rent_type;
-DROP TABLE IF EXISTS user_role;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS reservation_request;
 DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS rent_type;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
