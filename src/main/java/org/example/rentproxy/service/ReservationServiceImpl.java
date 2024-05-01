@@ -3,9 +3,11 @@ package org.example.rentproxy.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.ReservationRequestDto;
-import org.example.rentproxy.exception.ReservationRequestException;
+import org.example.rentproxy.exception.ReservationRequestBadRequestException;
+import org.example.rentproxy.exception.ReservationRequestNotFoundException;
 import org.example.rentproxy.mapper.ReservationRequestDtoMapper;
 import org.example.rentproxy.mapper.ReservationRequestMapper;
+import org.example.rentproxy.repository.PostRepository;
 import org.example.rentproxy.repository.ReservationRequestRepository;
 import org.example.rentproxy.repository.UserRepository;
 import org.example.rentproxy.repository.entities.ReservationRequest;
@@ -21,18 +23,21 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRequestRepository reservationRequestRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final ReservationRequestDtoMapper reservationRequestDtoMapper;
     private final ReservationRequestMapper reservationRequestMapper;
     private final ReservationRequestProperties reservationRequestProperties;
 
     @Override
-    public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestException {
-        if (reservationRequestRepository.existsByPostId(reservationRequestDto.getPostDto().getId())) {
-            throw new ReservationRequestException();
+    public ReservationRequestDto createReservationRequest(ReservationRequestDto reservationRequestDto) throws ReservationRequestBadRequestException {
+        if (reservationRequestRepository.existsByUserLoginAndPostId(reservationRequestDto.getUserDto().getLogin(),
+                reservationRequestDto.getPostDto().getId())) {
+            throw new ReservationRequestBadRequestException();
         }
 
         ReservationRequest reservationRequest = reservationRequestMapper.convertToReservationRequest(reservationRequestDto);
         reservationRequest.setUser(userRepository.findByLogin(reservationRequestDto.getUserDto().getLogin()));
+        reservationRequest.setPost(postRepository.findPostById(reservationRequestDto.getPostDto().getId()));
 
         return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.save(reservationRequest));
     }
@@ -56,19 +61,19 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationRequestDto confirmReservationRequest(long id) throws ReservationRequestException {
+    public ReservationRequestDto confirmReservationRequest(long id) throws ReservationRequestNotFoundException {
         validateRequestExisting(id);
+        reservationRequestRepository.confirmReservationRequest(id);
 
-        return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                confirmReservationRequest(id));
+        return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.findReservationRequestById(id));
     }
 
     @Override
-    public ReservationRequestDto archiveReservationRequest(long id) throws ReservationRequestException {
+    public ReservationRequestDto archiveReservationRequest(long id) throws ReservationRequestNotFoundException {
         validateRequestExisting(id);
+        reservationRequestRepository.archiveReservationRequest(id);
 
-        return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.
-                archiveReservationRequest(id));
+        return reservationRequestDtoMapper.convertToReservationRequestDto(reservationRequestRepository.findReservationRequestById(id));
     }
 
     @Override
@@ -92,9 +97,9 @@ public class ReservationServiceImpl implements ReservationService {
         );
     }
 
-    private void validateRequestExisting(long id) throws ReservationRequestException {
+    private void validateRequestExisting(long id) throws ReservationRequestBadRequestException {
         if (!reservationRequestRepository.existsReservationRequestById(id)) {
-            throw new ReservationRequestException();
+            throw new ReservationRequestNotFoundException();
         }
     }
 }

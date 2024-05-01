@@ -22,13 +22,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class ResponseMapper extends Mapper{
+public class PostResponseMapper extends Mapper{
     public PostResponse convertToPostResponse(PostDto postDto) {
         UserResponse userResponse = null;
         if (postDto.getUserDto() != null) {
             userResponse = map(postDto.getUserDto(), UserResponse.class);
         }
-
         RentConditionInfoResponse rentConditionInfoResponse = map(postDto.getRentConditionInfoDto(),
                 RentConditionInfoResponse.class);
         rentConditionInfoResponse.setTypeOfPaymentResponse(mapSet(postDto.getRentConditionInfoDto().getTypeOfPaymentDto(),

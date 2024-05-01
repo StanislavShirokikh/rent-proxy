@@ -22,7 +22,7 @@ public interface PostController {
     @DeleteMapping("/delete")
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
-    @GetMapping("/get")
+    @PostMapping("/get")
     PostResponse findById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/update")

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ReservationRequestDtoMapper extends Mapper {
+public class ReservationRequestDtoMapper extends PostDtoMapper {
     public ReservationRequestDto convertToReservationRequestDto(ReservationRequest reservationRequest) {
         UserDto userDto = map(reservationRequest.getUser(), UserDto.class);
-        PostDto postDto = map(reservationRequest.getPost(), PostDto.class);
+        PostDto postDto = convertToPostDto(reservationRequest.getPost());
         ReservationRequestDto reservationRequestDto = map(reservationRequest, ReservationRequestDto.class);
         reservationRequestDto.setUserDto(userDto);
         reservationRequestDto.setPostDto(postDto);
