@@ -1,11 +1,11 @@
 package org.example.rentproxy.controller;
 
 import org.example.rentproxy.dto.ReservationRequestDto;
-import org.example.rentproxy.exception.ReservationRequestBadRequestException;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.ReservationRequestResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +20,8 @@ public interface ReservationController {
                                                         @AuthenticationPrincipal UserDetails userDetails);
     @PostMapping("/get")
     ReservationRequestResponse getReservationRequestById(@RequestBody WithIdRequest withIdRequest);
+    @DeleteMapping("delete")
+    void deleteReservationRequestById(@RequestBody WithIdRequest withIdRequest);
     @PostMapping("/confirm")
     ReservationRequestResponse confirmReservationRequest(@RequestBody WithIdRequest withIdRequest);
     @PostMapping("/archive")
@@ -29,6 +31,8 @@ public interface ReservationController {
     List<ReservationRequestResponse> getSentReservationsByUsername(@AuthenticationPrincipal UserDetails userDetails);
     @GetMapping("/received")
     List<ReservationRequestResponse> getReceivedReservationRequestsByUsername(@AuthenticationPrincipal UserDetails userDetails);
-    @GetMapping("/archived")
+    @GetMapping("/renter/archived")
     List<ReservationRequestResponse> getArchivedReservationRequestsByUsername(@AuthenticationPrincipal UserDetails userDetails);
+    @GetMapping("/landlord/archived")
+    List<ReservationRequestResponse> getArchivedReservationRequestsByPostUsername(@AuthenticationPrincipal UserDetails userDetails);
 }

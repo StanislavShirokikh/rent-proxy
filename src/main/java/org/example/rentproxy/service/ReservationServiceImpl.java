@@ -97,6 +97,13 @@ public class ReservationServiceImpl implements ReservationService {
         );
     }
 
+    @Override
+    public List<ReservationRequestDto> getArchivedReservationRequestsByPostUsername(String username) {
+        return reservationRequestDtoMapper.convertToListReservationRequestDto(
+                reservationRequestRepository.getArchivedReservationRequestsByPostUsername(username)
+        );
+    }
+
     private void validateRequestExisting(long id) throws ReservationRequestBadRequestException {
         if (!reservationRequestRepository.existsReservationRequestById(id)) {
             throw new ReservationRequestNotFoundException();

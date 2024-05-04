@@ -16,4 +16,6 @@ public interface ReservationService {
     List<ReservationRequestDto> getSentReservationsByUsername(String username);
     List<ReservationRequestDto> getReceivedReservationRequestsByUsername(String username);
     List<ReservationRequestDto> getArchivedReservationRequestsByUsername(String username);
+    List<ReservationRequestDto> getArchivedReservationRequestsByPostUsername(String username);
+
 }

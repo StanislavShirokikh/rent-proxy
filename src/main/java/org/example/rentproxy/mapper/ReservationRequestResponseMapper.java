@@ -1,8 +1,6 @@
 package org.example.rentproxy.mapper;
 
-import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.ReservationRequestDto;
-import org.example.rentproxy.repository.entities.Post;
 import org.example.rentproxy.response.PostResponse;
 import org.example.rentproxy.response.ReservationRequestResponse;
 import org.example.rentproxy.response.UserResponse;
@@ -28,7 +26,7 @@ public class ReservationRequestResponseMapper extends PostResponseMapper {
         return reservationRequestResponse;
     }
 
-    public List<ReservationRequestResponse> convertToListReservationRequestResponse(List<ReservationRequestDto> posts) {
-        return convertToList(posts, this::convertToReservationRequestResponse);
+    public List<ReservationRequestResponse> convertToListReservationRequestResponse(List<ReservationRequestDto> reservations) {
+        return convertToList(reservations, this::convertToReservationRequestResponse);
     }
 }
