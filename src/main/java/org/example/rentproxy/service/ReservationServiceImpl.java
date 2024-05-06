@@ -50,9 +50,10 @@ public class ReservationServiceImpl implements ReservationService {
     @Scheduled(fixedDelayString = "${rent-proxy.reservation.request.fix-delay}" )
     @Override
     public void deleteOutdatedReservationRequest() {
-        reservationRequestRepository.deleteOutdatedReservationRequest(
+        int countDeletedReservations = reservationRequestRepository.deleteOutdatedReservationRequest(
                 LocalDate.now().minusDays(reservationRequestProperties.getOutdatedPeriod())
         );
+        log.info("Deleted {} reservation requests", countDeletedReservations);
     }
 
     @Override

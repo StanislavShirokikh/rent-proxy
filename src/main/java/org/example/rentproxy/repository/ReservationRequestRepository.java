@@ -26,7 +26,7 @@ public interface ReservationRequestRepository extends JpaRepository<ReservationR
     @Modifying
     @Transactional
     @Query("DELETE from ReservationRequest WHERE date <= :date")
-    void deleteOutdatedReservationRequest(@Param("date") LocalDate date);
+    int deleteOutdatedReservationRequest(@Param("date") LocalDate date);
 
     @Modifying
     @Transactional
