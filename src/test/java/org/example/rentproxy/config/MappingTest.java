@@ -16,7 +16,7 @@ import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.mapper.PostDtoMapper;
 import org.example.rentproxy.mapper.PostMapper;
-import org.example.rentproxy.mapper.ResponseMapper;
+import org.example.rentproxy.mapper.PostResponseMapper;
 import org.example.rentproxy.repository.entities.ApartmentInfo;
 import org.example.rentproxy.repository.entities.Appliance;
 import org.example.rentproxy.repository.entities.BalconyType;
@@ -48,7 +48,7 @@ class MappingTest {
     @Autowired
     private PostDtoMapper postDtoMapper;
     @Autowired
-    private ResponseMapper responseMapper;
+    private PostResponseMapper postResponseMapper;
 
     @Test
     public void mapToUserDto() {
@@ -405,7 +405,7 @@ class MappingTest {
         postDto.setTitle("Супер класс");
         postDto.setDate(LocalDate.now());
 
-        PostResponse postResponse = responseMapper.convertToPostResponse(postDto);
+        PostResponse postResponse = postResponseMapper.convertToPostResponse(postDto);
 
         assertEquals(
                 postDto.getRentConditionInfoDto().getDeposit(),

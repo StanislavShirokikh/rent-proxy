@@ -13,33 +13,40 @@ import java.util.List;
 
 @Repository
 public interface ReservationRequestRepository extends JpaRepository<ReservationRequest, Long> {
-    boolean existsByPostId(Long id);
+
+    boolean existsByUserLoginAndPostId(String login, Long id);
 
     boolean existsReservationRequestById(Long id);
 
     ReservationRequest findReservationRequestById(Long id);
 
+    @Query("SELECT r.user.login from ReservationRequest r WHERE r.id = :id")
+    String findUserLoginById(@Param("id") long id);
+
     @Modifying
     @Transactional
-    @Query("DELETE from ReservationRequest WHERE date = :date")
+    @Query("DELETE from ReservationRequest WHERE date <= :date")
     void deleteOutdatedReservationRequest(@Param("date") LocalDate date);
 
     @Modifying
     @Transactional
     @Query("UPDATE ReservationRequest r SET r.confirmed = true WHERE r.id = :id")
-    ReservationRequest confirmReservationRequest(@Param("id") Long id);
+    void confirmReservationRequest(@Param("id") Long id);
 
     @Modifying
     @Transactional
     @Query("UPDATE ReservationRequest r SET r.archived = true WHERE r.id = :id")
-    ReservationRequest archiveReservationRequest(@Param("id") Long id);
+    void archiveReservationRequest(@Param("id") Long id);
 
-    @Query("SELECT r.id, r.post.id, r.user.id, r.date FROM ReservationRequest r WHERE r.confirmed = false AND r.user.login = :username")
+    @Query("SELECT r, p FROM ReservationRequest r JOIN Post p ON r.post.id = p.id WHERE r.archived != true AND r.user.login = :username")
     List<ReservationRequest> getSentReservationsByUsername(@Param("username") String username);
 
-    @Query("SELECT r.id, r.post.id, r.user.id FROM ReservationRequest r JOIN Post p WHERE r.confirmed = false AND p.user.login = :username")
+    @Query("SELECT r, p FROM ReservationRequest r JOIN Post p ON r.post.id = p.id WHERE r.archived != true AND p.user.login = :username")
     List<ReservationRequest> getReceivedReservationRequestsByUsername(@Param("username") String username);
 
-    @Query("SELECT r.id, r.post.id, r.user.id FROM ReservationRequest r JOIN Post p WHERE r.archived = true AND p.user.login = :username")
+    @Query("SELECT r, p FROM ReservationRequest r JOIN Post p ON r.post.id = p.id WHERE r.confirmed = true AND r.archived = true AND r.user.login = :username")
     List<ReservationRequest> getArchivedReservationRequestsByUsername(@Param("username") String username);
+
+    @Query("SELECT r, p FROM ReservationRequest r JOIN Post p ON r.post.id = p.id WHERE r.confirmed = true AND r.archived = true AND p.user.login = :username")
+    List<ReservationRequest> getArchivedReservationRequestsByPostUsername(@Param("username") String username);
 }

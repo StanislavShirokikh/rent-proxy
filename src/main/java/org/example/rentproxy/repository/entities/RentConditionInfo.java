@@ -11,6 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class RentConditionInfo {
     @OneToOne
     @JoinColumn(name = "post_id")
     @JsonIgnore
+    @ToString.Exclude
     private Post post;
     private Double deposit;
     private Integer commissionPercent;
