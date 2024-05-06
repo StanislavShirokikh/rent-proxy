@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.filter.Filter;
-import org.example.rentproxy.mapper.ResponseMapper;
+import org.example.rentproxy.mapper.PostResponseMapper;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
 import org.example.rentproxy.service.PostService;
@@ -20,14 +20,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostControllerImpl implements PostController{
     private final PostService postService;
-    private final ResponseMapper responseMapper;
+    private final PostResponseMapper postResponseMapper;
 
     @Override
     public PostResponse savePost(PostDto postDto, UserDetails userDetails) {
         UserDto userDto = new UserDto();
         userDto.setLogin(userDetails.getUsername());
         postDto.setUserDto(userDto);
-        return responseMapper.convertToPostResponse(postService.save(postDto));
+        return postResponseMapper.convertToPostResponse(postService.save(postDto));
     }
 
     @Override
@@ -39,16 +39,16 @@ public class PostControllerImpl implements PostController{
 
     @Override
     public PostResponse findById(WithIdRequest withIdRequest) {
-        return responseMapper.convertToPostResponse(postService.findPostById(withIdRequest.getId()));
+        return postResponseMapper.convertToPostResponse(postService.findPostById(withIdRequest.getId()));
     }
 
     @Override
     @PostAuthorize("returnObject.userResponse.login == principal.username || hasRole('ADMIN')")
     public PostResponse updateById(PostDto postDto) {
-            return responseMapper.convertToPostResponse(postService.updatePost(postDto));
+            return postResponseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
 
     public List<PostResponse> findPostsByFilter(Filter filter) {
-        return responseMapper.convertToListResponse(postService.findPostByFilter(filter));
+        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter));
     }
 }

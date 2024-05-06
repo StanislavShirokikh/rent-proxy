@@ -14,9 +14,9 @@ import org.example.rentproxy.dto.RepairTypeDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.mapper.DtoMapper;
-import org.example.rentproxy.mapper.EntityMapper;
-import org.example.rentproxy.mapper.ResponseMapper;
+import org.example.rentproxy.mapper.PostDtoMapper;
+import org.example.rentproxy.mapper.PostMapper;
+import org.example.rentproxy.mapper.PostResponseMapper;
 import org.example.rentproxy.repository.entities.ApartmentInfo;
 import org.example.rentproxy.repository.entities.Appliance;
 import org.example.rentproxy.repository.entities.BalconyType;
@@ -44,11 +44,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class MappingTest {
     @Autowired
-    private EntityMapper entityMapper;
+    private PostMapper postMapper;
     @Autowired
-    private DtoMapper dtoMapper;
+    private PostDtoMapper postDtoMapper;
     @Autowired
-    private ResponseMapper responseMapper;
+    private PostResponseMapper postResponseMapper;
 
     @Test
     public void mapToUserDto() {
@@ -60,7 +60,7 @@ class MappingTest {
         user.setLogin("mr_ivanov");
         user.setPassword("1234");
 
-        UserDto userDto = dtoMapper.map(user, UserDto.class);
+        UserDto userDto = postDtoMapper.map(user, UserDto.class);
 
         assertEquals(user.getId(), userDto.getId());
         assertEquals(user.getFirstName(), userDto.getFirstName());
@@ -159,7 +159,7 @@ class MappingTest {
         post.setTitle("Необходимое для комфортного проживания имеется");
         post.setDate(LocalDate.now());
 
-        PostDto postDto = dtoMapper.convertToPostDto(post);
+        PostDto postDto = postDtoMapper.convertToPostDto(post);
 
         assertEquals(post.getId(), postDto.getId());
         assertEquals(post.getRentConditionInfo().getId(), postDto.getRentConditionInfoDto().getId());
@@ -286,7 +286,7 @@ class MappingTest {
         postDto.setTitle("Необходимое для комфортного проживания имеется");
         postDto.setDate(LocalDate.now());
 
-        Post post = entityMapper.convertToPost(postDto);
+        Post post = postMapper.convertToPost(postDto);
 
         assertEquals(postDto.getRentConditionInfoDto().getDeposit(), post.getRentConditionInfo().getDeposit());
         assertEquals(postDto.getRentConditionInfoDto().getCommissionPercent(), post.getRentConditionInfo().getCommissionPercent());
@@ -405,7 +405,7 @@ class MappingTest {
         postDto.setTitle("Супер класс");
         postDto.setDate(LocalDate.now());
 
-        PostResponse postResponse = responseMapper.convertToPostResponse(postDto);
+        PostResponse postResponse = postResponseMapper.convertToPostResponse(postDto);
 
         assertEquals(
                 postDto.getRentConditionInfoDto().getDeposit(),

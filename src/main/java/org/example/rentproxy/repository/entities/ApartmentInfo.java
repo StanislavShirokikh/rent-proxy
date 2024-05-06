@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class ApartmentInfo {
     @OneToOne
     @JoinColumn(name = "post_id")
     @JsonIgnore
+    @ToString.Exclude
     private Post post;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "bathroom_type_id")

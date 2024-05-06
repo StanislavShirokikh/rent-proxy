@@ -285,15 +285,37 @@
     </changeSet>
     <changeSet id="init-user-role" author="Stanislav">
         <preConditions>
-            <not>
-                <tableExists tableName="user_role"/>
-            </not>
+            <and>
+                <not>
+                    <tableExists tableName="user_role"/>
+                </not>
+                <tableExists tableName="users"/>
+                <tableExists tableName="role"/>
+            </and>
         </preConditions>
         <sql>
             CREATE TABLE user_role
             (
                 users_id BIGINT REFERENCES users(id),
                 role_id BIGINT REFERENCES role (id)
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-reservation-request" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="reservation_request"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE reservation_request
+            (
+                id        BIGSERIAL PRIMARY KEY,
+                post_id   BIGINT REFERENCES post (id),
+                users_id  BIGINT REFERENCES users (id),
+                confirmed BOOLEAN,
+                archived  BOOLEAN,
+                date      DATE
             );
         </sql>
     </changeSet>
