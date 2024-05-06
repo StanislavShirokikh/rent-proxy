@@ -19,7 +19,7 @@ class ReservationServiceImplTest extends ReservationServiceBaseTest{
     @Test
     void deleteOutdatedReservations() {
         PostDto savedPost = createOutdatedPost();
-        UserDto savedRenter = createUserDto(
+        UserDto savedRenter = createUser(
                 "Имя",
                 "Имя",
                 "Имя",

@@ -93,7 +93,7 @@ public abstract class ReservationServiceBaseTest {
         houseInfoDto.setFloursCount(26);
 
         PostDto post = new PostDto();
-        post.setUserDto(createUserDto(
+        post.setUserDto(createUser(
                 "Имя1",
                 "Имя1",
                 "Имя1",
@@ -112,7 +112,7 @@ public abstract class ReservationServiceBaseTest {
         return postService.save(post);
     }
 
-    protected UserDto createUserDto(String firstName, String secondName, String lastName, String login, String password ) {
+    protected UserDto createUser(String firstName, String secondName, String lastName, String login, String password ) {
         UserDto userDto = new UserDto();
         userDto.setFirstName(firstName);
         userDto.setSecondName(secondName);
