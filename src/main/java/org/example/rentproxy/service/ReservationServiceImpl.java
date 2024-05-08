@@ -7,10 +7,10 @@ import org.example.rentproxy.exception.ReservationRequestBadRequestException;
 import org.example.rentproxy.exception.ReservationRequestNotFoundException;
 import org.example.rentproxy.mapper.ReservationRequestDtoMapper;
 import org.example.rentproxy.mapper.ReservationRequestMapper;
-import org.example.rentproxy.repository.PostRepository;
-import org.example.rentproxy.repository.ReservationRequestRepository;
-import org.example.rentproxy.repository.UserRepository;
-import org.example.rentproxy.repository.entities.ReservationRequest;
+import org.example.rentproxy.repository.jpa.PostRepository;
+import org.example.rentproxy.repository.jpa.ReservationRequestRepository;
+import org.example.rentproxy.repository.jpa.UserRepository;
+import org.example.rentproxy.repository.jpa.entities.ReservationRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
