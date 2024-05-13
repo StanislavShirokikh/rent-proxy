@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ImageService {
     PostImageDto uploadImages(Long postId, List<ImageDto> imageDto);
+    PostImageDto getImageByPostId(Long postId);
 }

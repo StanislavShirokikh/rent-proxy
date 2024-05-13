@@ -12,7 +12,10 @@ public class ImageMapper extends Mapper {
         if (imageDto == null) {
             return null;
         }
-        return map(imageDto, Image.class);
+        Image image = new Image();
+        image.setImage(imageDto.getImage());
+
+        return image;
     }
 
     public List<Image> convertToImageList(List<ImageDto> imageDtoList) {

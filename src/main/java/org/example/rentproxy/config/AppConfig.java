@@ -1,6 +1,5 @@
 package org.example.rentproxy.config;
 
-import org.example.rentproxy.repository.mongo.ImageRepository;
 import org.example.rentproxy.repository.mongo.PostImageRepository;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerServiceProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 @EnableRetry
-@EnableMongoRepositories(basePackageClasses = {ImageRepository.class, PostImageRepository.class})
+@EnableMongoRepositories(basePackageClasses = {PostImageRepository.class})
 public class AppConfig {
     @Bean
     public RetryTemplate retryTemplate(ApiLayerServiceProperties apiLayerServiceProperties) {
