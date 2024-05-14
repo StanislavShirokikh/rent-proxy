@@ -3,7 +3,7 @@ package org.example.rentproxy.mapper;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.ReservationRequestDto;
 import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.repository.entities.ReservationRequest;
+import org.example.rentproxy.repository.jpa.entities.ReservationRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

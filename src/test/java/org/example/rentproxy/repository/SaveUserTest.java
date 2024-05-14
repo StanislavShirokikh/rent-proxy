@@ -1,6 +1,7 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.repository.entities.User;
+import org.example.rentproxy.repository.jpa.entities.User;
+import org.example.rentproxy.repository.jpa.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

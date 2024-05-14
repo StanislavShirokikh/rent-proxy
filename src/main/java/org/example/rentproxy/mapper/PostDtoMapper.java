@@ -14,7 +14,7 @@ import org.example.rentproxy.dto.RepairTypeDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.repository.entities.Post;
+import org.example.rentproxy.repository.jpa.entities.Post;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

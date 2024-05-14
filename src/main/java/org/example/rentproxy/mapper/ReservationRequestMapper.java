@@ -1,9 +1,9 @@
 package org.example.rentproxy.mapper;
 
 import org.example.rentproxy.dto.ReservationRequestDto;
-import org.example.rentproxy.repository.entities.Post;
-import org.example.rentproxy.repository.entities.ReservationRequest;
-import org.example.rentproxy.repository.entities.User;
+import org.example.rentproxy.repository.jpa.entities.Post;
+import org.example.rentproxy.repository.jpa.entities.ReservationRequest;
+import org.example.rentproxy.repository.jpa.entities.User;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,6 @@
 package org.example.rentproxy.dto;
 
 import lombok.Data;
-import org.example.rentproxy.repository.entities.RentType;
 
 import java.time.LocalDate;
 
