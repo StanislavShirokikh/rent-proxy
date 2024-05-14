@@ -1,4 +1,4 @@
-package org.example.rentproxy.controller;
+package org.example.rentproxy.controller.rest;
 
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.response.UserResponse;

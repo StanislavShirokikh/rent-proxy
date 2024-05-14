@@ -1,4 +1,4 @@
-package org.example.rentproxy.controller;
+package org.example.rentproxy.controller.rest;
 
 import org.example.rentproxy.dto.ReservationRequestDto;
 import org.example.rentproxy.request.WithIdRequest;

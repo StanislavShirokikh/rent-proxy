@@ -1,4 +1,4 @@
-package org.example.rentproxy.controller;
+package org.example.rentproxy.controller.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.UserDto;
