@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-public class UploadingImageControllerImpl implements UploadingImageController {
+public class ImageLoaderControllerImpl implements ImageLoaderController {
     private final ImageService imageService;
 
     public PostImageDto uploadImage(long postId, List<MultipartFile> files) {

@@ -1,7 +1,6 @@
 package org.example.rentproxy.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.PostImageDto;
 import org.example.rentproxy.service.ImageService;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Slf4j
 @Controller
 public class ImageControllerImpl implements ImageController {
     private final ImageService imageService;

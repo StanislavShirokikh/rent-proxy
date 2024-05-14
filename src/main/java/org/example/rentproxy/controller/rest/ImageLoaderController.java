@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-public interface UploadingImageController {
+public interface ImageLoaderController {
     @PostMapping("/uploadImage")
     PostImageDto uploadImage(@RequestParam("postId") long postId,
                              @RequestParam("files") List<MultipartFile> files) throws IOException;
