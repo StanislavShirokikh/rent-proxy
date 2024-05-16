@@ -1,5 +1,7 @@
 package org.example.rentproxy.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.example.rentproxy.repository.mongo.PostImageRepository;
 import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerServiceProperties;
 import org.springframework.context.annotation.Bean;
