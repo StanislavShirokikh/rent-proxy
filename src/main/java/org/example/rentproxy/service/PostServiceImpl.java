@@ -45,7 +45,7 @@ public class PostServiceImpl implements PostService {
 
     private void changeCurrency(PostDto postDto) {
         String userCurrencyValue = userService.getUserParam(
-                postDto.getUserDto().getId(),
+                postDto.getUserDto().getId(), //TODO надо брать id пользователя, который запрос кинул, а не который создал объявление
                 UserParamName.DEFAULT_CURRENCY,
                 String.class
         );
