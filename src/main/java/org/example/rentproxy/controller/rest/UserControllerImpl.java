@@ -3,7 +3,7 @@ package org.example.rentproxy.controller.rest;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.response.UserResponse;
-import org.example.rentproxy.service.UserService;
+import org.example.rentproxy.service.user.UserService;
 import org.example.rentproxy.mapper.Mapper;
 import org.springframework.web.bind.annotation.RestController;
 

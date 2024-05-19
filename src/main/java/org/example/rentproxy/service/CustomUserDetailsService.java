@@ -8,6 +8,8 @@ import org.example.rentproxy.repository.jpa.UserRepository;
 import org.example.rentproxy.repository.jpa.entities.Role;
 import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.mapper.Mapper;
+import org.example.rentproxy.service.user.UserParamName;
+import org.example.rentproxy.service.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,6 +54,16 @@ public class CustomUserDetailsService implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         return mapper.map(userRepository.save(user), UserDto.class);
+    }
+
+    @Override
+    public UserDto getUserById(long id) {
+        return mapper.map(userRepository.findById(id), UserDto.class);
+    }
+
+    @Override
+    public <T> T getUserParam(long userId, UserParamName userParamName, Class<T> requiredType) {
+        return null;
     }
 
     private String[] convertRoles(Set<Role> roles) {

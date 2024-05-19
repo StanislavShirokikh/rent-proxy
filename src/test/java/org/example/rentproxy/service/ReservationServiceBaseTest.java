@@ -14,6 +14,7 @@ import org.example.rentproxy.dto.RepairTypeDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

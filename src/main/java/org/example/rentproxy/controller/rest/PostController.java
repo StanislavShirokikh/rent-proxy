@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface PostController {
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/get")
-    PostResponse findById(@RequestBody WithIdRequest withIdRequest);
+    PostResponse findById(@RequestBody WithIdRequest withIdRequest, @RequestParam String currency);
 
     @PostMapping("/update")
     PostResponse updateById(@RequestBody PostDto postDto);

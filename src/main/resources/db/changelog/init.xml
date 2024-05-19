@@ -319,4 +319,33 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="init-user-parameter" author="Stanislav">
+        <preConditions>
+                <not>
+                <tableExists tableName="user_parameter" />
+                </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE user_parameter
+            (
+                id        BIGSERIAL PRIMARY KEY,
+                name      VARCHAR,
+                value     VARCHAR
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-user-parameter-to-user" author="Stanislav">
+        <preConditions>
+                <not>
+                    <tableExists tableName="users_parameter_to_user" />
+                </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE user_parameter_to_user
+            (
+                user_id           BIGINT REFERENCES users (id),
+                user_parameter_id BIGINT REFERENCES user_parameter (id)
+            );
+        </sql>
+    </changeSet>
 </databaseChangeLog>
