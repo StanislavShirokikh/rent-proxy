@@ -7,6 +7,9 @@ import org.example.rentproxy.mapper.PostDtoMapper;
 import org.example.rentproxy.mapper.PostMapper;
 import org.example.rentproxy.repository.jpa.PostRepository;
 import org.example.rentproxy.repository.jpa.entities.Post;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerService;
+import org.example.rentproxy.service.user.UserParamName;
+import org.example.rentproxy.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
+    private final ApiLayerService apiLayerService;
     private final PostDtoMapper postDtoMapper;
     private final PostMapper postMapper;
+
     @Override
     public PostDto save(PostDto postDto) {
         Post post = postRepository.save(postMapper.convertToPost(postDto));
@@ -31,7 +37,38 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto findPostById(long id) {
         Post post = postRepository.findPostById(id);
-        return postDtoMapper.convertToPostDto(post);
+        PostDto postDto = postDtoMapper.convertToPostDto(post);
+        changeCurrency(postDto);
+
+        return postDto;
+    }
+
+    private void changeCurrency(PostDto postDto) {
+        String userCurrencyValue = userService.getUserParam(
+                postDto.getUserDto().getId(),
+                UserParamName.DEFAULT_CURRENCY,
+                String.class
+        );
+
+        if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(userCurrencyValue)) {
+            return;
+        }
+
+        double price = apiLayerService.convertCurrency(
+                postDto.getRentConditionInfoDto().getCurrency(),
+                userCurrencyValue,
+                String.valueOf(postDto.getRentConditionInfoDto().getPrice())
+        ).getResult();
+
+        postDto.getRentConditionInfoDto().setPrice(price);
+
+        double deposit = apiLayerService.convertCurrency(
+                postDto.getRentConditionInfoDto().getCurrency(),
+                userCurrencyValue,
+                String.valueOf(postDto.getRentConditionInfoDto().getDeposit())
+        ).getResult();
+
+        postDto.getRentConditionInfoDto().setDeposit(deposit);
     }
 
     @Override

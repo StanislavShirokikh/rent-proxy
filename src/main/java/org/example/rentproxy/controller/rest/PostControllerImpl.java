@@ -8,7 +8,6 @@ import org.example.rentproxy.mapper.PostResponseMapper;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
 import org.example.rentproxy.service.PostService;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerService;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -21,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostControllerImpl implements PostController{
     private final PostService postService;
-    private final ApiLayerService apiLayerService;
     private final PostResponseMapper postResponseMapper;
 
     @Override
@@ -40,20 +38,8 @@ public class PostControllerImpl implements PostController{
     }
 
     @Override
-    public PostResponse findById(WithIdRequest withIdRequest, String currency) {
+    public PostResponse findById(WithIdRequest withIdRequest) {
         PostDto postDto = postService.findPostById(withIdRequest.getId());
-        if (!postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(currency)) {
-            postDto.getRentConditionInfoDto().setPrice(
-                    apiLayerService.convertCurrency(
-                            postDto.getRentConditionInfoDto().getCurrency(),
-                            currency,
-                            String.valueOf(postDto.getRentConditionInfoDto().getPrice())).getResult());
-            postDto.getRentConditionInfoDto().setDeposit(apiLayerService.convertCurrency(
-                    postDto.getRentConditionInfoDto().getCurrency(),
-                    currency,
-                    String.valueOf(postDto.getRentConditionInfoDto().getDeposit())).getResult());
-        }
-
         return postResponseMapper.convertToPostResponse(postDto);
     }
 

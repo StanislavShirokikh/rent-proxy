@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.jpa.RoleRepository;
+import org.example.rentproxy.repository.jpa.UserParameterRepository;
 import org.example.rentproxy.repository.jpa.UserRepository;
 import org.example.rentproxy.repository.jpa.entities.Role;
 import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.mapper.Mapper;
+import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.example.rentproxy.service.user.UserParamName;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,7 @@ import java.util.Set;
 @Slf4j
 public class CustomUserDetailsService implements UserService {
     private final UserRepository userRepository;
+    private final UserParameterRepository userParameterRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final Mapper mapper;
@@ -63,7 +66,8 @@ public class CustomUserDetailsService implements UserService {
 
     @Override
     public <T> T getUserParam(long userId, UserParamName userParamName, Class<T> requiredType) {
-        return null;
+        UserParameter userParameter = userParameterRepository.findByNameAndUserId(userParamName.getName(), userId);
+        return mapper.map(userParameter.getValue(), requiredType);
     }
 
     private String[] convertRoles(Set<Role> roles) {

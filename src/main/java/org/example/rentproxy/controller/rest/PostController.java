@@ -23,7 +23,7 @@ public interface PostController {
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/get")
-    PostResponse findById(@RequestBody WithIdRequest withIdRequest, @RequestParam String currency);
+    PostResponse findById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/update")
     PostResponse updateById(@RequestBody PostDto postDto);

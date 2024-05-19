@@ -138,17 +138,4 @@
             VALUES ((SElECT id FROM users WHERE login = 'admin'), (SELECT id FROM role WHERE name = 'ADMIN'))
         </sql>
     </changeSet>
-    <changeSet id="data-for-user-parameter" author="Stanislav">
-        <preConditions>
-            <and>
-            <tableExists tableName="users"/>
-            <tableExists tableName="user_parameter"/>
-            <tableExists tableName="user_parameter_to_user"/>
-        </and>
-        </preConditions>
-        <sql>
-            INSERT INTO user_parameter(name, value)
-            VALUES ('defaultCurrency', 'USD')
-        </sql>
-    </changeSet>
 </databaseChangeLog>

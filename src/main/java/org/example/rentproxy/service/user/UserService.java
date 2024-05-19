@@ -9,7 +9,4 @@ public interface UserService extends UserDetailsService {
 
     <T> T getUserParam(long userId, UserParamName userParamName, Class<T> requiredType);
 
-    default void k() {
-        String value = getUserParam(12L, UserParamName.DEFAULT_CURRENCY, String.class);
-    }
 }
