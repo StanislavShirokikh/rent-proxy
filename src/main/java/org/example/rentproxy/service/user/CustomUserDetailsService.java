@@ -1,4 +1,4 @@
-package org.example.rentproxy.service;
+package org.example.rentproxy.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,6 @@ import org.example.rentproxy.repository.jpa.entities.Role;
 import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.mapper.Mapper;
 import org.example.rentproxy.repository.jpa.entities.UserParameter;
-import org.example.rentproxy.service.user.UserParamName;
-import org.example.rentproxy.service.user.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,6 +60,11 @@ public class CustomUserDetailsService implements UserService {
     @Override
     public UserDto getUserById(long id) {
         return mapper.map(userRepository.findById(id), UserDto.class);
+    }
+
+    @Override
+    public UserDto findUserByName(String username) {
+        return mapper.map(userRepository.findByLogin(username), UserDto.class);
     }
 
     @Override

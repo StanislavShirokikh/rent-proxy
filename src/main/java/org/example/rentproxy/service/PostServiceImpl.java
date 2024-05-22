@@ -35,17 +35,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto findPostById(long id) {
+    public PostDto findPostById(String username, long id) {
         Post post = postRepository.findPostById(id);
         PostDto postDto = postDtoMapper.convertToPostDto(post);
-        changeCurrency(postDto);
+        changeCurrency(username, postDto);
 
         return postDto;
     }
 
-    private void changeCurrency(PostDto postDto) {
-        String userCurrencyValue = userService.getUserParam(
-                postDto.getUserDto().getId(), //TODO надо брать id пользователя, который запрос кинул, а не который создал объявление
+    private void changeCurrency(String username, PostDto postDto) {
+        long userId = userService.findUserByName(username).getId();
+        String userCurrencyValue = userService.getUserParam(userId,
                 UserParamName.DEFAULT_CURRENCY,
                 String.class
         );
