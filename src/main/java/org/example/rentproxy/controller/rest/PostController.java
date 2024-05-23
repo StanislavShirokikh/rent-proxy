@@ -1,6 +1,7 @@
 package org.example.rentproxy.controller.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-@Tag(name = "PostController")
+@Tag(
+        name = "Контроллер объявлений",
+        description = "Управляет созданием, удалением, получением и обновлением объявлений"
+)
 @RequestMapping("/post")
 public interface PostController {
     @Operation(summary = "Создание объявления")
@@ -33,17 +37,43 @@ public interface PostController {
     PostResponse savePost(@RequestBody PostDto postDto, @AuthenticationPrincipal UserDetails userDetails);
 
     @Operation(summary = "Удаление по идентификатору объявления")
+    @ApiResponse(responseCode = "200", description = "Объявление удалено")
     @DeleteMapping("/delete")
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
     @Operation(summary = "Получение объявления по идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Объявление создано",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = PostResponse.class))
+                    }),
+    })
     @PostMapping("/get")
     PostResponse findById(@RequestBody WithIdRequest withIdRequest);
 
-
+    @Operation(summary = "Обновление объявления по идентификатору")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Объявление обновлено",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = PostResponse.class))
+                    }),
+    })
     @PostMapping("/update")
     PostResponse updateById(@RequestBody PostDto postDto);
 
+    @Operation(summary = "Получение отфильтрованного списка объявлений")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Объявления найдены",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(
+                                            schema = @Schema (implementation = PostResponse.class)
+                                    )
+                            )
+                    }),
+    })
     @PostMapping("/find")
     List<PostResponse> findPostsByFilter(@RequestBody Filter filter);
 }
