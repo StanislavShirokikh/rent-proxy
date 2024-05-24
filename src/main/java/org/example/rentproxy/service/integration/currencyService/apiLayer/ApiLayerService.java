@@ -16,15 +16,23 @@ public class ApiLayerService implements CurrencyService {
     private final ApiLayerServiceProperties apiLayerServiceProperties;
 
     @Override
-    public ApiLayerResponse convertCurrency(String fromCurrency, String toCurrency, String amount) {
+    public ApiLayerResponse convertCurrency(String fromCurrency, String toCurrency, double amount) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("apikey", apiLayerServiceProperties.getExchangeApiKey());
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         String finalUrl = getFinalUrl(apiLayerServiceProperties.getExchangeApiUrl());
-        return restTemplateRetryable.exchange(finalUrl, HttpMethod.GET, entity, ApiLayerResponse.class,
-                fromCurrency, toCurrency, amount).getBody();
+        return restTemplateRetryable.exchange(
+                        finalUrl,
+                        HttpMethod.GET,
+                        entity,
+                        ApiLayerResponse.class,
+                        fromCurrency,
+                        toCurrency,
+                        String.valueOf(amount)
+                )
+                .getBody();
     }
 
     private String getFinalUrl(String url) {

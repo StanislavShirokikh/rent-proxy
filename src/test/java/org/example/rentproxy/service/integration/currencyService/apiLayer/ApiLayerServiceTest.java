@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -30,7 +31,7 @@ public class ApiLayerServiceTest {
     public void convertTest() {
         createMockApiLayerResponse();
 
-        ApiLayerResponse apiLayerResponse = currencyService.convertCurrency("rub", "usd", "1000");
+        ApiLayerResponse apiLayerResponse = currencyService.convertCurrency("rub", "usd", 1000);
 
         assertEquals("2024-03-28", apiLayerResponse.getDate());
         assertEquals("rub", apiLayerResponse.getApiLayerRequest().getFrom());
@@ -59,13 +60,15 @@ public class ApiLayerServiceTest {
                 .build();
 
         when(restTemplateRetryable.exchange(
-                anyString(),
-                eq(HttpMethod.GET),
-                eq(entity),
-                eq(ApiLayerResponse.class),
-                eq("rub"),
-                eq("usd"),
-                eq("1000")))
+                    anyString(),
+                    eq(HttpMethod.GET),
+                    any(),
+                    eq(ApiLayerResponse.class),
+                    eq("rub"),
+                    eq("usd"),
+                    eq("1000.0")
+                )
+        )
                 .thenReturn(new ResponseEntity<>(apiLayerResponse, HttpStatus.OK));
     }
 }

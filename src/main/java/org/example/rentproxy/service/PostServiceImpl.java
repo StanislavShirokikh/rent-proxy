@@ -7,7 +7,7 @@ import org.example.rentproxy.mapper.PostDtoMapper;
 import org.example.rentproxy.mapper.PostMapper;
 import org.example.rentproxy.repository.jpa.PostRepository;
 import org.example.rentproxy.repository.jpa.entities.Post;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.ApiLayerService;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.user.UserParamName;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserService userService;
-    private final ApiLayerService apiLayerService;
+    private final CurrencyService currencyService;
     private final PostDtoMapper postDtoMapper;
     private final PostMapper postMapper;
 
@@ -54,18 +54,18 @@ public class PostServiceImpl implements PostService {
             return;
         }
 
-        double price = apiLayerService.convertCurrency(
+        double price = currencyService.convertCurrency(
                 postDto.getRentConditionInfoDto().getCurrency(),
                 userCurrencyValue,
-                String.valueOf(postDto.getRentConditionInfoDto().getPrice())
+                postDto.getRentConditionInfoDto().getPrice()
         ).getResult();
 
         postDto.getRentConditionInfoDto().setPrice(price);
 
-        double deposit = apiLayerService.convertCurrency(
+        double deposit = currencyService.convertCurrency(
                 postDto.getRentConditionInfoDto().getCurrency(),
                 userCurrencyValue,
-                String.valueOf(postDto.getRentConditionInfoDto().getDeposit())
+                postDto.getRentConditionInfoDto().getDeposit()
         ).getResult();
 
         postDto.getRentConditionInfoDto().setDeposit(deposit);

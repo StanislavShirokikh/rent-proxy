@@ -16,11 +16,9 @@ import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.jpa.UserParameterRepository;
 import org.example.rentproxy.repository.jpa.entities.UserParameter;
-import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -28,12 +26,10 @@ import java.util.Set;
 
 @SpringBootTest
 public class PostServiceBaseTest {
-    @MockBean
-    protected CurrencyService currencyService;
     @Autowired
     private UserService userService;
     @Autowired
-    protected PostService postService;
+    protected PostServiceImpl postService;
     @Autowired
     private UserParameterRepository userParameterRepository;
 
