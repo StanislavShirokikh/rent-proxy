@@ -18,6 +18,7 @@ import org.example.rentproxy.repository.jpa.UserParameterRepository;
 import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class PostServiceBaseTest {
     @Autowired
     private UserService userService;
@@ -32,7 +34,6 @@ public class PostServiceBaseTest {
     protected PostServiceImpl postService;
     @Autowired
     private UserParameterRepository userParameterRepository;
-
 
     protected PostDto createPost() {
         Set<TypeOfPaymentDto> typeOfPaymentSet = new HashSet<>();
