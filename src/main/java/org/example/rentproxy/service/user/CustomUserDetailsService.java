@@ -70,7 +70,7 @@ public class CustomUserDetailsService implements UserService {
     @Override
     public <T> T getUserParam(long userId, UserParamName userParamName, Class<T> requiredType) {
         UserParameter userParameter = userParameterRepository.findByNameAndUserId(userParamName.getName(), userId);
-        return mapper.map(userParameter.getValue(), requiredType);
+        return mapper.map(userParameter.getParamValue(), requiredType);
     }
 
     private String[] convertRoles(Set<Role> roles) {

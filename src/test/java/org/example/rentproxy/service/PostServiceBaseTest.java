@@ -14,32 +14,40 @@ import org.example.rentproxy.dto.RepairTypeDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.repository.jpa.UserParameterRepository;
+import org.example.rentproxy.repository.jpa.entities.UserParameter;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootTest
-
-public abstract class ReservationServiceBaseTest {
+public class PostServiceBaseTest {
+    @MockBean
+    protected CurrencyService currencyService;
     @Autowired
     private UserService userService;
     @Autowired
-    private PostService postService;
+    protected PostService postService;
+    @Autowired
+    private UserParameterRepository userParameterRepository;
 
-    protected PostDto createOutdatedPost() {
+
+    protected PostDto createPost() {
         Set<TypeOfPaymentDto> typeOfPaymentSet = new HashSet<>();
         TypeOfPaymentDto typeOfPaymentDto = new TypeOfPaymentDto();
         typeOfPaymentDto.setName("Включены в платёж");
         typeOfPaymentSet.add(typeOfPaymentDto);
 
         RentConditionInfoDto rentConditionInfoDto = new RentConditionInfoDto();
-        rentConditionInfoDto.setDeposit(30000.0);
+        rentConditionInfoDto.setDeposit(100.0);
         rentConditionInfoDto.setCommissionPercent(50);
-        rentConditionInfoDto.setPrice(60000.0);
+        rentConditionInfoDto.setPrice(1000.0);
         rentConditionInfoDto.setCurrency("RUB");
         rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentSet);
 
@@ -123,5 +131,14 @@ public abstract class ReservationServiceBaseTest {
         userDto.setPassword(password);
 
         return userService.createUser(userDto);
+    }
+
+    protected UserParameter createUserParameter(long userId) {
+        UserParameter userParameter = new UserParameter();
+        userParameter.setName("defaultCurrency");
+        userParameter.setParamValue("USD");
+        userParameter.setUserId(userId);
+
+        return userParameterRepository.save(userParameter);
     }
 }

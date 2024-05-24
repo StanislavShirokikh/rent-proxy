@@ -12,7 +12,6 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ReservationServiceImplTest extends ReservationServiceBaseTest{
-
     @Autowired
     private ReservationService reservationService;
 

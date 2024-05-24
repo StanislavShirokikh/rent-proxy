@@ -331,7 +331,7 @@
                 id      BIGSERIAL PRIMARY KEY,
                 user_id BIGINT REFERENCES users (id),
                 name    VARCHAR,
-                value   VARCHAR
+                param_value   VARCHAR
             );
         </sql>
     </changeSet>

@@ -18,5 +18,6 @@ public class UserParameter {
     @Column(name = "user_id")
     private Long userId;
     private String name;
-    private String value;
+    @Column(name = "param_value")
+    private String paramValue;
 }
