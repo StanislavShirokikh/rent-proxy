@@ -41,7 +41,10 @@ class PostServiceImplTest extends PostServiceBaseTest {
                 "findPostLastName",
                 "findPostLogin",
                 "findPostPassword");
-        UserParameter userParameter = createUserParameter(authenticatedUser.getId());
+        UserParameter userParameter = createUserParameter(
+                authenticatedUser.getId(),
+                "defaultCurrency",
+                "USD");
 
         when(currencyService.convertCurrency(
                         savedPost.getRentConditionInfoDto().getCurrency(),

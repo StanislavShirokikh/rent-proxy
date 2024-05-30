@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum UserParamName {
-    DEFAULT_CURRENCY("defaultCurrency");
+    DEFAULT_CURRENCY("defaultCurrency"),
+    AUTO_CONVERSION("autoConversion");
 
     private final String name;
 

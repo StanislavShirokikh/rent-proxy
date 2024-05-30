@@ -130,10 +130,10 @@ public class PostServiceBaseTest {
         return userService.createUser(userDto);
     }
 
-    protected UserParameter createUserParameter(long userId) {
+    protected UserParameter createUserParameter(long userId, String name, String paramValue) {
         UserParameter userParameter = new UserParameter();
-        userParameter.setName("defaultCurrency");
-        userParameter.setParamValue("USD");
+        userParameter.setName(name);
+        userParameter.setParamValue(paramValue);
         userParameter.setUserId(userId);
 
         return userParameterRepository.save(userParameter);

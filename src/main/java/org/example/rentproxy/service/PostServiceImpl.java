@@ -38,17 +38,21 @@ public class PostServiceImpl implements PostService {
     public PostDto findPostById(String username, long id) {
         Post post = postRepository.findPostById(id);
         PostDto postDto = postDtoMapper.convertToPostDto(post);
-        changeCurrency(username, postDto);
+        long userId = userService.findUserByName(username).getId();
+        boolean isAutoConversionEnabled = userService.getUserParam(userId, UserParamName.AUTO_CONVERSION, Boolean.class);
+        if (isAutoConversionEnabled) {
+            changeCurrency(userId, postDto);
+        }
 
         return postDto;
     }
 
-    private void changeCurrency(String username, PostDto postDto) {
-        long userId = userService.findUserByName(username).getId();
+    private void changeCurrency(long userId, PostDto postDto) {
         String userCurrencyValue = userService.getUserParam(userId,
                 UserParamName.DEFAULT_CURRENCY,
                 String.class
         );
+
 
         if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(userCurrencyValue)) {
             return;
