@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +31,7 @@ class PostServiceImplTest extends PostServiceBaseTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @WithMockUser(username = "findPostLogin", password = "findPostPassword", authorities = "USER")
     @Test
     void getCorrectCurrencyAndValueInGetPostResponse() throws Exception {
         PostDto savedPost = createPost();
@@ -58,15 +59,14 @@ class PostServiceImplTest extends PostServiceBaseTest {
         WithIdRequest withIdRequest = new WithIdRequest();
         withIdRequest.setId(savedPost.getId());
 
-        MvcResult result = mockMvc.perform(post("/rent-proxy/post/get")
+        MvcResult result = mockMvc.perform(post("/post/get")
                         .content(objectMapper.writeValueAsString(withIdRequest))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("findPostLogin", "findPostPassword")))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(savedPost.getId()))
-                .andExpect(jsonPath("$.rentConditionInfoDto.deposit").value(10.0))
-                .andExpect(jsonPath("$.rentConditionInfoDto.price").value(100.0))
-                .andExpect(jsonPath("$.rentConditionInfoDto.currency").value("USD"))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(10.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(100.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value("USD"))
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
@@ -74,15 +74,15 @@ class PostServiceImplTest extends PostServiceBaseTest {
 
         assertEquals(savedPost.getId(), postResponse.getId());
         assertEquals(
-                savedPost.getRentConditionInfoDto().getDeposit(),
+                10.0,
                 postResponse.getRentConditionInfoResponse().getDeposit()
         );
         assertEquals(
-                savedPost.getRentConditionInfoDto().getPrice(),
+                100.0,
                 postResponse.getRentConditionInfoResponse().getPrice()
         );
         assertEquals(
-                savedPost.getRentConditionInfoDto().getCurrency(),
+                "USD",
                 postResponse.getRentConditionInfoResponse().getCurrency()
         );
     }

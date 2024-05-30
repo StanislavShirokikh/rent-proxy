@@ -23,10 +23,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/user/register").anonymous()
-                                .requestMatchers("/post/get", "/post/find",
-                                        "/convert/test").permitAll()
-                                .anyRequest().hasAnyRole("USER", "ADMIN")
+                                .anyRequest().permitAll()
+//                                .requestMatchers("/post/get").permitAll()
+//                                .requestMatchers("/user/register").anonymous()
+//                                .requestMatchers("/post/find", "/convert/test").anonymous()
+//                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .build();
