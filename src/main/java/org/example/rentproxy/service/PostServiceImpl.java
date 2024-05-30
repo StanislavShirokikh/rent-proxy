@@ -69,6 +69,7 @@ public class PostServiceImpl implements PostService {
         ).getResult();
 
         postDto.getRentConditionInfoDto().setDeposit(deposit);
+        postDto.getRentConditionInfoDto().setCurrency(userCurrencyValue);
     }
 
     @Override
