@@ -34,22 +34,22 @@ class PostServiceImplTest extends PostServiceBaseTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser(username = "findPostLogin", password = "findPostPassword", authorities = "USER")
+    @WithMockUser(username = "findPostWithAutoConversionLogin", password = "findPosWithAutoConversionPassword", authorities = "USER")
     @Test
-    void getCorrectCurrencyAndValueInGetPostResponse() throws Exception {
+    void getCorrectCurrencyAndValueInGetPostResponseWithAutoConversion() throws Exception {
         UserDto landlord = createUser(
                 "Имя1",
                 "Имя1",
                 "Имя1",
-                "landlordGetCorrectCurrencyAndValueInGetPostResponse",
-                "landlordGetCorrectCurrencyAndValueInGetPostResponse");
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithAutoConversionLogin",
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithAutoConversionPassword");
         PostDto savedPost = createPost(landlord, 1000.0);
         UserDto authenticatedUser = createUser(
                 "findPostFirstName",
                 "findPostSecondName",
                 "findPostLastName",
-                "findPostLogin",
-                "findPostPassword");
+                "findPostWithAutoConversionLogin",
+                "findPosWithAutoConversionPassword");
         UserParameter defaultCurrencyParam = createUserParameter(
                 authenticatedUser.getId(),
                 UserParamName.DEFAULT_CURRENCY.getName(),
@@ -103,15 +103,87 @@ class PostServiceImplTest extends PostServiceBaseTest {
         );
     }
 
-    @WithMockUser(username = "findPostByFilterLogin", password = "findPostByFilterPassword", authorities = "USER")
+    @WithMockUser(
+            username = "findPostWithoutAutoConversionLogin",
+            password = "findPostWithoutAutoConversionPassword",
+            authorities = "USER"
+    )
     @Test
-    void getCorrectCurrencyAndValueInGetPostsByFilterResponse() throws Exception {
+    void getCorrectCurrencyAndValueInGetPostResponseWithoutAutoConversion() throws Exception {
         UserDto landlord = createUser(
                 "Имя1",
                 "Имя1",
                 "Имя1",
-                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponseLogin",
-                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponsePassword");
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithoutAutoConversionLogin",
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithoutAutoConversionPassword");
+        PostDto savedPost = createPost(landlord, 1000.0);
+        UserDto authenticatedUser = createUser(
+                "findPostFirstName",
+                "findPostSecondName",
+                "findPostLastName",
+                "findPostWithoutAutoConversionLogin",
+                "findPostWithoutAutoConversionPassword");
+        createUserParameter(
+                authenticatedUser.getId(),
+                UserParamName.DEFAULT_CURRENCY.getName(),
+                "USD");
+        createUserParameter(
+                authenticatedUser.getId(),
+                UserParamName.AUTO_CONVERSION.getName(),
+                "false");
+
+
+        WithIdRequest withIdRequest = new WithIdRequest();
+        withIdRequest.setId(savedPost.getId());
+
+        MvcResult result = mockMvc.perform(post("/post/get")
+                        .content(objectMapper.writeValueAsString(withIdRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(savedPost.getId()))
+                .andExpect(
+                        jsonPath("$.rentConditionInfoResponse.deposit")
+                                .value(savedPost.getRentConditionInfoDto().getDeposit())
+                )
+                .andExpect(
+                        jsonPath("$.rentConditionInfoResponse.price")
+                                .value(savedPost.getRentConditionInfoDto().getPrice()))
+                .andExpect(
+                        jsonPath("$.rentConditionInfoResponse.currency")
+                                .value(savedPost.getRentConditionInfoDto().getCurrency()))
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        PostResponse postResponse = objectMapper.readValue(content, PostResponse.class);
+
+        assertEquals(savedPost.getId(), postResponse.getId());
+        assertEquals(
+                savedPost.getRentConditionInfoDto().getDeposit(),
+                postResponse.getRentConditionInfoResponse().getDeposit()
+        );
+        assertEquals(
+                savedPost.getRentConditionInfoDto().getPrice(),
+                postResponse.getRentConditionInfoResponse().getPrice()
+        );
+        assertEquals(
+                savedPost.getRentConditionInfoDto().getCurrency(),
+                postResponse.getRentConditionInfoResponse().getCurrency()
+        );
+    }
+
+    @WithMockUser(
+            username = "findPostByFilterWithAutoConversionLogin",
+            password = "findPostByFilterWithAutoConversionPassword",
+            authorities = "USER"
+    )
+    @Test
+    void getCorrectCurrencyAndValueInGetPostsByFilterResponseWithAutoConversion() throws Exception {
+        UserDto landlord = createUser(
+                "Имя1",
+                "Имя1",
+                "Имя1",
+                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponseWithAutoConversionLogin",
+                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponseWithAutoConversionPassword");
         PostDto savedPost1 = createPost(landlord, 0.5);
         PostDto savedPost2 = createPost(landlord, 0.7);
 
@@ -119,8 +191,8 @@ class PostServiceImplTest extends PostServiceBaseTest {
                 "findPostFirstName",
                 "findPostSecondName",
                 "findPostLastName",
-                "findPostByFilterLogin",
-                "findPostByFilterPassword");
+                "findPostByFilterWithAutoConversionLogin",
+                "findPostByFilterWithAutoConversionPassword");
 
         UserParameter defaultCurrencyParam = createUserParameter(
                 authenticatedUser.getId(),
@@ -177,6 +249,76 @@ class PostServiceImplTest extends PostServiceBaseTest {
                 .andExpect(jsonPath("$[1].rentConditionInfoResponse.deposit").value(10.0))
                 .andExpect(jsonPath("$[1].rentConditionInfoResponse.price").value(323232.0))
                 .andExpect(jsonPath("$[1].rentConditionInfoResponse.currency").value("USD"));
+    }
+
+    @WithMockUser(
+            username = "findPostByFilterWithoutAutoConversionLogin",
+            password = "findPostByFilterWithoutAutoConversionPassword",
+            authorities = "USER"
+    )
+    @Test
+    void getCorrectCurrencyAndValueInGetPostsByFilterResponseWithoutAutoConversion() throws Exception {
+        UserDto landlord = createUser(
+                "Имя1",
+                "Имя1",
+                "Имя1",
+                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponseWithoutAutoConversionLogin",
+                "landlordGetCorrectCurrencyAndValueInGetPostsByFilterResponseWithoutAutoConversionPassword");
+        PostDto savedPost1 = createPost(landlord, 0.01);
+        PostDto savedPost2 = createPost(landlord, 0.02);
+
+        UserDto authenticatedUser = createUser(
+                "findPostFirstName",
+                "findPostSecondName",
+                "findPostLastName",
+                "findPostByFilterWithoutAutoConversionLogin",
+                "findPostByFilterWithoutAutoConversionPassword");
+
+        UserParameter defaultCurrencyParam = createUserParameter(
+                authenticatedUser.getId(),
+                UserParamName.DEFAULT_CURRENCY.getName(),
+                "USD");
+        createUserParameter(
+                authenticatedUser.getId(),
+                UserParamName.AUTO_CONVERSION.getName(),
+                "false");
+
+        Filter filter = new Filter();
+        filter.setPostOrder(PostOrder.ASCENDING_PRICE);
+        filter.setMinPrice(0.01);
+        filter.setMaxPrice(0.02);
+        filter.setPageSize(2);
+        filter.setPageNumber(0);
+
+        mockMvc.perform(post("/post/find")
+                        .content(objectMapper.writeValueAsString(filter))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(savedPost1.getId()))
+                .andExpect(
+                        jsonPath("$[0].rentConditionInfoResponse.deposit")
+                                .value(savedPost1.getRentConditionInfoDto().getDeposit())
+                )
+                .andExpect(
+                        jsonPath("$[0].rentConditionInfoResponse.price")
+                                .value(savedPost1.getRentConditionInfoDto().getPrice())
+                )
+                .andExpect(
+                        jsonPath("$[0].rentConditionInfoResponse.currency")
+                                .value(savedPost1.getRentConditionInfoDto().getCurrency())
+                )
+
+                .andExpect(jsonPath("$[1].id").value(savedPost2.getId()))
+                .andExpect(
+                        jsonPath("$[1].rentConditionInfoResponse.deposit")
+                                .value(savedPost2.getRentConditionInfoDto().getDeposit())
+                )
+                .andExpect(
+                        jsonPath("$[1].rentConditionInfoResponse.price")
+                                .value(savedPost2.getRentConditionInfoDto().getPrice()))
+                .andExpect(
+                        jsonPath("$[1].rentConditionInfoResponse.currency")
+                                .value(savedPost2.getRentConditionInfoDto().getCurrency()));
     }
 
     @Test
