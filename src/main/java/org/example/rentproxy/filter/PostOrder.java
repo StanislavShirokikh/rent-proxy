@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum PostOrder {
-    DESCENDING_PRICE("price"),
-    ASCENDING_PRICE("price"),
+    DESCENDING_PRICE("rentConditionInfo.price"),
+    ASCENDING_PRICE("rentConditionInfo.price"),
     DESCENDING_DATE("date"),
     ASCENDING_DATE("date");
 

@@ -35,7 +35,7 @@ public class PostServiceBaseTest {
     @Autowired
     private UserParameterRepository userParameterRepository;
 
-    protected PostDto createPost() {
+    protected PostDto createPost(UserDto userDto, double price) {
         Set<TypeOfPaymentDto> typeOfPaymentSet = new HashSet<>();
         TypeOfPaymentDto typeOfPaymentDto = new TypeOfPaymentDto();
         typeOfPaymentDto.setName("Включены в платёж");
@@ -44,7 +44,7 @@ public class PostServiceBaseTest {
         RentConditionInfoDto rentConditionInfoDto = new RentConditionInfoDto();
         rentConditionInfoDto.setDeposit(100.0);
         rentConditionInfoDto.setCommissionPercent(50);
-        rentConditionInfoDto.setPrice(1000.0);
+        rentConditionInfoDto.setPrice(price);
         rentConditionInfoDto.setCurrency("RUB");
         rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentSet);
 
@@ -100,12 +100,7 @@ public class PostServiceBaseTest {
         houseInfoDto.setFloursCount(26);
 
         PostDto post = new PostDto();
-        post.setUserDto(createUser(
-                "Имя1",
-                "Имя1",
-                "Имя1",
-                "landlordDeleteOutdatedReservationRequestLogin",
-                "landlordDeleteOutdatedReservationRequestPassword"));
+        post.setUserDto(userDto);
         post.setRentConditionInfoDto(rentConditionInfoDto);
         post.setApartmentInfoDto(apartmentInfoDto);
         post.setHouseInfoDto(houseInfoDto);

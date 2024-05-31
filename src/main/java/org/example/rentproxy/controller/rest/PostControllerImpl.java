@@ -49,7 +49,7 @@ public class PostControllerImpl implements PostController{
             return postResponseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
 
-    public List<PostResponse> findPostsByFilter(Filter filter) {
-        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter));
+    public List<PostResponse> findPostsByFilter(Filter filter, UserDetails userDetails) {
+        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter, userDetails.getUsername()));
     }
 }

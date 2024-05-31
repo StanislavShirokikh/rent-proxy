@@ -28,5 +28,5 @@ public interface PostController {
     PostResponse updateById(@RequestBody PostDto postDto);
 
     @PostMapping("/find")
-    List<PostResponse> findPostsByFilter(@RequestBody Filter filter);
+    List<PostResponse> findPostsByFilter(@RequestBody Filter filter, @AuthenticationPrincipal UserDetails userDetails);
 }

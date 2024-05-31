@@ -38,13 +38,35 @@ public class PostServiceImpl implements PostService {
     public PostDto findPostById(String username, long id) {
         Post post = postRepository.findPostById(id);
         PostDto postDto = postDtoMapper.convertToPostDto(post);
+        changeCurrencyIfNeeded(username, postDto);
+
+        return postDto;
+    }
+
+    @Override
+    public PostDto updatePost(PostDto postDto) {
+        Post post = postRepository.updatePost(postMapper.convertToPost(postDto));
+        return postDtoMapper.convertToPostDto(post);
+    }
+
+    @Override
+    public List<PostDto> findPostByFilter(Filter filter, String username) {
+        List<Post> posts = postRepository.findPostByFilter(filter);
+
+        List<PostDto> postDtos = postDtoMapper.convertToListPostDto(posts);
+        if (postDtos != null && !postDtos.isEmpty()) {
+            postDtos.forEach(postDto -> changeCurrencyIfNeeded(username, postDto));
+        }
+
+        return postDtos;
+    }
+
+    private void changeCurrencyIfNeeded(String username, PostDto postDto) {
         long userId = userService.findUserByName(username).getId();
         boolean isAutoConversionEnabled = userService.getUserParam(userId, UserParamName.AUTO_CONVERSION, Boolean.class);
         if (isAutoConversionEnabled) {
             changeCurrency(userId, postDto);
         }
-
-        return postDto;
     }
 
     private void changeCurrency(long userId, PostDto postDto) {
@@ -52,7 +74,6 @@ public class PostServiceImpl implements PostService {
                 UserParamName.DEFAULT_CURRENCY,
                 String.class
         );
-
 
         if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(userCurrencyValue)) {
             return;
@@ -74,17 +95,5 @@ public class PostServiceImpl implements PostService {
 
         postDto.getRentConditionInfoDto().setDeposit(deposit);
         postDto.getRentConditionInfoDto().setCurrency(userCurrencyValue);
-    }
-
-    @Override
-    public PostDto updatePost(PostDto postDto) {
-        Post post = postRepository.updatePost(postMapper.convertToPost(postDto));
-        return postDtoMapper.convertToPostDto(post);
-    }
-
-    @Override
-    public List<PostDto> findPostByFilter(Filter filter) {
-        List<Post> posts = postRepository.findPostByFilter(filter);
-        return postDtoMapper.convertToListPostDto(posts);
     }
 }

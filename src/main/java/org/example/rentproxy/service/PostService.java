@@ -10,5 +10,5 @@ public interface PostService {
     void deletePostById(long id);
     PostDto findPostById(String username, long id);
     PostDto updatePost(PostDto postDto);
-    List<PostDto> findPostByFilter(Filter filter);
+    List<PostDto> findPostByFilter(Filter filter, String userName);
 }
