@@ -7,6 +7,9 @@ import org.example.rentproxy.mapper.PostDtoMapper;
 import org.example.rentproxy.mapper.PostMapper;
 import org.example.rentproxy.repository.jpa.PostRepository;
 import org.example.rentproxy.repository.jpa.entities.Post;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
+import org.example.rentproxy.service.user.UserParamName;
+import org.example.rentproxy.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
+    private final UserService userService;
+    private final CurrencyService currencyService;
     private final PostDtoMapper postDtoMapper;
     private final PostMapper postMapper;
+
     @Override
     public PostDto save(PostDto postDto) {
         Post post = postRepository.save(postMapper.convertToPost(postDto));
@@ -29,9 +35,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto findPostById(long id) {
+    public PostDto findPostById(String username, long id) {
         Post post = postRepository.findPostById(id);
-        return postDtoMapper.convertToPostDto(post);
+        PostDto postDto = postDtoMapper.convertToPostDto(post);
+        changeCurrencyIfNeeded(username, postDto);
+
+        return postDto;
     }
 
     @Override
@@ -41,8 +50,50 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findPostByFilter(Filter filter) {
+    public List<PostDto> findPostByFilter(Filter filter, String username) {
         List<Post> posts = postRepository.findPostByFilter(filter);
-        return postDtoMapper.convertToListPostDto(posts);
+
+        List<PostDto> postDtos = postDtoMapper.convertToListPostDto(posts);
+        if (postDtos != null && !postDtos.isEmpty()) {
+            postDtos.forEach(postDto -> changeCurrencyIfNeeded(username, postDto));
+        }
+
+        return postDtos;
+    }
+
+    private void changeCurrencyIfNeeded(String username, PostDto postDto) {
+        long userId = userService.findUserByName(username).getId();
+        boolean isAutoConversionEnabled = userService.getUserParam(userId, UserParamName.AUTO_CONVERSION, Boolean.class);
+        if (isAutoConversionEnabled) {
+            changeCurrency(userId, postDto);
+        }
+    }
+
+    private void changeCurrency(long userId, PostDto postDto) {
+        String userCurrencyValue = userService.getUserParam(userId,
+                UserParamName.DEFAULT_CURRENCY,
+                String.class
+        );
+
+        if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(userCurrencyValue)) {
+            return;
+        }
+
+        double price = currencyService.convertCurrency(
+                postDto.getRentConditionInfoDto().getCurrency(),
+                userCurrencyValue,
+                postDto.getRentConditionInfoDto().getPrice()
+        ).getResult();
+
+        postDto.getRentConditionInfoDto().setPrice(price);
+
+        double deposit = currencyService.convertCurrency(
+                postDto.getRentConditionInfoDto().getCurrency(),
+                userCurrencyValue,
+                postDto.getRentConditionInfoDto().getDeposit()
+        ).getResult();
+
+        postDto.getRentConditionInfoDto().setDeposit(deposit);
+        postDto.getRentConditionInfoDto().setCurrency(userCurrencyValue);
     }
 }

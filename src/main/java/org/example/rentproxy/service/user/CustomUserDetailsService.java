@@ -1,13 +1,15 @@
-package org.example.rentproxy.service;
+package org.example.rentproxy.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.repository.jpa.RoleRepository;
+import org.example.rentproxy.repository.jpa.UserParameterRepository;
 import org.example.rentproxy.repository.jpa.UserRepository;
 import org.example.rentproxy.repository.jpa.entities.Role;
 import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.mapper.Mapper;
+import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ import java.util.Set;
 @Slf4j
 public class CustomUserDetailsService implements UserService {
     private final UserRepository userRepository;
+    private final UserParameterRepository userParameterRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final Mapper mapper;
@@ -52,6 +55,22 @@ public class CustomUserDetailsService implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         return mapper.map(userRepository.save(user), UserDto.class);
+    }
+
+    @Override
+    public UserDto getUserById(long id) {
+        return mapper.map(userRepository.findById(id), UserDto.class);
+    }
+
+    @Override
+    public UserDto findUserByName(String username) {
+        return mapper.map(userRepository.findByLogin(username), UserDto.class);
+    }
+
+    @Override
+    public <T> T getUserParam(long userId, UserParamName userParamName, Class<T> requiredType) {
+        UserParameter userParameter = userParameterRepository.findByNameAndUserId(userParamName.getName(), userId);
+        return mapper.map(userParameter.getParamValue(), requiredType);
     }
 
     private String[] convertRoles(Set<Role> roles) {

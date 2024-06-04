@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS reservation_request;
 DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS user_parameter;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS house_info;
 DROP TABLE IF EXISTS house_type;
@@ -166,6 +167,14 @@ CREATE TABLE reservation_request
     confirmed BOOLEAN,
     archived  BOOLEAN,
     date      DATE
+);
+
+CREATE TABLE user_parameter
+(
+    id      BIGSERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users (id),
+    name    VARCHAR,
+    param_value   VARCHAR
 );
 
 INSERT INTO type_of_payment(name)

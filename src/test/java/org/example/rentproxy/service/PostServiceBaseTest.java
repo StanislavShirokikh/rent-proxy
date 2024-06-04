@@ -14,8 +14,11 @@ import org.example.rentproxy.dto.RepairTypeDto;
 import org.example.rentproxy.dto.RoomsTypeDto;
 import org.example.rentproxy.dto.TypeOfPaymentDto;
 import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.repository.jpa.UserParameterRepository;
+import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -23,23 +26,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootTest
-
-public abstract class ReservationServiceBaseTest {
+@AutoConfigureMockMvc
+public class PostServiceBaseTest {
     @Autowired
     private UserService userService;
     @Autowired
-    private PostService postService;
+    protected PostServiceImpl postService;
+    @Autowired
+    private UserParameterRepository userParameterRepository;
 
-    protected PostDto createOutdatedPost() {
+    protected PostDto createPost(UserDto userDto, double price) {
         Set<TypeOfPaymentDto> typeOfPaymentSet = new HashSet<>();
         TypeOfPaymentDto typeOfPaymentDto = new TypeOfPaymentDto();
         typeOfPaymentDto.setName("Включены в платёж");
         typeOfPaymentSet.add(typeOfPaymentDto);
 
         RentConditionInfoDto rentConditionInfoDto = new RentConditionInfoDto();
-        rentConditionInfoDto.setDeposit(30000.0);
+        rentConditionInfoDto.setDeposit(100.0);
         rentConditionInfoDto.setCommissionPercent(50);
-        rentConditionInfoDto.setPrice(60000.0);
+        rentConditionInfoDto.setPrice(price);
         rentConditionInfoDto.setCurrency("RUB");
         rentConditionInfoDto.setTypeOfPaymentDto(typeOfPaymentSet);
 
@@ -95,12 +100,7 @@ public abstract class ReservationServiceBaseTest {
         houseInfoDto.setFloursCount(26);
 
         PostDto post = new PostDto();
-        post.setUserDto(createUser(
-                "Имя1",
-                "Имя1",
-                "Имя1",
-                "landlordDeleteOutdatedReservationRequestLogin",
-                "landlordDeleteOutdatedReservationRequestPassword"));
+        post.setUserDto(userDto);
         post.setRentConditionInfoDto(rentConditionInfoDto);
         post.setApartmentInfoDto(apartmentInfoDto);
         post.setHouseInfoDto(houseInfoDto);
@@ -123,5 +123,14 @@ public abstract class ReservationServiceBaseTest {
         userDto.setPassword(password);
 
         return userService.createUser(userDto);
+    }
+
+    protected UserParameter createUserParameter(long userId, String name, String paramValue) {
+        UserParameter userParameter = new UserParameter();
+        userParameter.setName(name);
+        userParameter.setParamValue(paramValue);
+        userParameter.setUserId(userId);
+
+        return userParameterRepository.save(userParameter);
     }
 }

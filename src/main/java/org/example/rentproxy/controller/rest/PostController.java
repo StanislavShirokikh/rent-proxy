@@ -22,11 +22,11 @@ public interface PostController {
     void deleteById(@RequestBody WithIdRequest withIdRequest);
 
     @PostMapping("/get")
-    PostResponse findById(@RequestBody WithIdRequest withIdRequest);
+    PostResponse findById(@RequestBody WithIdRequest withIdRequest, @AuthenticationPrincipal UserDetails userDetails);
 
     @PostMapping("/update")
     PostResponse updateById(@RequestBody PostDto postDto);
 
     @PostMapping("/find")
-    List<PostResponse> findPostsByFilter(@RequestBody Filter filter);
+    List<PostResponse> findPostsByFilter(@RequestBody Filter filter, @AuthenticationPrincipal UserDetails userDetails);
 }

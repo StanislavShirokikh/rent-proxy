@@ -38,8 +38,9 @@ public class PostControllerImpl implements PostController{
     }
 
     @Override
-    public PostResponse findById(WithIdRequest withIdRequest) {
-        return postResponseMapper.convertToPostResponse(postService.findPostById(withIdRequest.getId()));
+    public PostResponse findById(WithIdRequest withIdRequest, UserDetails userDetails) {
+        PostDto postDto = postService.findPostById(userDetails.getUsername(), withIdRequest.getId());
+        return postResponseMapper.convertToPostResponse(postDto);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class PostControllerImpl implements PostController{
             return postResponseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
 
-    public List<PostResponse> findPostsByFilter(Filter filter) {
-        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter));
+    public List<PostResponse> findPostsByFilter(Filter filter, UserDetails userDetails) {
+        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter, userDetails.getUsername()));
     }
 }
