@@ -64,8 +64,9 @@ public class PostServiceImpl implements PostService {
     private void changeCurrencyIfNeeded(String username, PostDto postDto, String currencyValue) {
         if (username != null) {
             changeCurrencyForAuthenticatedUser(username, postDto);
+        } else {
+            changeCurrencyForAnonymousUser(postDto, currencyValue);
         }
-        changeCurrencyForAnonymousUser(postDto, currencyValue);
     }
 
     private void changeCurrencyForAnonymousUser(PostDto postDto, String currencyValueFromSession) {

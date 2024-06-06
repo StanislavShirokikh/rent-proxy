@@ -360,7 +360,8 @@ class PostServiceImplTest extends PostServiceBaseTest {
 
         mockMvc.perform(post("/post/get")
                         .content(objectMapper.writeValueAsString(withIdRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(savedPost.getId()))
                 .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(9.0))
