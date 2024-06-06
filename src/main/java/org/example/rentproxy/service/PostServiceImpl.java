@@ -35,10 +35,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto findPostById(String username, long id) {
+    public PostDto findPostById(String username, long id, String currencyValueFromSession) {
         Post post = postRepository.findPostById(id);
         PostDto postDto = postDtoMapper.convertToPostDto(post);
-        changeCurrencyIfNeeded(username, postDto);
+        changeCurrencyIfNeeded(username, postDto,  currencyValueFromSession);
 
         return postDto;
     }
@@ -50,38 +50,47 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> findPostByFilter(Filter filter, String username) {
+    public List<PostDto> findPostByFilter(Filter filter, String username, String currencyValueFromSession) {
         List<Post> posts = postRepository.findPostByFilter(filter);
 
         List<PostDto> postDtos = postDtoMapper.convertToListPostDto(posts);
         if (postDtos != null && !postDtos.isEmpty()) {
-            postDtos.forEach(postDto -> changeCurrencyIfNeeded(username, postDto));
+            postDtos.forEach(postDto -> changeCurrencyIfNeeded(username, postDto, currencyValueFromSession));
         }
 
         return postDtos;
     }
 
-    private void changeCurrencyIfNeeded(String username, PostDto postDto) {
-        long userId = userService.findUserByName(username).getId();
-        boolean isAutoConversionEnabled = userService.getUserParam(userId, UserParamName.AUTO_CONVERSION, Boolean.class);
-        if (isAutoConversionEnabled) {
-            changeCurrency(userId, postDto);
+    private void changeCurrencyIfNeeded(String username, PostDto postDto, String currencyValue) {
+        if (username != null) {
+            changeCurrencyForAuthenticatedUser(username, postDto);
+        }
+        changeCurrencyForAnonymousUser(postDto, currencyValue);
+    }
+
+    private void changeCurrencyForAnonymousUser(PostDto postDto, String currencyValueFromSession) {
+        if (currencyValueFromSession != null) {
+            changeCurrency(currencyValueFromSession, postDto);
         }
     }
 
-    private void changeCurrency(long userId, PostDto postDto) {
-        String userCurrencyValue = userService.getUserParam(userId,
-                UserParamName.DEFAULT_CURRENCY,
-                String.class
-        );
+    private void changeCurrencyForAuthenticatedUser(String username, PostDto postDto) {
+        long userId = userService.findUserByName(username).getId();
+        boolean isAutoConversionEnabled = userService.getUserParam(userId, UserParamName.AUTO_CONVERSION, Boolean.class);
+        if (isAutoConversionEnabled) {
+            String userCurrencyValue = userService.getUserParam(userId, UserParamName.DEFAULT_CURRENCY, String.class);
+            changeCurrency(userCurrencyValue, postDto);
+        }
+    }
 
-        if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(userCurrencyValue)) {
+    private void changeCurrency(String currencyValue, PostDto postDto) {
+        if (postDto.getRentConditionInfoDto().getCurrency().equalsIgnoreCase(currencyValue)) {
             return;
         }
 
         double price = currencyService.convertCurrency(
                 postDto.getRentConditionInfoDto().getCurrency(),
-                userCurrencyValue,
+                currencyValue,
                 postDto.getRentConditionInfoDto().getPrice()
         ).getResult();
 
@@ -89,11 +98,11 @@ public class PostServiceImpl implements PostService {
 
         double deposit = currencyService.convertCurrency(
                 postDto.getRentConditionInfoDto().getCurrency(),
-                userCurrencyValue,
+                currencyValue,
                 postDto.getRentConditionInfoDto().getDeposit()
         ).getResult();
 
         postDto.getRentConditionInfoDto().setDeposit(deposit);
-        postDto.getRentConditionInfoDto().setCurrency(userCurrencyValue);
+        postDto.getRentConditionInfoDto().setCurrency(currencyValue);
     }
 }

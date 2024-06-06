@@ -322,6 +322,54 @@ class PostServiceImplTest extends PostServiceBaseTest {
     }
 
     @Test
+    void getCorrectCurrencyAndValueInGetPostResponseWithConversionFromSession() throws Exception {
+        UserDto landlord = createUser(
+                "Имя1",
+                "Имя1",
+                "Имя1",
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithConversionFromSessionLogin",
+                "landlordGetCorrectCurrencyAndValueInGetPostResponseWithConversionFromSessionPassword");
+        PostDto savedPost = createPost(landlord, 1000.0);
+        String currencyValue = "USD";
+
+        when(currencyService.convertCurrency(
+                        savedPost.getRentConditionInfoDto().getCurrency(),
+                        currencyValue,
+                        savedPost.getRentConditionInfoDto().getPrice()
+                )
+        ).thenReturn(ApiLayerResponse.builder().result(90.0).build());
+
+        when(currencyService.convertCurrency(
+                savedPost.getRentConditionInfoDto().getCurrency(),
+                currencyValue,
+                savedPost.getRentConditionInfoDto().getDeposit())
+        ).thenReturn(ApiLayerResponse.builder().result(9.0).build());
+
+        WithIdRequest withIdRequest = new WithIdRequest();
+        withIdRequest.setId(savedPost.getId());
+
+        mockMvc.perform(post("/post/get")
+                        .param("currency", "USD")
+                        .content(objectMapper.writeValueAsString(withIdRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(savedPost.getId()))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(9.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(90.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value("USD"));
+
+        mockMvc.perform(post("/post/get")
+                        .content(objectMapper.writeValueAsString(withIdRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(savedPost.getId()))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(9.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(90.0))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value("USD"));
+
+    }
+
+    @Test
     void findPostByIdWhenUserIsAuthenticated() {
         UserDto landlord = createUser(
                 "Имя1",
@@ -358,7 +406,7 @@ class PostServiceImplTest extends PostServiceBaseTest {
                         savedPost.getRentConditionInfoDto().getDeposit())
         ).thenReturn(ApiLayerResponse.builder().result(10.0).build());
 
-        PostDto actualPost = postService.findPostById(authenticatedUser.getLogin(), savedPost.getId());
+        PostDto actualPost = postService.findPostById(authenticatedUser.getLogin(), savedPost.getId(), null );
 
         assertEquals(100.0, actualPost.getRentConditionInfoDto().getPrice());
         assertEquals(10.0, actualPost.getRentConditionInfoDto().getDeposit());
