@@ -1,6 +1,8 @@
 package org.example.rentproxy.controller.rest;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.controller.SessionHelper;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.filter.Filter;
@@ -38,8 +40,14 @@ public class PostControllerImpl implements PostController{
     }
 
     @Override
-    public PostResponse findById(WithIdRequest withIdRequest, UserDetails userDetails) {
-        PostDto postDto = postService.findPostById(userDetails.getUsername(), withIdRequest.getId());
+    public PostResponse findById(WithIdRequest withIdRequest,
+                                 UserDetails userDetails,
+                                 HttpSession session,
+                                 String currency) {
+        String currencySessionAttribute = SessionHelper.handleCurrencySessionAttribute(currency, session);
+        String username = userDetails != null ? userDetails.getUsername() : null;
+        PostDto postDto = postService.findPostById(username, withIdRequest.getId(), currencySessionAttribute);
+
         return postResponseMapper.convertToPostResponse(postDto);
     }
 
@@ -49,7 +57,9 @@ public class PostControllerImpl implements PostController{
             return postResponseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
 
-    public List<PostResponse> findPostsByFilter(Filter filter, UserDetails userDetails) {
-        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter, userDetails.getUsername()));
+    public List<PostResponse> findPostsByFilter(Filter filter, UserDetails userDetails, HttpSession session, String currency) {
+        String currencySessionAttribute = SessionHelper.handleCurrencySessionAttribute(currency, session);
+        String username = userDetails.getUsername() != null ? userDetails.getUsername() : null;
+        return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter, username, currencySessionAttribute));
     }
 }

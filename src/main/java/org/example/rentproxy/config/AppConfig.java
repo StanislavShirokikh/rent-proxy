@@ -10,8 +10,10 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 
 @Configuration
+@EnableJdbcHttpSession
 @EnableScheduling
 @EnableRetry
 @EnableMongoRepositories(basePackageClasses = {PostImageRepository.class})
