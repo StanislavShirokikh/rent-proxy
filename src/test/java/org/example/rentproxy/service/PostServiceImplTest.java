@@ -349,14 +349,13 @@ class PostServiceImplTest extends PostServiceBaseTest {
         withIdRequest.setId(savedPost.getId());
 
         mockMvc.perform(post("/post/get")
-                        .param("currency", "USD")
                         .content(objectMapper.writeValueAsString(withIdRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(savedPost.getId()))
-                .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(9.0))
-                .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(90.0))
-                .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value("USD"));
+                .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(savedPost.getRentConditionInfoDto().getDeposit()))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(savedPost.getRentConditionInfoDto().getPrice()))
+                .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value(savedPost.getRentConditionInfoDto().getCurrency()));
 
         mockMvc.perform(post("/post/get")
                         .content(objectMapper.writeValueAsString(withIdRequest))

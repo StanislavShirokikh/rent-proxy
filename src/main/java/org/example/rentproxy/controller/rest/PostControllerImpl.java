@@ -46,8 +46,8 @@ public class PostControllerImpl implements PostController{
                                  String currency) {
         String currencySessionAttribute = handleCurrencySessionAttribute(currency, session);
         String username = userDetails != null ? userDetails.getUsername() : null;
-
         PostDto postDto = postService.findPostById(username, withIdRequest.getId(), currencySessionAttribute);
+
         return postResponseMapper.convertToPostResponse(postDto);
     }
 
@@ -65,11 +65,26 @@ public class PostControllerImpl implements PostController{
 
     @Nullable
     private String handleCurrencySessionAttribute(String currency, HttpSession session) {
-        String value = null;
         if (currency != null) {
-            value = currency;
             session.setAttribute("DEFAULT_CURRENCY", currency);
         }
+
+        return getCurrencySessionAttribute(session);
+    }
+
+    private String getCurrencySessionAttribute(HttpSession session) {
+        String value = null;
+        if (isExpiredSession(session)) {
+            value = (String) session.getAttribute("DEFAULT_CURRENCY");
+        }
         return value;
+    }
+
+    private boolean isExpiredSession(HttpSession session) {
+        long currentTime = System.currentTimeMillis();
+        long lastAccessedTime = session.getLastAccessedTime();
+        long sessionTimeout = session.getMaxInactiveInterval() * 1000L;
+
+        return currentTime - lastAccessedTime < sessionTimeout;
     }
 }
