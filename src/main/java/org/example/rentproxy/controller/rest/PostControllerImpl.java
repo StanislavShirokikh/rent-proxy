@@ -1,8 +1,8 @@
 package org.example.rentproxy.controller.rest;
 
-import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.controller.SessionHelper;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.filter.Filter;
@@ -44,7 +44,7 @@ public class PostControllerImpl implements PostController{
                                  UserDetails userDetails,
                                  HttpSession session,
                                  String currency) {
-        String currencySessionAttribute = handleCurrencySessionAttribute(currency, session);
+        String currencySessionAttribute = SessionHelper.handleCurrencySessionAttribute(currency, session);
         String username = userDetails != null ? userDetails.getUsername() : null;
         PostDto postDto = postService.findPostById(username, withIdRequest.getId(), currencySessionAttribute);
 
@@ -58,33 +58,8 @@ public class PostControllerImpl implements PostController{
     }
 
     public List<PostResponse> findPostsByFilter(Filter filter, UserDetails userDetails, HttpSession session, String currency) {
-        String currencySessionAttribute = handleCurrencySessionAttribute(currency, session);
+        String currencySessionAttribute = SessionHelper.handleCurrencySessionAttribute(currency, session);
         String username = userDetails.getUsername() != null ? userDetails.getUsername() : null;
         return postResponseMapper.convertToListResponse(postService.findPostByFilter(filter, username, currencySessionAttribute));
-    }
-
-    @Nullable
-    private String handleCurrencySessionAttribute(String currency, HttpSession session) {
-        if (currency != null) {
-            session.setAttribute("DEFAULT_CURRENCY", currency);
-        }
-
-        return getCurrencySessionAttribute(session);
-    }
-
-    private String getCurrencySessionAttribute(HttpSession session) {
-        String value = null;
-        if (isExpiredSession(session)) {
-            value = (String) session.getAttribute("DEFAULT_CURRENCY");
-        }
-        return value;
-    }
-
-    private boolean isExpiredSession(HttpSession session) {
-        long currentTime = System.currentTimeMillis();
-        long lastAccessedTime = session.getLastAccessedTime();
-        long sessionTimeout = session.getMaxInactiveInterval() * 1000L;
-
-        return currentTime - lastAccessedTime < sessionTimeout;
     }
 }

@@ -358,6 +358,7 @@ class PostServiceImplTest extends PostServiceBaseTest {
                 .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value(savedPost.getRentConditionInfoDto().getCurrency()));
 
         mockMvc.perform(post("/post/get")
+                        .param("currency", "USD")
                         .content(objectMapper.writeValueAsString(withIdRequest))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -366,7 +367,6 @@ class PostServiceImplTest extends PostServiceBaseTest {
                 .andExpect(jsonPath("$.rentConditionInfoResponse.deposit").value(9.0))
                 .andExpect(jsonPath("$.rentConditionInfoResponse.price").value(90.0))
                 .andExpect(jsonPath("$.rentConditionInfoResponse.currency").value("USD"));
-
     }
 
     @Test
