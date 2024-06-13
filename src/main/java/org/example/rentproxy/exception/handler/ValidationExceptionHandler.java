@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestControllerAdvice
 @Slf4j
-public class PostValidationExceptionHandler {
+public class ValidationExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
