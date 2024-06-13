@@ -29,7 +29,10 @@ public class PostMapper extends Mapper{
         rentConditionInfo.setTypeOfPayment(mapSet(postDto.getRentConditionInfoDto().getTypeOfPaymentDto(), TypeOfPayment.class));
 
         ApartmentInfo apartmentInfo = map(postDto.getApartmentInfoDto(), ApartmentInfo.class);
-        BathroomType bathroomType = map(postDto.getApartmentInfoDto().getBathroomTypeDto(), BathroomType.class);
+        BathroomType bathroomType = null;
+        if (postDto.getApartmentInfoDto().getBathroomTypeDto() != null) {
+            bathroomType = map(postDto.getApartmentInfoDto().getBathroomTypeDto(), BathroomType.class);
+        }
         BalconyType balconyType = map(postDto.getApartmentInfoDto().getBalconyTypeDto(), BalconyType.class);
         RepairType repairType = map(postDto.getApartmentInfoDto().getRepairTypeDto(), RepairType.class);
         RoomsType roomsType = map(postDto.getApartmentInfoDto().getRoomsTypeDto(), RoomsType.class);
