@@ -15,6 +15,7 @@ public class ApiLayerService implements CurrencyService {
     private final RestTemplateRetryable restTemplateRetryable;
     private final ApiLayerServiceProperties apiLayerServiceProperties;
 
+
     @Override
     public ApiLayerResponse convertCurrency(String fromCurrency, String toCurrency, double amount) {
         HttpHeaders headers = new HttpHeaders();
