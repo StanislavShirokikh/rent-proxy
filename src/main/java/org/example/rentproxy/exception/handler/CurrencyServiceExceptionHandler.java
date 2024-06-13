@@ -2,7 +2,7 @@ package org.example.rentproxy.exception.handler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.rentproxy.config.metrics.UnsuccessfulCountOfCurrencyServiceResponsesCounter;
+import org.example.rentproxy.config.metrics.CurrencyServiceUnsuccessfulRequestCounter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.client.HttpClientErrorException;
 @Slf4j
 @RequiredArgsConstructor
 public class CurrencyServiceExceptionHandler {
-    private final UnsuccessfulCountOfCurrencyServiceResponsesCounter counter;
+    private final CurrencyServiceUnsuccessfulRequestCounter counter;
 
     @ExceptionHandler(HttpClientErrorException.TooManyRequests.class)
     @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
