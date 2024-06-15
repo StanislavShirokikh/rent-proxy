@@ -1,6 +1,7 @@
 package org.example.rentproxy.controller.rest;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.controller.SessionHelper;
 import org.example.rentproxy.dto.PostDto;
@@ -25,7 +26,7 @@ public class PostControllerImpl implements PostController{
     private final PostResponseMapper postResponseMapper;
 
     @Override
-    public PostResponse savePost(PostDto postDto, UserDetails userDetails) {
+    public PostResponse savePost(@Valid PostDto postDto, UserDetails userDetails) {
         UserDto userDto = new UserDto();
         userDto.setLogin(userDetails.getUsername());
         postDto.setUserDto(userDto);
@@ -53,7 +54,7 @@ public class PostControllerImpl implements PostController{
 
     @Override
     @PostAuthorize("returnObject.userResponse.login == principal.username || hasRole('ADMIN')")
-    public PostResponse updateById(PostDto postDto) {
+    public PostResponse updateById(@Valid PostDto postDto) {
             return postResponseMapper.convertToPostResponse(postService.updatePost(postDto));
     }
 

@@ -19,9 +19,9 @@ public class CurrencyServiceExceptionHandler {
     @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
     public ErrorMessageResponse handleApiRateLimitExceeded(HttpClientErrorException.TooManyRequests ex) {
         ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setMessage(ex.getResponseBodyAsString());
+        errorMessageResponse.setErrorMessage(ex.getResponseBodyAsString());
         counter.increment();
-        log.error(errorMessageResponse.getMessage());
+        log.error("Error while sending request to currency service", ex);
         return errorMessageResponse;
     }
 }
