@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.rentproxy.exception.handler.Marker;
-import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 @Data
-@Validated
 public class PostDto {
     @NotNull(groups = Marker.Reservation.class)
     private Long id;

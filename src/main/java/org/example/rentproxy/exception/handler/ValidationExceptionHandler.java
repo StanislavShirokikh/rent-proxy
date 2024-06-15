@@ -7,24 +7,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestControllerAdvice
 @Slf4j
 public class ValidationExceptionHandler {
-
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ErrorMessageResponse> catchMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        List<ErrorMessageResponse> errors = new ArrayList<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String errorMessage = error.getDefaultMessage();
-            ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-            errorMessageResponse.setMessage(errorMessage);
-            errors.add(errorMessageResponse);
-        });
+    public ErrorMessageResponse catchMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
+        String fieldName = ex.getBindingResult().getFieldError().getField();
+        ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
+        errorMessageResponse.setErrorMessage(errorMessage);
+        errorMessageResponse.setFieldName(fieldName);
 
-        return errors;
+        return errorMessageResponse;
     }
 }

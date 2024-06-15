@@ -4,12 +4,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Set;
 
 @Data
-@Validated
 public class ApartmentInfoDto {
     private Long id;
     @Valid

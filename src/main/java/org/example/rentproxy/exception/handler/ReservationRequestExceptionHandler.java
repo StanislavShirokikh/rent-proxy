@@ -15,8 +15,8 @@ public class ReservationRequestExceptionHandler {
     @ExceptionHandler(ReservationRequestBadRequestException.class)
     public ResponseEntity<ErrorMessageResponse> catchReservationRequestBadRequestException() {
         ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setMessage("Reservation Request with this id already exist");
-        log.error(errorMessageResponse.getMessage());
+        errorMessageResponse.setErrorMessage("Reservation Request with this id already exist");
+        log.error(errorMessageResponse.getErrorMessage());
 
         return new ResponseEntity<>(errorMessageResponse, HttpStatus.BAD_REQUEST);
     }
@@ -24,8 +24,8 @@ public class ReservationRequestExceptionHandler {
     @ExceptionHandler(ReservationRequestNotFoundException.class)
     public ResponseEntity<ErrorMessageResponse> catchReservationRequestNotFoundException() {
         ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setMessage("Reservation Request with this id not found");
-        log.error(errorMessageResponse.getMessage());
+        errorMessageResponse.setErrorMessage("Reservation Request with this id not found");
+        log.error(errorMessageResponse.getErrorMessage());
 
         return new ResponseEntity<>(errorMessageResponse, HttpStatus.BAD_REQUEST);
     }
