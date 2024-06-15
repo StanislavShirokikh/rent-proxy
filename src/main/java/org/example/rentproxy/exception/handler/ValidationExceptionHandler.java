@@ -19,6 +19,7 @@ public class ValidationExceptionHandler {
         errorMessageResponse.setErrorMessage(errorMessage);
         errorMessageResponse.setFieldName(fieldName);
 
+        log.error("Validation error", ex);
         return errorMessageResponse;
     }
 }
