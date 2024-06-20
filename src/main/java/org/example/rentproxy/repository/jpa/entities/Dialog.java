@@ -1,11 +1,13 @@
 package org.example.rentproxy.repository.jpa.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Data
 public class Dialog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

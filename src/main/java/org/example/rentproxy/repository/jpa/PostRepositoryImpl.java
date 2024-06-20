@@ -1,10 +1,7 @@
 package org.example.rentproxy.repository.jpa;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.repository.jpa.entities.Appliance;
-import org.example.rentproxy.repository.jpa.entities.Furniture;
-import org.example.rentproxy.repository.jpa.entities.Post;
-import org.example.rentproxy.repository.jpa.entities.TypeOfPayment;
+import org.example.rentproxy.repository.jpa.entities.*;
 import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.filter.PostOrder;
 import org.example.rentproxy.repository.jpa.specification.PostSpecification;
@@ -20,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PostRepositoryImpl implements PostRepository{
+public class PostRepositoryImpl implements PostRepository {
     private final PostJpaRepository postJpaRepository;
     private final UserRepository userRepository;
     private final ApplianceRepository applianceRepository;
@@ -66,11 +63,6 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public String findUserLoginByPostId(Long id) {
-        return postJpaRepository.findUserLoginByPostId(id);
-    }
-
-    @Override
     public Post findPostById(long id) {
         return postJpaRepository.findById(id).orElse(null);
     }
@@ -78,11 +70,11 @@ public class PostRepositoryImpl implements PostRepository{
     @Override
     public List<Post> findPostByFilter(Filter filter) {
         return postJpaRepository.findAll(
-                new PostSpecification(filter),
-                getSortWithPagination(
-                        filter.getPostOrder(),
-                        filter.getPageNumber(),
-                        filter.getPageSize())
+                        new PostSpecification(filter),
+                        getSortWithPagination(
+                                filter.getPostOrder(),
+                                filter.getPageNumber(),
+                                filter.getPageSize())
                 )
                 .getContent();
     }
@@ -131,7 +123,6 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
 
-
     private void updateApartmentInfoFromPost(Post post1, Post post2) {
         post1.getApartmentInfo()
                 .setBathroomType(bathroomTypeRepository
@@ -168,6 +159,7 @@ public class PostRepositoryImpl implements PostRepository{
                         .collect(Collectors.toSet()));
         post1.getApartmentInfo().setAppliance(fetchedAppliance);
     }
+
     private Pageable getSortWithPagination(PostOrder postOrder, Integer pageNumber, Integer pageSize) {
         Pageable pageable = null;
 
