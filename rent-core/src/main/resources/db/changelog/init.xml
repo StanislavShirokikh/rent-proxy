@@ -335,4 +335,41 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="init-dialog" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="dialog" />
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE dialog
+            (
+            id                 BIGSERIAL PRIMARY KEY,
+            post_id            BIGINT REFERENCES post (id),
+            sender_id          BIGINT REFERENCES users (id),
+            receiver_id        BIGINT REFERENCES users (id),
+            creation_date_time TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-message" author="Stanislav">
+        <preConditions>
+            <and>
+                <not>
+                    <tableExists tableName="message" />
+                </not>
+                <tableExists tableName="users"/>
+                <tableExists tableName="dialog"/>
+            </and>
+        </preConditions>
+        <sql>
+            CREATE TABLE message
+            (
+            id                 BIGSERIAL PRIMARY KEY,
+            dialog_id          BIGINT REFERENCES dialog (id),
+            message_text       VARCHAR,
+            creation_date_time TIMESTAMP
+            );
+        </sql>
+    </changeSet>
 </databaseChangeLog>
