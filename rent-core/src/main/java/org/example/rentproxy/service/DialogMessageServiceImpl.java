@@ -10,6 +10,8 @@ import org.example.rentproxy.repository.jpa.entities.Dialog;
 import org.example.rentproxy.repository.jpa.entities.Message;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DialogMessageServiceImpl implements DialogMessageService {
@@ -31,6 +33,16 @@ public class DialogMessageServiceImpl implements DialogMessageService {
         message.setDialog(dialog);
 
         return messageDtoMapper.convertToMessageDto(messageRepository.save(message));
+    }
+
+    @Override
+    public List<MessageDto> getMessagesByReceiverUsername(String username, long pageSize, long pageNumber) {
+        List<Message> messages = messageRepository.findMessagesByReceiverUsernameWithSortAndPagination(
+                username,
+                pageSize,
+                pageNumber
+        );
+        return messageDtoMapper.convertToListMessageDto(messages);
     }
 
     private Dialog getDialog(String senderName, long postId) {

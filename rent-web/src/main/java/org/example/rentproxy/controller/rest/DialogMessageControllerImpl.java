@@ -7,6 +7,8 @@ import org.example.rentproxy.service.DialogMessageService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class DialogMessageControllerImpl implements DialogMessageController{
@@ -14,5 +16,10 @@ public class DialogMessageControllerImpl implements DialogMessageController{
 
     public MessageDto sendMessage(UserDetails userDetails, SendMessageRequest sendMessageRequest) {
         return dialogMessageService.sendMessage(userDetails.getUsername(), sendMessageRequest.getPostId(), sendMessageRequest.getText());
+    }
+
+    @Override
+    public List<MessageDto> getMessages(UserDetails userDetails, long pageSize, long pageNumber) {
+        return dialogMessageService.getMessagesByReceiverUsername(userDetails.getUsername(), pageSize, pageNumber);
     }
 }
