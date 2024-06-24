@@ -2,6 +2,7 @@ package org.example.rentproxy.repository.jpa.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,13 +15,16 @@ public class Dialog {
     private Long id;
     @Column(name = "post_id")
     private Long postId;
-    @Column(name = "sender_id")
-    private Long senderId;
-    @Column(name = "receiver_id")
-    private Long receiverId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "dialog_id")
     private List<Message> messages;
+    @CreationTimestamp
     @Column(name = "creation_date_time")
     private LocalDateTime creationDateTime;
 }

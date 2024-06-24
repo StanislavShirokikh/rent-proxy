@@ -12,7 +12,7 @@ public class MessageDtoMapper {
     public MessageDto convertToMessageDto(Message message) {
         MessageDto messageDto = new MessageDto();
         messageDto.setId(message.getId());
-        messageDto.setDialogId(message.getDialogId());
+        messageDto.setDialogId(message.getDialog().getId());
         messageDto.setMessageText(message.getMessageText());
         messageDto.setCreationDateTime(message.getCreationDateTime());
 

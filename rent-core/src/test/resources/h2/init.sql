@@ -19,6 +19,8 @@ DROP TABLE IF EXISTS rent_condition_info;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS rent_type;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS dialog;
+DROP TABLE IF EXISTS message;
 DROP TABLE IF EXISTS SPRING_SESSION_ATTRIBUTES;
 DROP TABLE IF EXISTS SPRING_SESSION;
 
@@ -249,4 +251,20 @@ CREATE TABLE SPRING_SESSION_ATTRIBUTES (
                                            ATTRIBUTE_BYTES BYTEA NOT NULL,
                                            CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
                                            CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
+);
+
+CREATE TABLE dialog
+(
+            id                 BIGSERIAL PRIMARY KEY,
+            post_id            BIGINT REFERENCES post (id),
+            sender_id          BIGINT REFERENCES users (id),
+            receiver_id        BIGINT REFERENCES users (id),
+            creation_date_time TIMESTAMP
+);
+CREATE TABLE message
+(
+            id                 BIGSERIAL PRIMARY KEY,
+            dialog_id          BIGINT REFERENCES dialog (id),
+            message_text       VARCHAR,
+            creation_date_time TIMESTAMP
 );
