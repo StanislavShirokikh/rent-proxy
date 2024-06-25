@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class DialogDtoMapper {
     private final MessageDtoMapper messageDtoMapper;
 
-    public DialogDto convertToDialogDialog(Dialog dialog) {
+    public DialogDto convertToDialogDto(Dialog dialog) {
         DialogDto dialogDto = new DialogDto();
         dialogDto.setId(dialog.getId());
         dialogDto.setMessageDtos(messageDtoMapper.convertToListMessageDto(dialog.getMessages()));

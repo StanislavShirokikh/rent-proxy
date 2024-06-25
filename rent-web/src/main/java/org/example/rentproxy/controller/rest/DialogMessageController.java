@@ -1,5 +1,6 @@
 package org.example.rentproxy.controller.rest;
 
+import org.example.rentproxy.dto.DialogDto;
 import org.example.rentproxy.dto.MessageDto;
 import org.example.rentproxy.request.SendMessageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,4 +22,7 @@ public interface DialogMessageController {
             @RequestParam long pageSize,
             @RequestParam long pageNumber
     );
+
+    @GetMapping("/close")
+    DialogDto closeDialog(@AuthenticationPrincipal UserDetails userDetails, @RequestParam long chatId);
 }

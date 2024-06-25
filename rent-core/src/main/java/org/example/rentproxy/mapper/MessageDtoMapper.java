@@ -15,7 +15,7 @@ public class MessageDtoMapper {
             messageDto = new MessageDto();
             messageDto.setId(message.getId());
             messageDto.setDialogId(message.getDialog().getId());
-            messageDto.setMessageText(message.getMessageText());
+            messageDto.setText(message.getText());
             messageDto.setCreationDateTime(message.getCreationDateTime());
         }
 

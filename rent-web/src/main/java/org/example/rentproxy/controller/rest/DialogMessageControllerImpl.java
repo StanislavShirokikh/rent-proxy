@@ -1,6 +1,7 @@
 package org.example.rentproxy.controller.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.dto.DialogDto;
 import org.example.rentproxy.dto.MessageDto;
 import org.example.rentproxy.request.SendMessageRequest;
 import org.example.rentproxy.service.DialogMessageService;
@@ -21,5 +22,10 @@ public class DialogMessageControllerImpl implements DialogMessageController{
     @Override
     public List<MessageDto> getMessages(UserDetails userDetails, long pageSize, long pageNumber) {
         return dialogMessageService.getMessagesByReceiverUsername(userDetails.getUsername(), pageSize, pageNumber);
+    }
+
+    @Override
+    public DialogDto closeDialog(UserDetails userDetails, long chatId) {
+        return dialogMessageService.closeDialog(userDetails.getUsername(), chatId);
     }
 }

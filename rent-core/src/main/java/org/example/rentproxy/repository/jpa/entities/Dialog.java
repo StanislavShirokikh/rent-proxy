@@ -21,6 +21,8 @@ public class Dialog {
     @ManyToOne
     @JoinColumn(name = "receiver_id")
     private User receiver;
+    @Column(name = "is_closed")
+    private Boolean isClosed;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "dialog_id")
     private List<Message> messages;

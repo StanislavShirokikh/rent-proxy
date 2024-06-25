@@ -15,8 +15,7 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "dialog_id")
     private Dialog dialog;
-    @Column(name = "message_text")
-    private String messageText;
+    private String text;
     @CreationTimestamp
     @Column(name = "creation_date_time")
     private LocalDateTime creationDateTime;

@@ -372,4 +372,28 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="add-column-is-closed" author="Stanislav">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="dialog" columnName="is_closed" />
+            </not>
+        </preConditions>
+        <addColumn tableName="dialog">
+            <column name="is_closed" type="boolean" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="rename-column-message-text-in-table-message" author="Stanislav">
+        <preConditions>
+            <not>
+                <columnExists tableName="message" columnName="text"/>
+            </not>
+            <tableExists tableName="message"/>
+            <tableExists tableName="dialog"/>
+            <columnExists tableName="message" columnName="message_text"/>
+        </preConditions>
+        <sql>
+            ALTER TABLE message
+            RENAME COLUMN message_text TO text;
+        </sql>
+    </changeSet>
 </databaseChangeLog>

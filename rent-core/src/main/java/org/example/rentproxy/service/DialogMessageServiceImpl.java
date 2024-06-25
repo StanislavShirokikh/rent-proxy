@@ -2,8 +2,10 @@ package org.example.rentproxy.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.dto.DialogDto;
 import org.example.rentproxy.dto.MessageDto;
 import org.example.rentproxy.exception.ChatDisabledException;
+import org.example.rentproxy.mapper.DialogDtoMapper;
 import org.example.rentproxy.mapper.MessageDtoMapper;
 import org.example.rentproxy.repository.jpa.*;
 import org.example.rentproxy.repository.jpa.entities.Dialog;
@@ -20,6 +22,7 @@ public class DialogMessageServiceImpl implements DialogMessageService {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final MessageDtoMapper messageDtoMapper;
+    private final DialogDtoMapper dialogDtoMapper;
 
     @Transactional
     public MessageDto sendMessage(String username, long postId, String text) {
@@ -29,7 +32,7 @@ public class DialogMessageServiceImpl implements DialogMessageService {
         Dialog dialog = getDialog(username, postId);
 
         Message message = new Message();
-        message.setMessageText(text);
+        message.setText(text);
         message.setDialog(dialog);
 
         return messageDtoMapper.convertToMessageDto(messageRepository.save(message));
@@ -45,6 +48,14 @@ public class DialogMessageServiceImpl implements DialogMessageService {
         return messageDtoMapper.convertToListMessageDto(messages);
     }
 
+    @Transactional
+    @Override
+    public DialogDto closeDialog(String username, long chatId) {
+        Dialog dialog = dialogRepository.findDialogByUserIdAndDialogId(chatId, username);
+        dialog.setIsClosed(true);
+        return dialogDtoMapper.convertToDialogDto(dialogRepository.save(dialog));
+    }
+
     private Dialog getDialog(String senderName, long postId) {
         Dialog dialog = dialogRepository.findDialogBySenderLoginAndPostId(senderName, postId);
 
@@ -55,6 +66,7 @@ public class DialogMessageServiceImpl implements DialogMessageService {
         dialog.setPostId(postId);
         dialog.setSender(userRepository.findByLogin(senderName));
         dialog.setReceiver(userRepository.findByPostId(postId));
+        dialog.setIsClosed(false);
 
         return dialogRepository.save(dialog);
     }
