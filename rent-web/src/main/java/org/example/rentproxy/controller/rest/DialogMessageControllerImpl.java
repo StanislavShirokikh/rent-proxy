@@ -30,6 +30,11 @@ public class DialogMessageControllerImpl implements DialogMessageController{
     }
 
     @Override
+    public List<Long> findIdOpenedDialogs(UserDetails userDetails, long postId) {
+        return dialogMessageService.findIdOpenedDialogs(userDetails.getUsername(), postId);
+    }
+
+    @Override
     public DialogDto closeDialog(UserDetails userDetails, long chatId) {
         return dialogMessageService.closeDialog(userDetails.getUsername(), chatId);
     }

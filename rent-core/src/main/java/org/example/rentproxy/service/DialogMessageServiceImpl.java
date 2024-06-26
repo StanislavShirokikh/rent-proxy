@@ -64,6 +64,11 @@ public class DialogMessageServiceImpl implements DialogMessageService {
         return messageDtoMapper.convertToListMessageDto(messages);
     }
 
+    @Override
+    public List<Long> findIdOpenedDialogs(String username, long postId) {
+        return dialogRepository.findIdOpenDialogs(username, postId);
+    }
+
     @Transactional
     @Override
     public DialogDto closeDialog(String username, long chatId) {

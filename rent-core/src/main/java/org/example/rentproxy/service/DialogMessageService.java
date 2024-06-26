@@ -10,5 +10,5 @@ public interface DialogMessageService {
     List<MessageDto> getMessagesByReceiverUsername(String username, long pageSize, long pageNumber);
     DialogDto closeDialog(String username, long chatId);
     List<MessageDto> findUnreadMessageByReceiverUsername(String username, long pageSize, long pageNumber);
-
+    List<Long> findIdOpenedDialogs(String username, long postId);
 }

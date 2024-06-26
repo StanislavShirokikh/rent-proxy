@@ -32,4 +32,6 @@ public interface DialogMessageController {
             @RequestParam long pageSize,
             @RequestParam long pageNumber
     );
+    @GetMapping("/open")
+    List<Long> findIdOpenedDialogs(@AuthenticationPrincipal UserDetails userDetails, @RequestParam long postId);
 }
