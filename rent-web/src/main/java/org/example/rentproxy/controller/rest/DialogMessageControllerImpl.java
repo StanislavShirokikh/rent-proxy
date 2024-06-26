@@ -25,6 +25,11 @@ public class DialogMessageControllerImpl implements DialogMessageController{
     }
 
     @Override
+    public List<MessageDto> findUnreadMessages(UserDetails userDetails, long pageSize, long pageNumber) {
+        return dialogMessageService.findUnreadMessageByReceiverUsername(userDetails.getUsername(), pageSize, pageNumber);
+    }
+
+    @Override
     public DialogDto closeDialog(UserDetails userDetails, long chatId) {
         return dialogMessageService.closeDialog(userDetails.getUsername(), chatId);
     }

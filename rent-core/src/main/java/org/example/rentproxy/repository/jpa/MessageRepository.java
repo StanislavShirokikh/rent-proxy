@@ -13,13 +13,27 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query(
             "SELECT m FROM Message m " +
                     "JOIN m.dialog d " +
-                    "JOIN d.receiver u " +
-                    "WHERE u.login = :receiver " +
+                    "JOIN d.receiver r " +
+                    "WHERE r.login = :receiver " +
                     "ORDER BY m.creationDateTime " +
                     "LIMIT :pageSize " +
                     "OFFSET :pageNumber"
     )
     List<Message> findMessagesByReceiverUsernameWithSortAndPagination(
+            @Param("receiver") String receiver,
+            @Param("pageSize") long pageSize,
+            @Param("pageNumber") long pageNumber
+    );
+    @Query("SELECT m " +
+            "FROM Message m " +
+            "JOIN m.dialog d " +
+            "JOIN d.receiver r " +
+            "JOIN m.status ms " +
+            "WHERE r.login = :receiver AND ms.name = 'Непрочитано' " +
+            "ORDER BY m.creationDateTime " +
+            "LIMIT :pageSize " +
+            "OFFSET :pageNumber")
+    List<Message> findUnreadMessagesByReceiverUsername(
             @Param("receiver") String receiver,
             @Param("pageSize") long pageSize,
             @Param("pageNumber") long pageNumber

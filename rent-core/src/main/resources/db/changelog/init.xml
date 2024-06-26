@@ -396,4 +396,33 @@
             RENAME COLUMN message_text TO text;
         </sql>
     </changeSet>
+    <changeSet id="init-message-status" author="Stanislav">
+        <preConditions>
+            <not>
+            <tableExists tableName="message_status"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE message_status
+            (
+            id BIGSERIAL PRIMARY KEY,
+            name VARCHAR UNIQUE
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="add-column-message-status-id--to-message" author="Stanislav">
+        <preConditions>
+            <and>
+                <tableExists tableName="message"/>
+                <tableExists tableName="message_status"/>
+                <not>
+                    <columnExists tableName="message" columnName="message_status_id"/>
+                </not>
+            </and>
+        </preConditions>
+        <sql>
+            ALTER TABLE message
+            ADD message_status_id BIGINT REFERENCES message_status (id);
+        </sql>
+    </changeSet>
 </databaseChangeLog>

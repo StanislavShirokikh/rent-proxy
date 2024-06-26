@@ -15,6 +15,9 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "dialog_id")
     private Dialog dialog;
+    @ManyToOne
+    @JoinColumn(name = "message_status_id")
+    private Status status;
     private String text;
     @CreationTimestamp
     @Column(name = "creation_date_time")

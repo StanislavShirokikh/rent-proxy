@@ -138,4 +138,16 @@
             VALUES ((SElECT id FROM users WHERE login = 'admin'), (SELECT id FROM role WHERE name = 'ADMIN'))
         </sql>
     </changeSet>
+    <changeSet id="data-for-message-status" author="Stanislav">
+        <preConditions>
+            <and>
+                <tableExists tableName="message_status"/>
+            </and>
+        </preConditions>
+        <sql>
+            INSERT INTO message_status(name)
+            VALUES ('Непрочитано'),
+                   ('Прочитано')
+        </sql>
+    </changeSet>
 </databaseChangeLog>

@@ -25,4 +25,11 @@ public interface DialogMessageController {
 
     @PostMapping("/close")
     DialogDto closeDialog(@AuthenticationPrincipal UserDetails userDetails, @RequestParam long chatId);
+
+    @GetMapping("/unread")
+    List<MessageDto> findUnreadMessages(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam long pageSize,
+            @RequestParam long pageNumber
+    );
 }

@@ -23,9 +23,11 @@ public class DialogMessageServiceImpl implements DialogMessageService {
     private final ReservationRequestRepository reservationRequestRepository;
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
+    private final MessageStatusRepository messageStatusRepository;
     private final MessageDtoMapper messageDtoMapper;
     private final DialogDtoMapper dialogDtoMapper;
     private final PostRepository postRepository;
+
 
     @Transactional
     public MessageDto sendMessage(String username, long postId, String text) {
@@ -40,6 +42,7 @@ public class DialogMessageServiceImpl implements DialogMessageService {
 
         Message message = new Message();
         message.setText(text);
+        message.setStatus(messageStatusRepository.findByName(MessageStatus.UNREAD.getFieldName()));
         message.setDialog(dialog);
 
         return messageDtoMapper.convertToMessageDto(messageRepository.save(message));
@@ -52,6 +55,12 @@ public class DialogMessageServiceImpl implements DialogMessageService {
                 pageSize,
                 pageNumber
         );
+        return messageDtoMapper.convertToListMessageDto(messages);
+    }
+
+    @Override
+    public List<MessageDto> findUnreadMessageByReceiverUsername(String username, long pageSize, long pageNumber) {
+        List<Message> messages = messageRepository.findUnreadMessagesByReceiverUsername(username, pageSize, pageNumber);
         return messageDtoMapper.convertToListMessageDto(messages);
     }
 
