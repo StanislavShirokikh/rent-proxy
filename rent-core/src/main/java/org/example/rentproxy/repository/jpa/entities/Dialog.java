@@ -13,8 +13,9 @@ public class Dialog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "post_id")
-    private Long postId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;

@@ -23,6 +23,6 @@ public interface DialogMessageController {
             @RequestParam long pageNumber
     );
 
-    @GetMapping("/close")
+    @PostMapping("/close")
     DialogDto closeDialog(@AuthenticationPrincipal UserDetails userDetails, @RequestParam long chatId);
 }

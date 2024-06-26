@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.DialogDto;
 import org.example.rentproxy.dto.MessageDto;
-import org.example.rentproxy.exception.ChatDisabledException;
+import org.example.rentproxy.exception.DialogClosureNotAllowedException;
+import org.example.rentproxy.exception.DialogDisabledException;
+import org.example.rentproxy.exception.ClosedDialogException;
 import org.example.rentproxy.mapper.DialogDtoMapper;
 import org.example.rentproxy.mapper.MessageDtoMapper;
 import org.example.rentproxy.repository.jpa.*;
@@ -23,13 +25,18 @@ public class DialogMessageServiceImpl implements DialogMessageService {
     private final MessageRepository messageRepository;
     private final MessageDtoMapper messageDtoMapper;
     private final DialogDtoMapper dialogDtoMapper;
+    private final PostRepository postRepository;
 
     @Transactional
     public MessageDto sendMessage(String username, long postId, String text) {
         if (reservationRequestRepository.findArchivedByPostId(postId) > 0) {
-            throw new ChatDisabledException();
+            throw new DialogDisabledException();
         }
         Dialog dialog = getDialog(username, postId);
+
+        if (dialog.getIsClosed()) {
+            throw new ClosedDialogException();
+        }
 
         Message message = new Message();
         message.setText(text);
@@ -51,19 +58,21 @@ public class DialogMessageServiceImpl implements DialogMessageService {
     @Transactional
     @Override
     public DialogDto closeDialog(String username, long chatId) {
-        Dialog dialog = dialogRepository.findDialogByUserIdAndDialogId(chatId, username);
+        Dialog dialog = dialogRepository.findDialogByPostUserLoginAndDialogId(chatId, username);
+        if (dialog == null) {
+            throw new DialogClosureNotAllowedException();
+        }
         dialog.setIsClosed(true);
         return dialogDtoMapper.convertToDialogDto(dialogRepository.save(dialog));
     }
 
     private Dialog getDialog(String senderName, long postId) {
         Dialog dialog = dialogRepository.findDialogBySenderLoginAndPostId(senderName, postId);
-
         if (dialog != null) {
             return dialog;
         }
         dialog = new Dialog();
-        dialog.setPostId(postId);
+        dialog.setPost(postRepository.findPostById(postId));
         dialog.setSender(userRepository.findByLogin(senderName));
         dialog.setReceiver(userRepository.findByPostId(postId));
         dialog.setIsClosed(false);

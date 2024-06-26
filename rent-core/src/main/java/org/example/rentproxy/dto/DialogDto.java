@@ -9,8 +9,9 @@ import java.util.List;
 public class DialogDto {
     private Long id;
     private Long postId;
-    private UserDto sender;
-    private UserDto receiver;
+    private Long senderId;
+    private Long receiverId;
+    private Boolean isClosed;
     private List<MessageDto> messageDtos;
     private LocalDateTime creationDateTime;
 }

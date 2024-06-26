@@ -10,11 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface DialogRepository extends JpaRepository<Dialog, Long> {
     Dialog findDialogBySenderLoginAndPostId(String username, Long postId);
     @Query("SELECT d FROM Dialog d " +
-            "JOIN FETCH d.sender " +
-            "JOIN FETCH d.receiver " +
-            "JOIN FETCH d.messages " +
             "JOIN FETCH d.post p " +
             "JOIN FETCH p.user u " +
-            "WHERE d.id = :dialogId AND u.login = :userLogin")
-    Dialog findDialogByUserIdAndDialogId(@Param("dialogId") Long dialogId, @Param("userLogin") String userLogin);
+            "WHERE d.id = :dialogId AND u.login = :username")
+    Dialog findDialogByPostUserLoginAndDialogId(@Param("dialogId") Long dialogId, @Param("username") String username);
 }

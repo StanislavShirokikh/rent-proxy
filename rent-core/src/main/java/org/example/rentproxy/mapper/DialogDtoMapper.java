@@ -13,6 +13,10 @@ public class DialogDtoMapper {
     public DialogDto convertToDialogDto(Dialog dialog) {
         DialogDto dialogDto = new DialogDto();
         dialogDto.setId(dialog.getId());
+        dialogDto.setPostId(dialog.getPost().getId());
+        dialogDto.setSenderId(dialog.getSender().getId());
+        dialogDto.setReceiverId(dialog.getReceiver().getId());
+        dialogDto.setIsClosed(dialog.getIsClosed());
         dialogDto.setMessageDtos(messageDtoMapper.convertToListMessageDto(dialog.getMessages()));
         dialogDto.setCreationDateTime(dialog.getCreationDateTime());
 
