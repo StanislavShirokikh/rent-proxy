@@ -49,4 +49,6 @@ public interface ReservationRequestRepository extends JpaRepository<ReservationR
 
     @Query("SELECT r, p FROM ReservationRequest r JOIN Post p ON r.post.id = p.id WHERE r.confirmed = true AND r.archived = true AND p.user.login = :username")
     List<ReservationRequest> getArchivedReservationRequestsByPostUsername(@Param("username") String username);
+    @Query("SELECT count(*) FROM ReservationRequest r WHERE r.post.id = :postId AND r.archived = true")
+    Long findArchivedByPostId(@Param("postId") Long postId);
 }

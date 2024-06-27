@@ -41,5 +41,4 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private List<UserParameter> userParameters;
-
 }

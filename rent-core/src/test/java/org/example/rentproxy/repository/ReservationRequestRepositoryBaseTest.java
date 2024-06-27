@@ -1,22 +1,8 @@
 package org.example.rentproxy.repository;
 
-import org.example.rentproxy.repository.jpa.entities.ApartmentInfo;
-import org.example.rentproxy.repository.jpa.entities.Appliance;
-import org.example.rentproxy.repository.jpa.entities.BalconyType;
-import org.example.rentproxy.repository.jpa.entities.BathroomType;
-import org.example.rentproxy.repository.jpa.entities.Furniture;
-import org.example.rentproxy.repository.jpa.entities.HouseInfo;
-import org.example.rentproxy.repository.jpa.entities.HouseType;
-import org.example.rentproxy.repository.jpa.entities.Post;
-import org.example.rentproxy.repository.jpa.entities.RentConditionInfo;
-import org.example.rentproxy.repository.jpa.entities.RentType;
-import org.example.rentproxy.repository.jpa.entities.RepairType;
-import org.example.rentproxy.repository.jpa.entities.ReservationRequest;
-import org.example.rentproxy.repository.jpa.entities.RoomsType;
-import org.example.rentproxy.repository.jpa.entities.TypeOfPayment;
-import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.repository.jpa.PostRepository;
 import org.example.rentproxy.repository.jpa.UserRepository;
+import org.example.rentproxy.repository.jpa.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
