@@ -1,5 +1,10 @@
-DROP TABLE IF EXISTS reservation_request;
+DROP TABLE IF EXISTS SPRING_SESSION_ATTRIBUTES;
+DROP TABLE IF EXISTS SPRING_SESSION;
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS message_status;
+DROP TABLE IF EXISTS dialog;
 DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS reservation_request;
 DROP TABLE IF EXISTS user_parameter;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS house_info;
@@ -19,10 +24,6 @@ DROP TABLE IF EXISTS rent_condition_info;
 DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS rent_type;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS dialog;
-DROP TABLE IF EXISTS message;
-DROP TABLE IF EXISTS SPRING_SESSION_ATTRIBUTES;
-DROP TABLE IF EXISTS SPRING_SESSION;
 
 CREATE TABLE users
 (
@@ -259,12 +260,19 @@ CREATE TABLE dialog
             post_id            BIGINT REFERENCES post (id),
             sender_id          BIGINT REFERENCES users (id),
             receiver_id        BIGINT REFERENCES users (id),
+            is_closed          BOOLEAN,
             creation_date_time TIMESTAMP
+);
+CREATE TABLE message_status
+(
+            id BIGSERIAL PRIMARY KEY,
+            name VARCHAR UNIQUE
 );
 CREATE TABLE message
 (
             id                 BIGSERIAL PRIMARY KEY,
             dialog_id          BIGINT REFERENCES dialog (id),
-            message_text       VARCHAR,
+            message_status_id  BIGINT REFERENCES message_status (id),
+            text               VARCHAR,
             creation_date_time TIMESTAMP
 );
