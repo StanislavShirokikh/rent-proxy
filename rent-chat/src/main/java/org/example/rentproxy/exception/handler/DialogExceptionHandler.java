@@ -18,8 +18,9 @@ public class DialogExceptionHandler {
     @ExceptionHandler(DialogDisabledException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessageResponse catchDialogDisabledException() {
-        ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setErrorMessage("This post is archived, you cannot write a message.");
+        ErrorMessageResponse errorMessageResponse = createErrorMessageResponse(
+                "This post is archived, you cannot write a message."
+        );
         log.error(errorMessageResponse.getErrorMessage());
 
         return errorMessageResponse;
@@ -28,8 +29,9 @@ public class DialogExceptionHandler {
     @ExceptionHandler(DialogClosureNotAllowedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessageResponse catchDialogClosureNotAllowedException() {
-        ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setErrorMessage("The dialog can only be closed by the owner of the post.");
+        ErrorMessageResponse errorMessageResponse = createErrorMessageResponse(
+                "The dialog can only be closed by the owner of the post."
+        );
         log.error(errorMessageResponse.getErrorMessage());
 
         return errorMessageResponse;
@@ -38,10 +40,17 @@ public class DialogExceptionHandler {
     @ExceptionHandler(ClosedDialogException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessageResponse catchClosedDialogException() {
-        ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
-        errorMessageResponse.setErrorMessage("The dialog is closed. You can't write messages.");
+        ErrorMessageResponse errorMessageResponse = createErrorMessageResponse(
+                "The dialog is closed. You can't write messages."
+        );
         log.error(errorMessageResponse.getErrorMessage());
 
+        return errorMessageResponse;
+    }
+
+    private ErrorMessageResponse createErrorMessageResponse(String text) {
+        ErrorMessageResponse errorMessageResponse = new ErrorMessageResponse();
+        errorMessageResponse.setErrorMessage(text);
         return errorMessageResponse;
     }
 }
