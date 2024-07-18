@@ -425,4 +425,15 @@
             ADD message_status_id BIGINT REFERENCES message_status (id);
         </sql>
     </changeSet>
+    <changeSet author="stanislav" id="1_createIndex_index_one">
+        <createIndex indexName="index_for_dialog" tableName="dialog">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stanislav" id="2_createIndex_index_two">
+        <createIndex indexName="index_for_message" tableName="message">
+            <column name="id"/>
+            <column name="dialog_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

@@ -48,7 +48,7 @@ public class DialogMessageServiceImpl implements DialogMessageService {
 
         Message message = new Message();
         message.setText(text);
-        message.setStatus(messageStatusRepository.findByName(MessageStatus.UNREAD.getFieldName()));
+        message.setStatus(messageStatusRepository.findByName(MessageStatus.UNREAD.name()));
         message.setDialog(dialog);
 
         return messageDtoMapper.convertToMessageDto(messageRepository.save(message));

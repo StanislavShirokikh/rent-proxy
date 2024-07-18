@@ -18,6 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "JOIN m.status ms " +
             "WHERE u.login = :username AND ms.name = 'UNREAD'")
     Long getCountOfUnreadMessages(String username);
+
     @Query(
             "SELECT m FROM Message m " +
                     "JOIN m.dialog d " +
