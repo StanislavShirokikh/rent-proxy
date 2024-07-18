@@ -3,6 +3,11 @@ package org.example.rentproxy.service;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
+import org.example.rentproxy.service.user.UserParamName;
+import org.example.rentproxy.service.user.UserService;
+import org.example.rentproxy.dto.PostDto;
+import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.mapper.PostDtoMapper;
 import org.example.rentproxy.mapper.PostMapper;
 import org.example.rentproxy.repository.jpa.PostRepository;
@@ -11,6 +16,10 @@ import org.example.rentproxy.service.integration.currencyService.CurrencyService
 import org.example.rentproxy.service.user.UserParamName;
 import org.example.rentproxy.service.user.UserService;
 import org.springframework.stereotype.Service;
+import org.example.rentproxy.dto.PostDto;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
+import org.example.rentproxy.service.user.UserParamName;
+import org.example.rentproxy.service.user.UserService;
 
 import java.util.List;
 

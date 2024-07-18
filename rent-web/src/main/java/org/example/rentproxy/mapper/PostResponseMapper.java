@@ -1,7 +1,6 @@
 package org.example.rentproxy.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.response.ApartmentInfoResponse;
 import org.example.rentproxy.response.ApplianceResponse;
 import org.example.rentproxy.response.BalconyTypeResponse;
@@ -17,6 +16,7 @@ import org.example.rentproxy.response.RoomsTypeResponse;
 import org.example.rentproxy.response.TypeOfPaymentResponse;
 import org.example.rentproxy.response.UserResponse;
 import org.springframework.stereotype.Component;
+import org.example.rentproxy.dto.PostDto;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package org.example.rentproxy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.dto.PostImageDto;
 import org.example.rentproxy.dto.ImageDto;
 import org.example.rentproxy.dto.PostImageDto;
 import org.example.rentproxy.mapper.ImageMapper;

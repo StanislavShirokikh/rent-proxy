@@ -1,12 +1,12 @@
 package org.example.rentproxy.controller.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.service.integration.currencyService.CurrencyService;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
 
 @RestController
 @RequestMapping("/convert")

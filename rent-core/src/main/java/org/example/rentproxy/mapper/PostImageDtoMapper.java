@@ -3,7 +3,13 @@ package org.example.rentproxy.mapper;
 import org.example.rentproxy.dto.ImageDto;
 import org.example.rentproxy.dto.PostImageDto;
 import org.example.rentproxy.repository.mongo.documents.PostImage;
+import org.example.rentproxy.dto.ImageDto;
+import org.example.rentproxy.dto.PostImageDto;
+import org.example.rentproxy.repository.mongo.documents.PostImage;
 import org.springframework.stereotype.Component;
+import org.example.rentproxy.dto.ImageDto;
+import org.example.rentproxy.dto.PostImageDto;
+import org.example.rentproxy.repository.mongo.documents.PostImage;
 
 import java.util.List;
 

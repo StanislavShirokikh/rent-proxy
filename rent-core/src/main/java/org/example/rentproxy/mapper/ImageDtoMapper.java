@@ -2,7 +2,11 @@ package org.example.rentproxy.mapper;
 
 import org.example.rentproxy.dto.ImageDto;
 import org.example.rentproxy.repository.mongo.documents.Image;
+import org.example.rentproxy.dto.ImageDto;
+import org.example.rentproxy.repository.mongo.documents.Image;
 import org.springframework.stereotype.Component;
+import org.example.rentproxy.dto.ImageDto;
+import org.example.rentproxy.repository.mongo.documents.Image;
 
 import java.util.List;
 

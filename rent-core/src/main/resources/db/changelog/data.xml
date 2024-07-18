@@ -146,8 +146,8 @@
         </preConditions>
         <sql>
             INSERT INTO message_status(name)
-            VALUES ('Непрочитано'),
-                   ('Прочитано')
+            VALUES ('UNREAD'),
+                   ('READ')
         </sql>
     </changeSet>
 </databaseChangeLog>

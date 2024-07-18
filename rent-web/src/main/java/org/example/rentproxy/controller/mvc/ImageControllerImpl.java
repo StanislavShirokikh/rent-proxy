@@ -1,10 +1,10 @@
 package org.example.rentproxy.controller.mvc;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.dto.PostImageDto;
-import org.example.rentproxy.service.ImageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.example.rentproxy.dto.PostImageDto;
+import org.example.rentproxy.service.ImageService;
 
 import java.util.Base64;
 import java.util.List;

@@ -4,18 +4,18 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.controller.SessionHelper;
-import org.example.rentproxy.dto.PostDto;
-import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.mapper.PostResponseMapper;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
-import org.example.rentproxy.service.PostService;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
+import org.example.rentproxy.dto.PostDto;
+import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.service.PostService;
 
 import java.util.List;
 

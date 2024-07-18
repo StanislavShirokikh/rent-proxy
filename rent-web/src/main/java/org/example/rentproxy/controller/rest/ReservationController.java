@@ -1,7 +1,6 @@
 package org.example.rentproxy.controller.rest;
 
 import jakarta.validation.Valid;
-import org.example.rentproxy.dto.ReservationRequestDto;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.ReservationRequestResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.example.rentproxy.dto.ReservationRequestDto;
 
 import java.util.List;
 
