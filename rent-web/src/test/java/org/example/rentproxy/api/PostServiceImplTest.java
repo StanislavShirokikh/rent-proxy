@@ -1,16 +1,8 @@
 package org.example.rentproxy.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.rentproxy.dto.PostDto;
-import org.example.rentproxy.dto.UserDto;
-import org.example.rentproxy.filter.Filter;
-import org.example.rentproxy.filter.PostOrder;
-import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.PostResponse;
-import org.example.rentproxy.service.integration.currencyService.CurrencyService;
-import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
-import org.example.rentproxy.service.user.UserParamName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,6 +10,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.example.rentproxy.dto.PostDto;
+import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.filter.PostOrder;
+import org.example.rentproxy.repository.jpa.entities.UserParameter;
+import org.example.rentproxy.service.integration.currencyService.CurrencyService;
+import org.example.rentproxy.service.integration.currencyService.apiLayer.response.ApiLayerResponse;
+import org.example.rentproxy.service.user.UserParamName;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

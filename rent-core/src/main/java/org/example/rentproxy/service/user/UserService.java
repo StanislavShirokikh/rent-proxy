@@ -1,6 +1,8 @@
 package org.example.rentproxy.service.user;
 
 import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.dto.UserDto;
 
 public interface UserService {
     UserDto createUser(UserDto userDto);

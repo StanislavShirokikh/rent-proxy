@@ -335,4 +335,105 @@
             );
         </sql>
     </changeSet>
+    <changeSet id="init-dialog" author="Stanislav">
+        <preConditions>
+            <not>
+                <tableExists tableName="dialog" />
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE dialog
+            (
+            id                 BIGSERIAL PRIMARY KEY,
+            post_id            BIGINT REFERENCES post (id),
+            sender_id          BIGINT REFERENCES users (id),
+            receiver_id        BIGINT REFERENCES users (id),
+            creation_date_time TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="init-message" author="Stanislav">
+        <preConditions>
+            <and>
+                <not>
+                    <tableExists tableName="message" />
+                </not>
+                <tableExists tableName="users"/>
+                <tableExists tableName="dialog"/>
+            </and>
+        </preConditions>
+        <sql>
+            CREATE TABLE message
+            (
+            id                 BIGSERIAL PRIMARY KEY,
+            dialog_id          BIGINT REFERENCES dialog (id),
+            message_text       VARCHAR,
+            creation_date_time TIMESTAMP
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="add-column-is-closed" author="Stanislav">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="dialog" columnName="is_closed" />
+            </not>
+        </preConditions>
+        <addColumn tableName="dialog">
+            <column name="is_closed" type="boolean" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="rename-column-message-text-in-table-message" author="Stanislav">
+        <preConditions>
+            <not>
+                <columnExists tableName="message" columnName="text"/>
+            </not>
+            <tableExists tableName="message"/>
+            <tableExists tableName="dialog"/>
+            <columnExists tableName="message" columnName="message_text"/>
+        </preConditions>
+        <sql>
+            ALTER TABLE message
+            RENAME COLUMN message_text TO text;
+        </sql>
+    </changeSet>
+    <changeSet id="init-message-status" author="Stanislav">
+        <preConditions>
+            <not>
+            <tableExists tableName="message_status"/>
+            </not>
+        </preConditions>
+        <sql>
+            CREATE TABLE message_status
+            (
+            id BIGSERIAL PRIMARY KEY,
+            name VARCHAR UNIQUE
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="add-column-message-status-id--to-message" author="Stanislav">
+        <preConditions>
+            <and>
+                <tableExists tableName="message"/>
+                <tableExists tableName="message_status"/>
+                <not>
+                    <columnExists tableName="message" columnName="message_status_id"/>
+                </not>
+            </and>
+        </preConditions>
+        <sql>
+            ALTER TABLE message
+            ADD message_status_id BIGINT REFERENCES message_status (id);
+        </sql>
+    </changeSet>
+    <changeSet author="stanislav" id="1_createIndex_index_one">
+        <createIndex indexName="index_for_dialog" tableName="dialog">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="stanislav" id="2_createIndex_index_two">
+        <createIndex indexName="index_for_message" tableName="message">
+            <column name="id"/>
+            <column name="dialog_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

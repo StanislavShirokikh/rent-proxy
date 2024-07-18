@@ -1,5 +1,8 @@
 package org.example.rentproxy.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.example.rentproxy.dto.ApartmentInfoDto;
 import org.example.rentproxy.dto.ApplianceDto;
 import org.example.rentproxy.dto.BalconyTypeDto;
@@ -18,9 +21,6 @@ import org.example.rentproxy.repository.jpa.UserParameterRepository;
 import org.example.rentproxy.repository.jpa.entities.UserParameter;
 import org.example.rentproxy.service.PostServiceImpl;
 import org.example.rentproxy.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.HashSet;

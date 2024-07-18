@@ -77,7 +77,10 @@
     <build>
         <resources>
             <resource>
-                <directory>src/test/resources</directory>
+                <directory>../rent-core/src/test/resources</directory>
+            </resource>
+            <resource>
+                <directory>../rent-core/src/main/resources</directory>
             </resource>
         </resources>
     </build>

@@ -1,5 +1,6 @@
 package org.example.rentproxy.service;
 
+import org.example.rentproxy.filter.Filter;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.filter.Filter;
 

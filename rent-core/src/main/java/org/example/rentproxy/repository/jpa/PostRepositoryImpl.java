@@ -1,6 +1,13 @@
 package org.example.rentproxy.repository.jpa;
 
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.filter.PostOrder;
+import org.example.rentproxy.repository.jpa.entities.Appliance;
+import org.example.rentproxy.repository.jpa.entities.Furniture;
+import org.example.rentproxy.repository.jpa.entities.Post;
+import org.example.rentproxy.repository.jpa.entities.TypeOfPayment;
+import org.example.rentproxy.repository.jpa.specification.PostSpecification;
 import org.example.rentproxy.repository.jpa.entities.Appliance;
 import org.example.rentproxy.repository.jpa.entities.Furniture;
 import org.example.rentproxy.repository.jpa.entities.Post;
@@ -12,6 +19,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.example.rentproxy.repository.jpa.entities.Appliance;
+import org.example.rentproxy.repository.jpa.entities.Furniture;
+import org.example.rentproxy.repository.jpa.entities.Post;
+import org.example.rentproxy.repository.jpa.entities.TypeOfPayment;
+import org.example.rentproxy.repository.jpa.specification.PostSpecification;
 
 import java.util.List;
 import java.util.Set;

@@ -7,6 +7,8 @@ import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.example.rentproxy.filter.Filter;
+import org.example.rentproxy.repository.jpa.entities.Appliance;
 import org.example.rentproxy.repository.jpa.entities.ApartmentInfo;
 import org.example.rentproxy.repository.jpa.entities.Appliance;
 import org.example.rentproxy.repository.jpa.entities.Furniture;
@@ -15,6 +17,7 @@ import org.example.rentproxy.repository.jpa.entities.RentConditionInfo;
 import org.example.rentproxy.repository.jpa.entities.RentType;
 import org.example.rentproxy.filter.Filter;
 import org.springframework.data.jpa.domain.Specification;
+import org.example.rentproxy.repository.jpa.entities.Appliance;
 
 import java.util.ArrayList;
 import java.util.List;

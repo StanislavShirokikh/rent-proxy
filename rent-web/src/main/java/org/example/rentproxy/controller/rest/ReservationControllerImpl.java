@@ -1,24 +1,24 @@
 package org.example.rentproxy.controller.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.example.rentproxy.dto.ReservationRequestDto;
-import org.example.rentproxy.dto.UserDto;
 import org.example.rentproxy.mapper.ReservationRequestResponseMapper;
 import org.example.rentproxy.request.WithIdRequest;
 import org.example.rentproxy.response.ReservationRequestResponse;
-import org.example.rentproxy.service.ReservationService;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
+import org.example.rentproxy.dto.ReservationRequestDto;
+import org.example.rentproxy.dto.UserDto;
+import org.example.rentproxy.service.ReservationService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class ReservationControllerImpl implements ReservationController {
-    private final ReservationService  reservationService;
+    private final ReservationService reservationService;
     private final ReservationRequestResponseMapper reservationRequestResponseMapper;
 
     @Override
