@@ -3,13 +3,12 @@ package org.example.rentproxy.service;
 import org.example.rentproxy.dto.PostDto;
 import org.example.rentproxy.dto.ReservationRequestDto;
 import org.example.rentproxy.dto.UserDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.Month;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ReservationServiceImplTest extends ReservationServiceBaseTest{
     @Autowired

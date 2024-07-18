@@ -4,14 +4,13 @@ import org.example.rentproxy.repository.jpa.entities.Post;
 import org.example.rentproxy.repository.jpa.entities.ReservationRequest;
 import org.example.rentproxy.repository.jpa.entities.User;
 import org.example.rentproxy.repository.jpa.ReservationRequestRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GetArchivedReservationRequestsTest extends ReservationRequestRepositoryBaseTest {
     @Autowired
