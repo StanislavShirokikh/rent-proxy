@@ -21,7 +21,7 @@ public class UserDto {
     @Size(min = 1, max = 20)
     private String login;
     @NotBlank
-    @Size(min = 8, max = 30)
-    @Pattern(regexp = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@$!%?&])[A-Za-z\\d@$!%?&]{8,}$")
+    @Size(min = 4, max = 30)
+    @Pattern(regexp = "^.{4,}$")
     private String password;
 }

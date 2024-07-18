@@ -38,5 +38,4 @@ public interface DialogMessageController {
 
     @GetMapping("/open")
     List<DialogDto> findOpenedDialogs(@AuthenticationPrincipal UserDetails userDetails);
-
 }

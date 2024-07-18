@@ -1,4 +1,4 @@
-package org.example.rentproxy.controller;//package org.example.controller;
+package org.example.rentproxy.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.rentproxy.dto.DialogDto;
